@@ -80,6 +80,26 @@
     border-top: 1px dashed var(--line);
     margin: 16px 0;
   }
+  .navbar {
+    display: flex;
+    gap: 6px;
+    margin-top: 14px;
+  }
+  .nav-btn {
+    flex: 1;
+    background: transparent;
+    color: var(--ink-soft);
+    border: 1px solid var(--line);
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+  .nav-btn.active {
+    background: var(--ink);
+    color: #fff;
+    border-color: var(--ink);
+    cursor: default;
+  }
+  .nav-btn:not(.active):not(:disabled):hover { border-color: var(--green); color: var(--green); }
 
   .login-box { text-align: center; padding: 10px 0 4px; }
   .login-box p { font-size: 12px; color: var(--ink-soft); margin-bottom: 14px; }
@@ -223,6 +243,7 @@
     padding: 16px;
     z-index: 10;
   }
+  .modal-overlay.hidden { display: none; }
   .modal {
     background: var(--paper);
     width: 100%;
@@ -262,6 +283,11 @@
     <p class="meta" id="userMeta"></p>
   </header>
 
+  <nav class="navbar hidden" id="navbar">
+    <button type="button" class="nav-btn active" disabled>🛒 lista</button>
+    <button type="button" class="nav-btn hidden" id="navMembersBtn">👥 membros</button>
+  </nav>
+
   <hr class="divider">
 
   <div id="loginScreen" class="login-box">
@@ -288,13 +314,17 @@
       <span id="pendingCount">0 pendentes</span>
       <span id="doneCount">0 comprados</span>
     </div>
+  </div>
+</div>
 
-    <div id="membersSection" class="hidden">
-      <hr class="divider">
-      <p class="section-title">membros da casa</p>
-      <ul class="members" id="membersList"></ul>
-      <button type="button" id="openInviteBtn" class="invite-btn">+ convidar membro</button>
+<div id="membersModal" class="modal-overlay hidden">
+  <div class="modal">
+    <div class="modal-header">
+      <p class="section-title" style="margin:0;">membros da casa</p>
+      <button type="button" id="closeMembersBtn" class="modal-close" aria-label="fechar">×</button>
     </div>
+    <ul class="members" id="membersList"></ul>
+    <button type="button" id="openInviteBtn" class="invite-btn">+ convidar membro</button>
   </div>
 </div>
 
@@ -331,7 +361,10 @@
   const appScreen = document.getElementById('appScreen');
   const loginForm = document.getElementById('loginForm');
   const loginError = document.getElementById('loginError');
-  const membersSection = document.getElementById('membersSection');
+  const navbar = document.getElementById('navbar');
+  const navMembersBtn = document.getElementById('navMembersBtn');
+  const membersModal = document.getElementById('membersModal');
+  const closeMembersBtn = document.getElementById('closeMembersBtn');
   const membersList = document.getElementById('membersList');
   const addMemberForm = document.getElementById('addMemberForm');
   const memberError = document.getElementById('memberError');
@@ -341,6 +374,7 @@
 
   let currentEmail = localStorage.getItem('userEmail') || '';
   let currentRole = '';
+  let currentMembers = [];
 
   // Carrega dados do Apps Script via JSONP (contorna o bloqueio de CORS)
   function jsonp(url) {
@@ -390,6 +424,7 @@
   function showLogin(errorMsg) {
     loginScreen.classList.remove('hidden');
     appScreen.classList.add('hidden');
+    navbar.classList.add('hidden');
     userMeta.textContent = '';
     if (errorMsg) {
       loginError.textContent = errorMsg;
@@ -400,6 +435,7 @@
   function showApp(data) {
     loginScreen.classList.add('hidden');
     appScreen.classList.remove('hidden');
+    navbar.classList.remove('hidden');
     currentRole = data.user.role;
     userMeta.innerHTML = `${data.user.nome} · <span class="role">${data.user.role}</span> <button class="logout" id="logoutBtn">sair</button>`;
     document.getElementById('logoutBtn').addEventListener('click', () => {
@@ -410,10 +446,11 @@
     renderItems(data.items);
 
     if (data.user.role === 'admin' && data.members) {
-      membersSection.classList.remove('hidden');
-      renderMembers(data.members);
+      navMembersBtn.classList.remove('hidden');
+      currentMembers = data.members;
+      renderMembers(currentMembers);
     } else {
-      membersSection.classList.add('hidden');
+      navMembersBtn.classList.add('hidden');
     }
   }
 
@@ -518,17 +555,35 @@
     loadItems();
   });
 
+  navMembersBtn.addEventListener('click', () => {
+    renderMembers(currentMembers);
+    membersModal.classList.remove('hidden');
+  });
+
+  closeMembersBtn.addEventListener('click', () => {
+    membersModal.classList.add('hidden');
+  });
+
+  membersModal.addEventListener('click', (e) => {
+    if (e.target === membersModal) membersModal.classList.add('hidden');
+  });
+
   openInviteBtn.addEventListener('click', () => {
     memberError.classList.add('hidden');
+    membersModal.classList.add('hidden');
     inviteModal.classList.remove('hidden');
   });
 
   closeInviteBtn.addEventListener('click', () => {
     inviteModal.classList.add('hidden');
+    membersModal.classList.remove('hidden');
   });
 
   inviteModal.addEventListener('click', (e) => {
-    if (e.target === inviteModal) inviteModal.classList.add('hidden');
+    if (e.target === inviteModal) {
+      inviteModal.classList.add('hidden');
+      membersModal.classList.remove('hidden');
+    }
   });
 
   addMemberForm.addEventListener('submit', async (e) => {
@@ -553,7 +608,8 @@
       document.getElementById('memberEmail').value = '';
       document.getElementById('memberRole').value = 'membro';
       inviteModal.classList.add('hidden');
-      loadItems();
+      await loadItems();
+      membersModal.classList.remove('hidden');
     } catch (err) {
       memberError.textContent = 'Erro ao convidar membro.';
       memberError.classList.remove('hidden');
