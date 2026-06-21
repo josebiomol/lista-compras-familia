@@ -149,6 +149,17 @@
   .item.done .name { text-decoration: line-through; color: var(--ink-soft); }
   .item .qty { color: var(--mustard); font-weight: 500; }
   .item.done .qty { color: var(--ink-soft); }
+  .item .delete {
+    background: none;
+    border: none;
+    color: var(--ink-soft);
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 0 0 4px;
+    flex-shrink: 0;
+  }
+  .item .delete:hover { color: #A23B2E; }
 
   .totals {
     margin-top: 16px;
@@ -220,6 +231,7 @@
   const loginError = document.getElementById('loginError');
 
   let currentEmail = localStorage.getItem('userEmail') || '';
+  let currentRole = '';
 
   // Carrega dados do Apps Script via JSONP (contorna o bloqueio de CORS)
   function jsonp(url) {
@@ -279,6 +291,7 @@
   function showApp(data) {
     loginScreen.classList.add('hidden');
     appScreen.classList.remove('hidden');
+    currentRole = data.user.role;
     userMeta.innerHTML = `${data.user.nome} · <span class="role">${data.user.role}</span> <button class="logout" id="logoutBtn">sair</button>`;
     document.getElementById('logoutBtn').addEventListener('click', () => {
       localStorage.removeItem('userEmail');
@@ -310,6 +323,7 @@
         <button class="check" data-id="${item.item_id}" aria-label="marcar como comprado"></button>
         <span class="name" data-id="${item.item_id}">${item.nome_item}</span>
         <span class="qty">x${item.quantidade}</span>
+        ${currentRole === 'admin' ? `<button class="delete" data-id="${item.item_id}" aria-label="excluir item">×</button>` : ''}
       `;
       ul.appendChild(li);
     });
@@ -324,6 +338,10 @@
     content.querySelectorAll('.check, .name').forEach(el => {
       el.addEventListener('click', () => toggleItem(el.dataset.id));
     });
+
+    content.querySelectorAll('.delete').forEach(el => {
+      el.addEventListener('click', () => deleteItem(el.dataset.id));
+    });
   }
 
   async function toggleItem(itemId) {
@@ -337,6 +355,20 @@
     } catch (err) {
       if (li) li.classList.toggle('done'); // desfaz se der erro
       alert('Erro ao atualizar item.');
+    }
+  }
+
+  async function deleteItem(itemId) {
+    if (!confirm('Excluir este item da lista?')) return;
+    try {
+      const result = await jsonp(`${API_URL}?action=deleteItem&item_id=${itemId}&email=${encodeURIComponent(currentEmail)}`);
+      if (result.error) {
+        alert(result.error);
+        return;
+      }
+      loadItems();
+    } catch (err) {
+      alert('Erro ao excluir item.');
     }
   }
 
