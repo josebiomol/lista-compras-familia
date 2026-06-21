@@ -176,6 +176,46 @@
   }
   .error { color: #A23B2E; }
   .hidden { display: none; }
+
+  .section-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    letter-spacing: 0.5px;
+    margin: 0 0 10px;
+  }
+  ul.members { list-style: none; margin: 0 0 14px; padding: 0; }
+  .members li {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    padding: 6px 0;
+    border-bottom: 1px dotted var(--line);
+  }
+  .members .m-role {
+    color: var(--green);
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+  form.add-member {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  form.add-member input[type="text"],
+  form.add-member input[type="email"] {
+    flex: 1;
+    min-width: 100px;
+  }
+  select {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    border: 1px solid var(--line);
+    background: #fff;
+    padding: 9px 6px;
+    color: var(--ink);
+  }
+  form.add-member button { width: 100%; }
 </style>
 </head>
 <body>
@@ -212,6 +252,23 @@
       <span id="pendingCount">0 pendentes</span>
       <span id="doneCount">0 comprados</span>
     </div>
+
+    <div id="membersSection" class="hidden">
+      <hr class="divider">
+      <p class="section-title">membros da casa</p>
+      <ul class="members" id="membersList"></ul>
+
+      <form class="add-member" id="addMemberForm">
+        <input type="text" id="memberName" placeholder="nome" required>
+        <input type="email" id="memberEmail" placeholder="email" required>
+        <select id="memberRole">
+          <option value="membro">membro</option>
+          <option value="admin">admin</option>
+        </select>
+        <button type="submit">+ convidar</button>
+      </form>
+      <p class="status-msg error hidden" id="memberError"></p>
+    </div>
   </div>
 </div>
 
@@ -229,6 +286,10 @@
   const appScreen = document.getElementById('appScreen');
   const loginForm = document.getElementById('loginForm');
   const loginError = document.getElementById('loginError');
+  const membersSection = document.getElementById('membersSection');
+  const membersList = document.getElementById('membersList');
+  const addMemberForm = document.getElementById('addMemberForm');
+  const memberError = document.getElementById('memberError');
 
   let currentEmail = localStorage.getItem('userEmail') || '';
   let currentRole = '';
@@ -299,6 +360,19 @@
       showLogin();
     });
     renderItems(data.items);
+
+    if (data.user.role === 'admin' && data.members) {
+      membersSection.classList.remove('hidden');
+      renderMembers(data.members);
+    } else {
+      membersSection.classList.add('hidden');
+    }
+  }
+
+  function renderMembers(members) {
+    membersList.innerHTML = members.map(m => `
+      <li><span>${m.nome}</span><span class="m-role">${m.role}</span></li>
+    `).join('');
   }
 
   function renderItems(items) {
@@ -394,6 +468,34 @@
     currentEmail = document.getElementById('loginEmail').value.trim();
     localStorage.setItem('userEmail', currentEmail);
     loadItems();
+  });
+
+  addMemberForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    memberError.classList.add('hidden');
+
+    const nome = document.getElementById('memberName').value.trim();
+    const email = document.getElementById('memberEmail').value.trim();
+    const role = document.getElementById('memberRole').value;
+    if (!nome || !email) return;
+
+    try {
+      const result = await jsonp(`${API_URL}?action=addUser&novo_nome=${encodeURIComponent(nome)}&novo_email=${encodeURIComponent(email)}&novo_role=${role}&email=${encodeURIComponent(currentEmail)}`);
+
+      if (result.error) {
+        memberError.textContent = result.error;
+        memberError.classList.remove('hidden');
+        return;
+      }
+
+      document.getElementById('memberName').value = '';
+      document.getElementById('memberEmail').value = '';
+      document.getElementById('memberRole').value = 'membro';
+      loadItems();
+    } catch (err) {
+      memberError.textContent = 'Erro ao convidar membro.';
+      memberError.classList.remove('hidden');
+    }
   });
 
   if (currentEmail) {
