@@ -327,10 +327,15 @@
   }
 
   async function toggleItem(itemId) {
+    // Atualiza a tela na hora (otimista), sem esperar o servidor
+    const li = content.querySelector(`.item .check[data-id="${itemId}"]`)?.closest('.item');
+    if (li) li.classList.toggle('done');
+
     try {
       await jsonp(`${API_URL}?action=toggleItem&item_id=${itemId}&email=${encodeURIComponent(currentEmail)}`);
-      loadItems();
+      loadItems(); // sincroniza de verdade em segundo plano (silencioso)
     } catch (err) {
+      if (li) li.classList.toggle('done'); // desfaz se der erro
       alert('Erro ao atualizar item.');
     }
   }
