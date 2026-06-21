@@ -81,7 +81,6 @@
     margin: 16px 0;
   }
 
-  /* Login screen */
   .login-box { text-align: center; padding: 10px 0 4px; }
   .login-box p { font-size: 12px; color: var(--ink-soft); margin-bottom: 14px; }
   .login-box form { display: flex; flex-direction: column; gap: 8px; }
@@ -119,6 +118,7 @@
   }
   button:hover { background: #265a42; }
   button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  button:disabled { opacity: 0.6; cursor: default; }
 
   ul.items { list-style: none; margin: 0; padding: 0; }
   .item {
@@ -221,13 +221,37 @@
 
   let currentEmail = localStorage.getItem('userEmail') || '';
 
+  // Carrega dados do Apps Script via JSONP (contorna o bloqueio de CORS)
+  function jsonp(url) {
+    return new Promise((resolve, reject) => {
+      const callbackName = 'cb_' + Date.now() + '_' + Math.floor(Math.random() * 100000);
+      const script = document.createElement('script');
+
+      const cleanup = () => {
+        delete window[callbackName];
+        script.remove();
+      };
+
+      window[callbackName] = (data) => {
+        resolve(data);
+        cleanup();
+      };
+
+      script.onerror = () => {
+        reject(new Error('Falha de rede'));
+        cleanup();
+      };
+
+      script.src = `${url}&callback=${callbackName}`;
+      document.body.appendChild(script);
+    });
+  }
+
   async function loadItems() {
     try {
-      const res = await fetch(`${API_URL}?action=getItems&email=${encodeURIComponent(currentEmail)}`);
-      const data = await res.json();
+      const data = await jsonp(`${API_URL}?action=getItems&email=${encodeURIComponent(currentEmail)}`);
 
       if (data.error) {
-        // email inválido: limpa e volta pro login
         localStorage.removeItem('userEmail');
         currentEmail = '';
         showLogin(data.error);
@@ -304,11 +328,7 @@
 
   async function toggleItem(itemId) {
     try {
-      await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify({ action: 'toggleItem', item_id: itemId, email: currentEmail })
-      });
+      await jsonp(`${API_URL}?action=toggleItem&item_id=${itemId}&email=${encodeURIComponent(currentEmail)}`);
       loadItems();
     } catch (err) {
       alert('Erro ao atualizar item.');
@@ -322,11 +342,7 @@
     if (!nome) return;
 
     try {
-      await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify({ action: 'addItem', nome_item: nome, quantidade: qty, email: currentEmail })
-      });
+      await jsonp(`${API_URL}?action=addItem&nome_item=${encodeURIComponent(nome)}&quantidade=${qty}&email=${encodeURIComponent(currentEmail)}`);
       document.getElementById('itemName').value = '';
       document.getElementById('itemQty').value = 1;
       loadItems();
