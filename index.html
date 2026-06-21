@@ -215,11 +215,26 @@
   ul.members { list-style: none; margin: 0 0 14px; padding: 0; }
   .members li {
     display: flex;
+    align-items: center;
     justify-content: space-between;
+    gap: 8px;
     font-size: 13px;
     padding: 6px 0;
     border-bottom: 1px dotted var(--line);
   }
+  .members .m-info { flex: 1; min-width: 0; }
+  .members .m-name { display: block; }
+  .members .m-actions { display: flex; gap: 6px; flex-shrink: 0; }
+  .members .m-actions button {
+    background: none;
+    border: none;
+    color: var(--ink-soft);
+    font-size: 13px;
+    cursor: pointer;
+    padding: 0;
+  }
+  .members .m-actions button:hover { color: var(--green); }
+  .members .m-actions .m-delete:hover { color: #A23B2E; }
   .members .m-role {
     color: var(--green);
     font-size: 11px;
@@ -331,17 +346,18 @@
 <div id="inviteModal" class="modal-overlay hidden">
   <div class="modal">
     <div class="modal-header">
-      <p class="section-title" style="margin:0;">convidar membro</p>
+      <p class="section-title" style="margin:0;" id="memberFormTitle">convidar membro</p>
       <button type="button" id="closeInviteBtn" class="modal-close" aria-label="fechar">×</button>
     </div>
     <form id="addMemberForm">
+      <input type="hidden" id="memberFormId" value="">
       <input type="text" id="memberName" placeholder="nome" required>
       <input type="email" id="memberEmail" placeholder="email" required>
       <select id="memberRole">
         <option value="membro">membro</option>
         <option value="admin">admin</option>
       </select>
-      <button type="submit">+ convidar</button>
+      <button type="submit" id="memberFormSubmit">+ convidar</button>
     </form>
     <p class="status-msg error hidden" id="memberError"></p>
   </div>
@@ -456,8 +472,55 @@
 
   function renderMembers(members) {
     membersList.innerHTML = members.map(m => `
-      <li><span>${m.nome}</span><span class="m-role">${m.role}</span></li>
+      <li>
+        <div class="m-info">
+          <span class="m-name">${m.nome}</span>
+          <span class="m-role">${m.role}</span>
+        </div>
+        <div class="m-actions">
+          <button type="button" class="m-edit" data-id="${m.user_id}" aria-label="editar">✎</button>
+          <button type="button" class="m-delete" data-id="${m.user_id}" aria-label="excluir">×</button>
+        </div>
+      </li>
     `).join('');
+
+    membersList.querySelectorAll('.m-edit').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const member = currentMembers.find(m => String(m.user_id) === btn.dataset.id);
+        if (member) openMemberForm(member);
+      });
+    });
+
+    membersList.querySelectorAll('.m-delete').forEach(btn => {
+      btn.addEventListener('click', () => deleteMember(btn.dataset.id));
+    });
+  }
+
+  function openMemberForm(member) {
+    memberError.classList.add('hidden');
+    document.getElementById('memberFormId').value = member ? member.user_id : '';
+    document.getElementById('memberName').value = member ? member.nome : '';
+    document.getElementById('memberEmail').value = member ? member.email : '';
+    document.getElementById('memberRole').value = member ? member.role : 'membro';
+    document.getElementById('memberFormTitle').textContent = member ? 'editar membro' : 'convidar membro';
+    document.getElementById('memberFormSubmit').textContent = member ? 'salvar' : '+ convidar';
+    membersModal.classList.add('hidden');
+    inviteModal.classList.remove('hidden');
+  }
+
+  async function deleteMember(userId) {
+    if (!confirm('Excluir este membro da casa?')) return;
+    try {
+      const result = await jsonp(`${API_URL}?action=deleteUser&user_id_target=${userId}&email=${encodeURIComponent(currentEmail)}`);
+      if (result.error) {
+        alert(result.error);
+        return;
+      }
+      await loadItems();
+      membersModal.classList.remove('hidden');
+    } catch (err) {
+      alert('Erro ao excluir membro.');
+    }
   }
 
   function renderItems(items) {
@@ -569,9 +632,7 @@
   });
 
   openInviteBtn.addEventListener('click', () => {
-    memberError.classList.add('hidden');
-    membersModal.classList.add('hidden');
-    inviteModal.classList.remove('hidden');
+    openMemberForm(null);
   });
 
   closeInviteBtn.addEventListener('click', () => {
@@ -590,13 +651,17 @@
     e.preventDefault();
     memberError.classList.add('hidden');
 
+    const editingId = document.getElementById('memberFormId').value;
     const nome = document.getElementById('memberName').value.trim();
     const email = document.getElementById('memberEmail').value.trim();
     const role = document.getElementById('memberRole').value;
     if (!nome || !email) return;
 
+    const action = editingId ? 'updateUser' : 'addUser';
+    const idParam = editingId ? `&user_id_target=${editingId}` : '';
+
     try {
-      const result = await jsonp(`${API_URL}?action=addUser&novo_nome=${encodeURIComponent(nome)}&novo_email=${encodeURIComponent(email)}&novo_role=${role}&email=${encodeURIComponent(currentEmail)}`);
+      const result = await jsonp(`${API_URL}?action=${action}${idParam}&novo_nome=${encodeURIComponent(nome)}&novo_email=${encodeURIComponent(email)}&novo_role=${role}&email=${encodeURIComponent(currentEmail)}`);
 
       if (result.error) {
         memberError.textContent = result.error;
@@ -604,14 +669,13 @@
         return;
       }
 
-      document.getElementById('memberName').value = '';
-      document.getElementById('memberEmail').value = '';
-      document.getElementById('memberRole').value = 'membro';
+      addMemberForm.reset();
+      document.getElementById('memberFormId').value = '';
       inviteModal.classList.add('hidden');
       await loadItems();
       membersModal.classList.remove('hidden');
     } catch (err) {
-      memberError.textContent = 'Erro ao convidar membro.';
+      memberError.textContent = editingId ? 'Erro ao salvar membro.' : 'Erro ao convidar membro.';
       memberError.classList.remove('hidden');
     }
   });
