@@ -888,7 +888,7 @@
         startLoading();
         try {
           await jsonp(`${API_URL}?action=deleteItem&item_id=${itemId}&email=${encodeURIComponent(currentEmail)}`);
-          showToast('Item removido da lista.', 'danger');
+          showToast('🗑 Item removido da lista.', 'danger');
           loadItems();
         } catch (err) {
           alert('Erro ao excluir item.');
@@ -911,7 +911,7 @@
       await jsonp(`${API_URL}?action=addItem&nome_item=${encodeURIComponent(nome)}&quantidade=${qty}&email=${encodeURIComponent(currentEmail)}`);
       document.getElementById('itemName').value = '';
       document.getElementById('itemQty').value = 1;
-      showToast('Item adicionado à lista.', 'success');
+      showToast('✓ Item adicionado à lista.', 'success');
       loadItems();
     } catch (err) {
       alert('Erro ao adicionar item.');
@@ -991,7 +991,7 @@
           if (result.error) { alert(result.error); stopLoading(); return; }
           await loadItems();
           membersModal.classList.remove('hidden');
-          showToast(`${nome} foi removido da casa.`, 'danger');
+          showToast(`🗑 ${nome} removido da casa.`, 'danger');
         } catch (err) {
           alert('Erro ao excluir membro.');
         } finally {
@@ -1038,10 +1038,15 @@
       }
       addMemberForm.reset();
       document.getElementById('memberFormId').value = '';
-      inviteModal.classList.add('hidden');
+      // Carrega dados em segundo plano SEM fechar o inviteModal ainda
       await loadItems();
+      // Só agora troca os modais — sem tela em branco no meio
+      inviteModal.classList.add('hidden');
       membersModal.classList.remove('hidden');
-      showToast(editingId ? `${nome} foi atualizado.` : `${nome} foi adicionado à casa.`, 'success');
+      showToast(
+        editingId ? `✓ Alterações de ${nome} salvas.` : `✓ ${nome} adicionado à casa.`,
+        'success'
+      );
     } catch (err) {
       memberError.textContent = editingId ? 'Erro ao salvar membro.' : 'Erro ao convidar membro.';
       memberError.classList.remove('hidden');
