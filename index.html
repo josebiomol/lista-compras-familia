@@ -762,13 +762,16 @@ async function openMemberForm(m){
     const primaryHH=m?String(m.household_id||S.hhId):String(S.hhId);
     $('hhCheckList').innerHTML=S.households.map(h=>{
       const hId=String(h.household_id);
-      const isPrimary=hId===primaryHH;
-      const isChecked=isPrimary||currentHHs.includes(hId);
+      const isChecked=hId===primaryHH||currentHHs.includes(hId);
       return `<div class="hh-check-item">
-        <input type="checkbox" id="hhc_${hId}" data-hhid="${hId}" ${isChecked?'checked':''} ${isPrimary?'disabled':''}>
-        <label for="hhc_${hId}">${h.nome}${isPrimary?' (loja principal)':''}</label>
+        <input type="checkbox" id="hhc_${hId}" data-hhid="${hId}" ${isChecked?'checked':''}>
+        <label for="hhc_${hId}">${h.nome}${hId===primaryHH?' (principal)':''}</label>
       </div>`;
     }).join('');
+    // Update labels dynamically as user changes selection
+    $('hhCheckList').querySelectorAll('input[type=checkbox]').forEach(cb=>{
+      cb.addEventListener('change',updateHHLabels);
+    });
   }else{
     $('hhAccessSection').classList.add('hidden');
   }
@@ -792,6 +795,20 @@ function renderPermGrid(selectedPerms){
 window.togglePermCheck=function(key){
   const cb=$(`perm_${key}`);if(cb)cb.checked=!cb.checked;
 };
+
+function updateHHLabels(){
+  const cbs=Array.from($('hhCheckList').querySelectorAll('input[type=checkbox]'));
+  const checked=cbs.filter(c=>c.checked);
+  // If none checked, re-check the one that was just unchecked
+  if(checked.length===0){cbs.forEach(c=>c.checked=true);return}
+  const firstChecked=checked[0];
+  cbs.forEach(cb=>{
+    const lbl=document.querySelector(`label[for="${cb.id}"]`);
+    if(!lbl)return;
+    const baseName=S.households.find(h=>String(h.household_id)===cb.dataset.hhid)?.nome||'';
+    lbl.textContent=cb===firstChecked?`${baseName} (principal)`:baseName;
+  });
+}
 
 // Group selector fills checkboxes
 $('mGroupSelect').addEventListener('change',()=>{
@@ -840,18 +857,23 @@ $('mForm').addEventListener('submit',async e=>{
   const accessHHs=Array.from(document.querySelectorAll('#hhCheckList input[type=checkbox]:checked:not(:disabled)'))
     .map(cb=>cb.dataset.hhid).join(',');
 
+  // Collect accessible households — first checked = new primary
+  const allCheckedHH=Array.from(document.querySelectorAll('#hhCheckList input[type=checkbox]:checked'))
+    .map(cb=>cb.dataset.hhid).filter(Boolean);
+  const newPrimaryHH=allCheckedHH[0]||S.hhId;
+  const extraHHs=allCheckedHH.slice(1).join(',');
+
   if(!nome||!email)return;
   if(!editId&&senha.length<6){err.textContent='Senha deve ter 6+ caracteres.';err.classList.remove('hidden');return}
 
   const action=editId?'updateUser':'addUser';
   const idP=editId?`&user_id_target=${editId}`:'';
   const senhaP=senha?`&nova_senha=${encodeURIComponent(senha)}`:'';
-  const hhP=(S.role==='owner'||can('view_all_lojas'))?`&household_id=${encodeURIComponent(S.hhId)}`:'';
-
+  const hhP=`&household_id=${encodeURIComponent(newPrimaryHH)}`;
   const btn=$('mFormSubmit');btn.disabled=true;startLoad();
   toast(editId?'Salvando...':'Cadastrando...','loading');
   try{
-    const d=await jsonp(`${API}?action=${action}${idP}&novo_nome=${encodeURIComponent(nome)}&novo_email=${encodeURIComponent(email)}${senhaP}&permissions=${encodeURIComponent(perms)}&group_id=${encodeURIComponent(groupId)}&accessible_households=${encodeURIComponent(accessHHs)}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
+    const d=await jsonp(`${API}?action=${action}${idP}&novo_nome=${encodeURIComponent(nome)}&novo_email=${encodeURIComponent(email)}${senhaP}&permissions=${encodeURIComponent(perms)}&group_id=${encodeURIComponent(groupId)}&accessible_households=${encodeURIComponent(extraHHs)}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
     if(d.error){err.textContent=d.error;err.classList.remove('hidden');return}
     $('mForm').reset();$('mFormId').value='';
     await loadItems();$('inviteModal').classList.add('hidden');$('membersModal').classList.remove('hidden');
