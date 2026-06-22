@@ -397,21 +397,132 @@
 
   .toast {
     position: fixed;
-    bottom: 90px;
+    top: 18px;
     left: 50%;
-    transform: translateX(-50%);
-    background: var(--text);
-    color: var(--bg);
-    font-size: 13px;
-    font-weight: 500;
-    padding: 11px 18px;
-    border-radius: 10px;
-    box-shadow: var(--shadow);
+    transform: translateX(-50%) translateY(-80px);
+    background: #1C1E22;
+    color: #F2F3F1;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 13px 18px;
+    border-radius: 14px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.35);
     z-index: 50;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 220px;
+    max-width: 340px;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: hidden;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast-icon {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .toast-icon.success { background: var(--green); }
+  .toast-icon.danger { background: var(--danger); }
+  .toast-bar {
+    position: absolute;
+    bottom: 0; left: 0;
+    height: 3px;
+    border-radius: 0 0 14px 14px;
+    animation: toast-progress 2.8s linear forwards;
+  }
+  .toast-bar.success { background: var(--green); }
+  .toast-bar.danger { background: var(--danger); }
+  @keyframes toast-progress {
+    from { width: 100%; }
+    to { width: 0%; }
+  }
+
+  /* Loading bar */
+  .loading-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    width: 0%;
+    background: var(--green);
+    z-index: 100;
+    transition: width 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+  }
+  .loading-bar.active {
+    opacity: 1;
+    animation: loading-progress 1.8s ease-in-out infinite;
+  }
+  .loading-bar.done {
+    width: 100% !important;
+    opacity: 0;
+    transition: width 0.2s ease, opacity 0.4s ease 0.2s;
+    animation: none;
+  }
+  @keyframes loading-progress {
+    0%   { width: 0%; }
+    30%  { width: 50%; }
+    70%  { width: 80%; }
+    100% { width: 90%; }
+  }
+  .confirm-modal {
+    background: var(--card);
+    color: var(--text);
+    width: 100%;
+    max-width: 320px;
+    padding: 28px 24px 22px;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    text-align: center;
+  }
+  .confirm-icon {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    margin: 0 auto 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+  }
+  .confirm-icon.danger { background: rgba(220,38,38,0.1); }
+  .confirm-icon.warning { background: rgba(234,179,8,0.1); }
+  .confirm-title {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    margin: 0 0 6px;
+  }
+  .confirm-subtitle {
+    font-size: 13px;
+    color: var(--text-soft);
+    margin: 0 0 22px;
+  }
+  .confirm-actions { display: flex; gap: 10px; }
+  .btn-cancel {
+    flex: 1;
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .btn-danger {
+    flex: 1;
+    background: var(--danger);
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 14px;
   }
 </style>
 </head>
 <body>
+
+<div id="loadingBar" class="loading-bar"></div>
 
 <div class="app">
   <header class="topbar">
@@ -497,7 +608,23 @@
   </div>
 </div>
 
-<div id="toast" class="toast hidden"></div>
+<div id="toast" class="toast">
+  <span class="toast-icon success" id="toastIcon">✓</span>
+  <span id="toastMsg"></span>
+  <span class="toast-bar success" id="toastBar"></span>
+</div>
+
+<div id="confirmModal" class="modal-overlay hidden">
+  <div class="confirm-modal">
+    <div class="confirm-icon danger" id="confirmIcon">🗑️</div>
+    <p class="confirm-title" id="confirmTitle">Excluir item?</p>
+    <p class="confirm-subtitle" id="confirmSubtitle"></p>
+    <div class="confirm-actions">
+      <button type="button" class="btn-cancel" id="confirmCancel">Cancelar</button>
+      <button type="button" class="btn-danger" id="confirmOk">Excluir</button>
+    </div>
+  </div>
+</div>
 
 <script>
   const API_URL = 'https://script.google.com/macros/s/AKfycbxaLtifLTTakDmk5ga1ueBjQn9UpCi0291sx9d4DX-VEUMilsWQnpQNYufO7aEIgw0/exec';
@@ -529,6 +656,15 @@
   const addMemberForm = document.getElementById('addMemberForm');
   const memberError = document.getElementById('memberError');
   const toast = document.getElementById('toast');
+  const toastIcon = document.getElementById('toastIcon');
+  const toastMsg = document.getElementById('toastMsg');
+  const toastBar = document.getElementById('toastBar');
+  const confirmModal = document.getElementById('confirmModal');
+  const confirmTitle = document.getElementById('confirmTitle');
+  const confirmSubtitle = document.getElementById('confirmSubtitle');
+  const confirmIcon = document.getElementById('confirmIcon');
+  const confirmCancel = document.getElementById('confirmCancel');
+  const confirmOk = document.getElementById('confirmOk');
 
   let currentEmail = localStorage.getItem('userEmail') || '';
   let currentRole = '';
@@ -548,11 +684,42 @@
     applyTheme(current === 'dark' ? 'light' : 'dark');
   });
 
-  function showToast(msg) {
-    toast.textContent = msg;
-    toast.classList.remove('hidden');
+  const loadingBar = document.getElementById('loadingBar');
+
+  function startLoading() {
+    loadingBar.classList.remove('done');
+    loadingBar.classList.add('active');
+  }
+  function stopLoading() {
+    loadingBar.classList.remove('active');
+    loadingBar.classList.add('done');
+    setTimeout(() => loadingBar.classList.remove('done'), 600);
+  }
+
+  function showToast(msg, type = 'success') {
+    toastIcon.className = `toast-icon ${type}`;
+    toastIcon.textContent = type === 'success' ? '✓' : '🗑';
+    toastBar.className = `toast-bar ${type}`;
+    toastBar.style.animation = 'none';
+    void toastBar.offsetWidth;
+    toastBar.style.animation = '';
+    toast.classList.add('show');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toast.classList.add('hidden'), 2800);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
+  }
+
+  function confirmAction({ title, subtitle, icon = '🗑️', btnLabel = 'Excluir', type = 'danger', onConfirm }) {
+    confirmTitle.textContent = title;
+    confirmSubtitle.textContent = subtitle;
+    confirmIcon.textContent = icon;
+    confirmIcon.className = `confirm-icon ${type}`;
+    confirmOk.textContent = btnLabel;
+    confirmOk.className = type === 'danger' ? 'btn-danger' : 'btn-primary';
+    confirmModal.classList.remove('hidden');
+    const cleanup = () => confirmModal.classList.add('hidden');
+    confirmCancel.onclick = cleanup;
+    confirmModal.onclick = (e) => { if (e.target === confirmModal) cleanup(); };
+    confirmOk.onclick = () => { cleanup(); onConfirm(); };
   }
 
   function initials(name) {
@@ -709,14 +876,27 @@
   }
 
   async function deleteItemAction(itemId) {
-    if (!confirm('Excluir este item da lista?')) return;
-    try {
-      await jsonp(`${API_URL}?action=deleteItem&item_id=${itemId}&email=${encodeURIComponent(currentEmail)}`);
-      showToast('Item excluído.');
-      loadItems();
-    } catch (err) {
-      alert('Erro ao excluir item.');
-    }
+    const item = currentItems.find(i => String(i.item_id) === String(itemId));
+    const nome = item ? item.nome_item : 'este item';
+    confirmAction({
+      title: 'Excluir item?',
+      subtitle: `"${nome}" será removido da lista.`,
+      icon: '🗑️',
+      btnLabel: 'Excluir',
+      type: 'danger',
+      onConfirm: async () => {
+        startLoading();
+        try {
+          await jsonp(`${API_URL}?action=deleteItem&item_id=${itemId}&email=${encodeURIComponent(currentEmail)}`);
+          showToast('Item removido da lista.', 'danger');
+          loadItems();
+        } catch (err) {
+          alert('Erro ao excluir item.');
+        } finally {
+          stopLoading();
+        }
+      }
+    });
   }
 
   addForm.addEventListener('submit', async (e) => {
@@ -724,14 +904,20 @@
     const nome = document.getElementById('itemName').value.trim();
     const qty = document.getElementById('itemQty').value;
     if (!nome) return;
-
+    const addBtn = addForm.querySelector('.add-btn');
+    addBtn.disabled = true;
+    startLoading();
     try {
       await jsonp(`${API_URL}?action=addItem&nome_item=${encodeURIComponent(nome)}&quantidade=${qty}&email=${encodeURIComponent(currentEmail)}`);
       document.getElementById('itemName').value = '';
       document.getElementById('itemQty').value = 1;
+      showToast('Item adicionado à lista.', 'success');
       loadItems();
     } catch (err) {
       alert('Erro ao adicionar item.');
+    } finally {
+      addBtn.disabled = false;
+      stopLoading();
     }
   });
 
@@ -790,16 +976,29 @@
   }
 
   async function deleteMember(userId) {
-    if (!confirm('Excluir este membro da casa?')) return;
-    try {
-      const result = await jsonp(`${API_URL}?action=deleteUser&user_id_target=${userId}&email=${encodeURIComponent(currentEmail)}`);
-      if (result.error) { alert(result.error); return; }
-      await loadItems();
-      membersModal.classList.remove('hidden');
-      showToast('Membro excluído.');
-    } catch (err) {
-      alert('Erro ao excluir membro.');
-    }
+    const member = currentMembers.find(m => String(m.user_id) === String(userId));
+    const nome = member ? member.nome : 'este membro';
+    confirmAction({
+      title: 'Remover membro?',
+      subtitle: `${nome} perderá acesso à lista da casa.`,
+      icon: '👤',
+      btnLabel: 'Remover',
+      type: 'danger',
+      onConfirm: async () => {
+        startLoading();
+        try {
+          const result = await jsonp(`${API_URL}?action=deleteUser&user_id_target=${userId}&email=${encodeURIComponent(currentEmail)}`);
+          if (result.error) { alert(result.error); stopLoading(); return; }
+          await loadItems();
+          membersModal.classList.remove('hidden');
+          showToast(`${nome} foi removido da casa.`, 'danger');
+        } catch (err) {
+          alert('Erro ao excluir membro.');
+        } finally {
+          stopLoading();
+        }
+      }
+    });
   }
 
   openInviteBtn.addEventListener('click', () => openMemberForm(null));
@@ -827,6 +1026,9 @@
     const action = editingId ? 'updateUser' : 'addUser';
     const idParam = editingId ? `&user_id_target=${editingId}` : '';
 
+    const submitBtn = document.getElementById('memberFormSubmit');
+    submitBtn.disabled = true;
+    startLoading();
     try {
       const result = await jsonp(`${API_URL}?action=${action}${idParam}&novo_nome=${encodeURIComponent(nome)}&novo_email=${encodeURIComponent(email)}&novo_role=${role}&email=${encodeURIComponent(currentEmail)}`);
       if (result.error) {
@@ -839,10 +1041,13 @@
       inviteModal.classList.add('hidden');
       await loadItems();
       membersModal.classList.remove('hidden');
-      showToast(editingId ? 'Membro atualizado.' : 'Membro cadastrado.');
+      showToast(editingId ? `${nome} foi atualizado.` : `${nome} foi adicionado à casa.`, 'success');
     } catch (err) {
       memberError.textContent = editingId ? 'Erro ao salvar membro.' : 'Erro ao convidar membro.';
       memberError.classList.remove('hidden');
+    } finally {
+      submitBtn.disabled = false;
+      stopLoading();
     }
   });
 
