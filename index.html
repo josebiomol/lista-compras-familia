@@ -8,142 +8,166 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Archivo:wght@700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #F2F3F1; --card: #FFFFFF; --text: #16181B; --text-soft: #6B7280;
-    --border: #E7E8E6; --green: #16A34A; --green-bg: #E7F6EC; --danger: #DC2626;
-    --shadow: 0 1px 2px rgba(16,18,20,0.04), 0 8px 24px rgba(16,18,20,0.06);
+    --bg:#F2F3F1;--card:#fff;--text:#16181B;--text-soft:#6B7280;
+    --border:#E7E8E6;--green:#16A34A;--green-bg:#E7F6EC;--danger:#DC2626;
+    --shadow:0 1px 2px rgba(16,18,20,.04),0 8px 24px rgba(16,18,20,.06);
   }
-  [data-theme="dark"] {
-    --bg: #131417; --card: #1C1E22; --text: #F2F3F1; --text-soft: #8A8F98;
-    --border: #2A2D32; --green: #22C55E; --green-bg: rgba(34,197,94,0.14);
-    --danger: #F87171; --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  [data-theme=dark]{
+    --bg:#131417;--card:#1C1E22;--text:#F2F3F1;--text-soft:#8A8F98;
+    --border:#2A2D32;--green:#22C55E;--green-bg:rgba(34,197,94,.14);
+    --danger:#F87171;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
   }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; display: flex; justify-content: center; transition: background 0.2s, color 0.2s; }
-  .app { width: 100%; max-width: 440px; min-height: 100vh; background: var(--bg); display: flex; flex-direction: column; }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;display:flex;justify-content:center;transition:background .2s,color .2s}
+  .app{width:100%;max-width:440px;min-height:100vh;background:var(--bg);display:flex;flex-direction:column}
 
-  .loading-bar { position: fixed; top: 0; left: 0; height: 3px; width: 0%; background: var(--green); z-index: 100; opacity: 0; transition: width 0.3s ease, opacity 0.3s ease; }
-  .loading-bar.active { opacity: 1; animation: lp 1.8s ease-in-out infinite; }
-  .loading-bar.done { width: 100% !important; opacity: 0; transition: width 0.2s ease, opacity 0.4s ease 0.2s; animation: none; }
-  @keyframes lp { 0%{width:0%} 30%{width:50%} 70%{width:80%} 100%{width:90%} }
+  /* Loading bar */
+  .lb{position:fixed;top:0;left:0;height:3px;width:0%;background:var(--green);z-index:100;opacity:0;transition:width .3s,opacity .3s}
+  .lb.active{opacity:1;animation:lp 1.8s ease-in-out infinite}
+  .lb.done{width:100%!important;opacity:0;transition:width .2s,opacity .4s ease .2s;animation:none}
+  @keyframes lp{0%{width:0%}30%{width:50%}70%{width:80%}100%{width:90%}}
 
-  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px 10px; }
-  .app-title { font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 19px; margin: 0; }
-  .topbar-actions { display: flex; align-items: center; gap: 10px; position: relative; }
-  .icon-btn { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: var(--card); color: var(--text); font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-  .avatar-btn { width: 36px; height: 36px; border-radius: 50%; border: none; background: var(--green); color: #fff; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; }
-  .account-menu { position: absolute; top: 44px; right: 0; background: var(--card); border: 1px solid var(--border); box-shadow: var(--shadow); border-radius: 12px; padding: 14px; min-width: 160px; z-index: 20; }
-  .account-name { margin: 0; font-weight: 600; font-size: 14px; }
-  .account-role { margin: 2px 0 12px; font-size: 11px; text-transform: uppercase; color: var(--green); letter-spacing: 0.4px; }
-  .account-logout { width: 100%; background: transparent; border: 1px solid var(--border); color: var(--text); padding: 8px; border-radius: 8px; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 13px; }
-  .account-logout:hover { border-color: var(--danger); color: var(--danger); }
+  /* Topbar */
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 10px}
+  .topbar-left{display:flex;align-items:center;gap:8px}
+  .app-title{font-family:'Archivo',sans-serif;font-weight:800;font-size:18px;margin:0}
+  .household-badge{background:var(--green-bg);color:var(--green);font-size:11px;font-weight:600;padding:3px 8px;border-radius:8px;cursor:pointer;border:none;white-space:nowrap;max-width:140px;overflow:hidden;text-overflow:ellipsis}
+  .topbar-actions{display:flex;align-items:center;gap:8px;position:relative}
+  .icon-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .avatar-btn{width:36px;height:36px;border-radius:50%;border:none;background:var(--green);color:#fff;font-family:'Archivo',sans-serif;font-weight:700;font-size:13px;cursor:pointer}
+  .account-menu{position:absolute;top:44px;right:0;background:var(--card);border:1px solid var(--border);box-shadow:var(--shadow);border-radius:12px;padding:14px;min-width:160px;z-index:20}
+  .account-name{margin:0;font-weight:600;font-size:14px}
+  .account-role{margin:2px 0 12px;font-size:11px;text-transform:uppercase;color:var(--green);letter-spacing:.4px}
+  .account-logout{width:100%;background:transparent;border:1px solid var(--border);color:var(--text);padding:8px;border-radius:8px;cursor:pointer;font-family:'Inter',sans-serif;font-size:13px}
+  .account-logout:hover{border-color:var(--danger);color:var(--danger)}
 
   /* Auth screens */
-  .auth-screen { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px; text-align: center; }
-  .auth-icon { width: 64px; height: 64px; border-radius: 20px; background: var(--green-bg); display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 18px; }
-  .auth-screen h1 { font-family: 'Archivo', sans-serif; font-size: 22px; margin: 0 0 6px; }
-  .auth-screen p { color: var(--text-soft); font-size: 13px; margin: 0 0 24px; line-height: 1.5; }
-  .auth-screen form { width: 100%; display: flex; flex-direction: column; gap: 10px; }
-  .auth-divider { display: flex; align-items: center; gap: 10px; margin: 4px 0; width: 100%; }
-  .auth-divider span { font-size: 12px; color: var(--text-soft); white-space: nowrap; }
-  .auth-divider hr { flex: 1; border: none; border-top: 1px solid var(--border); }
-  .btn-secondary { width: 100%; background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 13px; border-radius: 12px; font-weight: 600; font-size: 14px; cursor: pointer; }
-  .btn-secondary:hover { border-color: var(--green); color: var(--green); }
-  .btn-back { background: none; border: none; color: var(--text-soft); font-size: 13px; cursor: pointer; margin-top: 6px; text-decoration: underline; }
-  .btn-back:hover { color: var(--text); }
+  .auth-screen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center}
+  .auth-icon{width:64px;height:64px;border-radius:20px;background:var(--green-bg);display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:18px}
+  .auth-screen h1{font-family:'Archivo',sans-serif;font-size:22px;margin:0 0 6px}
+  .auth-screen p{color:var(--text-soft);font-size:13px;margin:0 0 24px;line-height:1.5}
+  .auth-screen form{width:100%;display:flex;flex-direction:column;gap:10px}
+  .auth-divider{display:flex;align-items:center;gap:10px;margin:4px 0;width:100%}
+  .auth-divider span{font-size:12px;color:var(--text-soft);white-space:nowrap}
+  .auth-divider hr{flex:1;border:none;border-top:1px solid var(--border)}
+  .btn-secondary{width:100%;background:var(--card);color:var(--text);border:1px solid var(--border);padding:13px;border-radius:12px;font-weight:600;font-size:14px;cursor:pointer}
+  .btn-secondary:hover{border-color:var(--green);color:var(--green)}
+  .btn-back{background:none;border:none;color:var(--text-soft);font-size:13px;cursor:pointer;margin-top:8px;text-decoration:underline}
 
-  input[type="email"], input[type="text"], input[type="number"], input[type="password"] {
-    width: 100%; font-family: 'Inter', sans-serif; font-size: 14px; border: 1px solid var(--border);
-    background: var(--card); color: var(--text); padding: 13px 14px; border-radius: 12px;
+  input[type=email],input[type=text],input[type=number],input[type=password]{
+    width:100%;font-family:'Inter',sans-serif;font-size:14px;border:1px solid var(--border);
+    background:var(--card);color:var(--text);padding:13px 14px;border-radius:12px
   }
-  input:focus { outline: 2px solid var(--green); outline-offset: 1px; }
-  ::placeholder { color: var(--text-soft); }
-  button { font-family: 'Inter', sans-serif; cursor: pointer; }
-  .btn-primary { width: 100%; background: var(--green); color: #fff; border: none; padding: 13px; border-radius: 12px; font-weight: 600; font-size: 14px; }
-  .btn-primary:hover { filter: brightness(0.95); }
-  .btn-primary:disabled { opacity: 0.6; cursor: default; }
+  input:focus{outline:2px solid var(--green);outline-offset:1px}
+  ::placeholder{color:var(--text-soft)}
+  button{font-family:'Inter',sans-serif;cursor:pointer}
+  .btn-primary{width:100%;background:var(--green);color:#fff;border:none;padding:13px;border-radius:12px;font-weight:600;font-size:14px}
+  .btn-primary:hover{filter:brightness(.95)}
+  .btn-primary:disabled{opacity:.6;cursor:default}
 
-  .main { flex: 1; padding: 4px 20px 90px; }
-  .add-bar { display: flex; gap: 8px; margin: 10px 0 16px; }
-  .add-bar input { flex: 1; }
-  .add-bar .qty-input { width: 56px; flex: none; text-align: center; }
-  .add-btn { width: 46px; background: var(--green); color: #fff; border: none; border-radius: 12px; font-size: 20px; flex: none; }
-  .tabs { display: flex; gap: 6px; margin-bottom: 18px; }
-  .tab { background: var(--card); border: 1px solid var(--border); color: var(--text-soft); padding: 8px 12px; border-radius: 10px; font-size: 12.5px; font-weight: 500; display: flex; align-items: center; gap: 6px; }
-  .tab.active { background: var(--green-bg); color: var(--green); border-color: transparent; font-weight: 600; }
-  .tab-count { background: rgba(120,120,120,0.15); border-radius: 6px; padding: 1px 6px; font-size: 11px; }
-  .tab.active .tab-count { background: var(--green); color: #fff; }
-  .section-label { font-size: 12px; font-weight: 600; color: var(--text-soft); margin: 18px 0 8px; }
-  ul.items { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
-  .item { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 12px 14px; display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow); }
-  .item .check { width: 22px; height: 22px; border-radius: 7px; border: 1.5px solid var(--border); background: transparent; flex-shrink: 0; cursor: pointer; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; }
-  .item.done .check { background: var(--green); border-color: var(--green); }
-  .item .info { flex: 1; min-width: 0; cursor: pointer; }
-  .item .name { display: block; font-weight: 600; font-size: 14px; }
-  .item.done .name { text-decoration: line-through; color: var(--text-soft); }
-  .item .qty-badge { background: var(--bg); border-radius: 8px; padding: 3px 8px; font-size: 12px; font-weight: 600; color: var(--text-soft); flex-shrink: 0; }
-  .item .avatar { width: 26px; height: 26px; border-radius: 50%; background: var(--green-bg); color: var(--green); font-size: 11px; font-weight: 700; font-family: 'Archivo', sans-serif; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .item .delete { background: none; border: none; color: var(--text-soft); font-size: 17px; cursor: pointer; flex-shrink: 0; line-height: 1; }
-  .item .delete:hover { color: var(--danger); }
-  .empty, .status-msg { text-align: center; font-size: 13px; color: var(--text-soft); padding: 32px 0; }
-  .error { color: var(--danger) !important; }
-  .hidden { display: none !important; }
+  /* Household selector */
+  .household-screen{flex:1;display:flex;flex-direction:column;padding:20px 20px 90px}
+  .household-screen h2{font-family:'Archivo',sans-serif;font-weight:800;font-size:18px;margin:0 0 4px}
+  .household-screen .sub{font-size:13px;color:var(--text-soft);margin:0 0 20px}
+  .hh-list{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+  .hh-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--shadow);cursor:pointer;transition:border-color .15s}
+  .hh-card:hover{border-color:var(--green)}
+  .hh-card .hh-name{font-weight:700;font-size:15px}
+  .hh-card .hh-meta{font-size:12px;color:var(--text-soft);margin-top:2px}
+  .hh-card-actions{display:flex;gap:8px}
+  .hh-action-btn{background:none;border:none;color:var(--text-soft);font-size:15px;padding:4px;cursor:pointer}
+  .hh-action-btn:hover{color:var(--green)}
+  .hh-action-btn.del:hover{color:var(--danger)}
+  .hh-add-btn{width:100%;background:var(--green-bg);color:var(--green);border:none;padding:14px;border-radius:14px;font-weight:600;font-size:14px;margin-top:4px}
 
-  .bottom-nav { position: fixed; bottom: 0; width: 100%; max-width: 440px; background: var(--card); border-top: 1px solid var(--border); display: flex; padding: 10px 0 14px; }
-  .nav-item { flex: 1; background: none; border: none; color: var(--text-soft); display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 11px; cursor: pointer; }
-  .nav-item.active { color: var(--green); }
-  .nav-icon { font-size: 18px; }
+  /* Main app */
+  .main{flex:1;padding:4px 20px 90px}
+  .add-bar{display:flex;gap:8px;margin:10px 0 16px}
+  .add-bar input{flex:1}
+  .qty-input{width:56px;flex:none;text-align:center}
+  .add-btn{width:46px;background:var(--green);color:#fff;border:none;border-radius:12px;font-size:20px;flex:none}
+  .tabs{display:flex;gap:6px;margin-bottom:18px}
+  .tab{background:var(--card);border:1px solid var(--border);color:var(--text-soft);padding:8px 12px;border-radius:10px;font-size:12.5px;font-weight:500;display:flex;align-items:center;gap:6px}
+  .tab.active{background:var(--green-bg);color:var(--green);border-color:transparent;font-weight:600}
+  .tab-count{background:rgba(120,120,120,.15);border-radius:6px;padding:1px 6px;font-size:11px}
+  .tab.active .tab-count{background:var(--green);color:#fff}
+  .section-label{font-size:12px;font-weight:600;color:var(--text-soft);margin:18px 0 8px}
+  ul.items{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+  .item{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow)}
+  .item .check{width:22px;height:22px;border-radius:7px;border:1.5px solid var(--border);background:transparent;flex-shrink:0;cursor:pointer;color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center}
+  .item.done .check{background:var(--green);border-color:var(--green)}
+  .item .info{flex:1;min-width:0;cursor:pointer}
+  .item .name{display:block;font-weight:600;font-size:14px}
+  .item.done .name{text-decoration:line-through;color:var(--text-soft)}
+  .item .qty-badge{background:var(--bg);border-radius:8px;padding:3px 8px;font-size:12px;font-weight:600;color:var(--text-soft);flex-shrink:0}
+  .item .avatar{width:26px;height:26px;border-radius:50%;background:var(--green-bg);color:var(--green);font-size:11px;font-weight:700;font-family:'Archivo',sans-serif;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .item .del{background:none;border:none;color:var(--text-soft);font-size:17px;cursor:pointer;flex-shrink:0;line-height:1}
+  .item .del:hover{color:var(--danger)}
+  .empty,.status-msg{text-align:center;font-size:13px;color:var(--text-soft);padding:32px 0}
+  .error{color:var(--danger)!important}
+  .hidden{display:none!important}
 
-  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 30; }
-  .modal-overlay.hidden { display: none; }
-  .modal { background: var(--card); color: var(--text); width: 100%; max-width: 360px; padding: 22px; border-radius: 18px; box-shadow: var(--shadow); }
-  .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-  .modal-title { font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 16px; margin: 0; }
-  .modal-close { background: none; border: none; color: var(--text-soft); font-size: 18px; cursor: pointer; }
-  select { width: 100%; font-family: 'Inter', sans-serif; font-size: 14px; border: 1px solid var(--border); background: var(--card); color: var(--text); padding: 13px 14px; border-radius: 12px; }
-  #addMemberForm { display: flex; flex-direction: column; gap: 10px; }
-  .field-hint { font-size: 11px; color: var(--text-soft); margin: -4px 0 0 2px; }
+  /* Bottom nav */
+  .bottom-nav{position:fixed;bottom:0;width:100%;max-width:440px;background:var(--card);border-top:1px solid var(--border);display:flex;padding:10px 0 14px}
+  .nav-item{flex:1;background:none;border:none;color:var(--text-soft);display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;cursor:pointer}
+  .nav-item.active{color:var(--green)}
+  .nav-icon{font-size:18px}
 
-  ul.members { list-style: none; margin: 0 0 16px; padding: 0; display: flex; flex-direction: column; gap: 8px; }
-  .members li { display: flex; align-items: center; justify-content: space-between; gap: 8px; background: var(--bg); border-radius: 12px; padding: 10px 12px; }
-  .members .m-name { display: block; font-weight: 600; font-size: 13.5px; }
-  .members .m-badges { display: flex; gap: 6px; align-items: center; margin-top: 2px; }
-  .members .m-role { font-size: 11px; color: var(--green); text-transform: uppercase; }
-  .members .m-nopass { font-size: 10px; color: var(--danger); background: rgba(220,38,38,0.1); padding: 1px 6px; border-radius: 4px; }
-  .members .m-actions { display: flex; gap: 10px; flex-shrink: 0; }
-  .members .m-actions button { background: none; border: none; color: var(--text-soft); cursor: pointer; font-size: 14px; }
-  .members .m-actions .m-delete:hover { color: var(--danger); }
-  .members .m-actions .m-edit:hover { color: var(--green); }
-  .invite-btn { width: 100%; background: var(--green-bg); color: var(--green); border: none; padding: 12px; border-radius: 12px; font-weight: 600; font-size: 14px; }
+  /* Modals */
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:16px;z-index:30}
+  .overlay.hidden{display:none}
+  .modal{background:var(--card);color:var(--text);width:100%;max-width:360px;padding:22px;border-radius:18px;box-shadow:var(--shadow)}
+  .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+  .modal-title{font-family:'Archivo',sans-serif;font-weight:700;font-size:16px;margin:0}
+  .mclose{background:none;border:none;color:var(--text-soft);font-size:18px;cursor:pointer}
+  select{width:100%;font-family:'Inter',sans-serif;font-size:14px;border:1px solid var(--border);background:var(--card);color:var(--text);padding:13px 14px;border-radius:12px}
+  .mform{display:flex;flex-direction:column;gap:10px}
+  .field-hint{font-size:11px;color:var(--text-soft);margin:-4px 0 0 2px}
 
-  .confirm-modal { background: var(--card); color: var(--text); width: 100%; max-width: 320px; padding: 28px 24px 22px; border-radius: 20px; box-shadow: var(--shadow); text-align: center; }
-  .confirm-icon { width: 52px; height: 52px; border-radius: 50%; margin: 0 auto 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
-  .confirm-icon.danger { background: rgba(220,38,38,0.1); }
-  .confirm-title { font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 16px; margin: 0 0 6px; }
-  .confirm-subtitle { font-size: 13px; color: var(--text-soft); margin: 0 0 22px; }
-  .confirm-actions { display: flex; gap: 10px; }
-  .btn-cancel { flex: 1; background: var(--bg); color: var(--text); border: 1px solid var(--border); padding: 12px; border-radius: 12px; font-weight: 600; font-size: 14px; }
-  .btn-danger { flex: 1; background: var(--danger); color: #fff; border: none; padding: 12px; border-radius: 12px; font-weight: 600; font-size: 14px; }
+  /* Members list */
+  ul.members{list-style:none;margin:0 0 16px;padding:0;display:flex;flex-direction:column;gap:8px}
+  .members li{display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--bg);border-radius:12px;padding:10px 12px}
+  .members .m-name{display:block;font-weight:600;font-size:13.5px}
+  .members .m-badges{display:flex;gap:6px;align-items:center;margin-top:2px}
+  .members .m-role{font-size:11px;color:var(--green);text-transform:uppercase}
+  .members .m-nopass{font-size:10px;color:var(--danger);background:rgba(220,38,38,.1);padding:1px 6px;border-radius:4px}
+  .members .m-actions{display:flex;gap:10px;flex-shrink:0}
+  .members .m-actions button{background:none;border:none;color:var(--text-soft);cursor:pointer;font-size:14px}
+  .members .m-actions .me:hover{color:var(--green)}
+  .members .m-actions .md:hover{color:var(--danger)}
+  .invite-btn{width:100%;background:var(--green-bg);color:var(--green);border:none;padding:12px;border-radius:12px;font-weight:600;font-size:14px}
 
-  .toast { position: fixed; top: 18px; left: 50%; transform: translateX(-50%) translateY(-80px); background: #1C1E22; color: #F2F3F1; font-size: 14px; font-weight: 600; padding: 13px 18px; border-radius: 14px; box-shadow: 0 8px 32px rgba(0,0,0,0.35); z-index: 50; display: flex; align-items: center; gap: 10px; min-width: 220px; max-width: 340px; transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); overflow: hidden; }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-  .toast-icon { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; font-weight: 700; color: #fff; }
-  .toast-icon.success { background: #22C55E; }
-  .toast-icon.danger { background: #DC2626; }
-  .toast-icon.loading { background: #555; animation: spin 1s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .toast-text { flex: 1; color: #F2F3F1; font-size: 14px; font-weight: 600; white-space: nowrap; }
-  .toast-bar { position: absolute; bottom: 0; left: 0; height: 3px; border-radius: 0 0 14px 14px; animation: tp 2.8s linear forwards; }
-  .toast-bar.success { background: #22C55E; }
-  .toast-bar.danger { background: #DC2626; }
-  @keyframes tp { from{width:100%} to{width:0%} }
+  /* Confirm */
+  .confirm-modal{background:var(--card);color:var(--text);width:100%;max-width:320px;padding:28px 24px 22px;border-radius:20px;box-shadow:var(--shadow);text-align:center}
+  .ci{width:52px;height:52px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:22px}
+  .ci.danger{background:rgba(220,38,38,.1)}
+  .ct{font-family:'Archivo',sans-serif;font-weight:700;font-size:16px;margin:0 0 6px}
+  .cs{font-size:13px;color:var(--text-soft);margin:0 0 22px}
+  .ca{display:flex;gap:10px}
+  .btn-cancel{flex:1;background:var(--bg);color:var(--text);border:1px solid var(--border);padding:12px;border-radius:12px;font-weight:600;font-size:14px}
+  .btn-danger{flex:1;background:var(--danger);color:#fff;border:none;padding:12px;border-radius:12px;font-weight:600;font-size:14px}
+
+  /* Toast */
+  .toast{position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-80px);background:#1C1E22;font-size:14px;font-weight:600;padding:13px 18px;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.35);z-index:50;display:flex;align-items:center;gap:10px;min-width:220px;max-width:340px;transition:transform .3s cubic-bezier(.34,1.56,.64,1);overflow:hidden}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+  .ti{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;font-weight:700;color:#fff}
+  .ti.success{background:#22C55E}.ti.danger{background:#DC2626}.ti.loading{background:#555;animation:spin 1s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .tt{flex:1;color:#F2F3F1;font-size:14px;font-weight:600;white-space:nowrap}
+  .tb{position:absolute;bottom:0;left:0;height:3px;border-radius:0 0 14px 14px;animation:tp 2.8s linear forwards}
+  .tb.success{background:#22C55E}.tb.danger{background:#DC2626}
+  @keyframes tp{from{width:100%}to{width:0%}}
 </style>
 </head>
 <body>
-<div id="loadingBar" class="loading-bar"></div>
+<div id="lb" class="lb"></div>
 
 <div class="app">
   <header class="topbar">
-    <h1 class="app-title">🛍️ Lista de Compras</h1>
+    <div class="topbar-left">
+      <h1 class="app-title">🛍️</h1>
+      <button type="button" id="hhBadge" class="household-badge hidden"></button>
+    </div>
     <div class="topbar-actions">
       <button type="button" id="themeToggle" class="icon-btn">🌙</button>
       <button type="button" id="avatarBtn" class="avatar-btn hidden"></button>
@@ -159,7 +183,7 @@
   <div id="loginScreen" class="auth-screen">
     <div class="auth-icon">🛍️</div>
     <h1>Bem-vindo</h1>
-    <p>Organize as compras da sua casa com sua família.</p>
+    <p>Organize as compras da sua casa ou empresa.</p>
     <form id="loginForm">
       <input type="email" id="loginEmail" placeholder="Seu e-mail" required>
       <input type="password" id="loginSenha" placeholder="Senha" required>
@@ -172,15 +196,16 @@
 
   <!-- CADASTRO -->
   <div id="registerScreen" class="auth-screen hidden">
-    <div class="auth-icon">🏠</div>
+    <div class="auth-icon">🏢</div>
     <h1>Criar conta</h1>
-    <p>Você vai ser o admin da sua casa. Outros membros poderão ser convidados depois.</p>
+    <p>Você será o dono da organização e poderá criar várias casas/lojas.</p>
     <form id="registerForm">
       <input type="text" id="regNome" placeholder="Seu nome completo" required>
       <input type="email" id="regEmail" placeholder="E-mail" required>
       <input type="password" id="regSenha" placeholder="Senha (mín. 6 caracteres)" required>
       <input type="password" id="regSenha2" placeholder="Confirmar senha" required>
-      <input type="text" id="regHousehold" placeholder="Nome da sua casa (ex: Família Silva)" required>
+      <input type="text" id="regOrg" placeholder="Nome da organização (ex: Família Silva)" required>
+      <input type="text" id="regHousehold" placeholder="Nome da primeira casa/loja" required>
       <button type="submit" class="btn-primary" id="registerBtn">Criar conta</button>
     </form>
     <p class="status-msg error hidden" id="registerError"></p>
@@ -191,9 +216,9 @@
   <div id="setPasswordScreen" class="auth-screen hidden">
     <div class="auth-icon">🔑</div>
     <h1>Defina sua senha</h1>
-    <p>Primeiro acesso detectado. Crie uma senha de pelo menos 6 caracteres para proteger sua conta.</p>
+    <p>Primeiro acesso. Crie uma senha com pelo menos 6 caracteres.</p>
     <form id="setPasswordForm">
-      <input type="password" id="setSenha1" placeholder="Nova senha (mín. 6 caracteres)" required>
+      <input type="password" id="setSenha1" placeholder="Nova senha" required>
       <input type="password" id="setSenha2" placeholder="Confirmar senha" required>
       <button type="submit" class="btn-primary" id="setSenhaBtn">Definir senha e entrar</button>
     </form>
@@ -201,7 +226,15 @@
     <button type="button" class="btn-back" id="backFromSetPassword">← Voltar ao login</button>
   </div>
 
-  <!-- APP -->
+  <!-- SELETOR DE CASA/LOJA (owner) -->
+  <div id="householdScreen" class="household-screen hidden">
+    <h2 id="hhScreenTitle">Minhas casas/lojas</h2>
+    <p class="sub" id="hhScreenSub">Selecione onde deseja trabalhar agora.</p>
+    <div class="hh-list" id="hhList"></div>
+    <button type="button" class="hh-add-btn" id="addHouseholdBtn">+ Criar nova casa / loja</button>
+  </div>
+
+  <!-- APP PRINCIPAL -->
   <main id="appScreen" class="main hidden">
     <form class="add-bar" id="addForm">
       <input type="text" id="itemName" placeholder="Adicionar item..." required>
@@ -209,38 +242,39 @@
       <button type="submit" class="add-btn">+</button>
     </form>
     <div class="tabs" id="filterTabs">
-      <button type="button" class="tab active" data-filter="todos">Todos <span class="tab-count" id="countTodos">0</span></button>
-      <button type="button" class="tab" data-filter="pendentes">Pendentes <span class="tab-count" id="countPendentes">0</span></button>
-      <button type="button" class="tab" data-filter="comprados">Comprados <span class="tab-count" id="countComprados">0</span></button>
+      <button type="button" class="tab active" data-filter="todos">Todos <span class="tab-count" id="cTodos">0</span></button>
+      <button type="button" class="tab" data-filter="pendentes">Pendentes <span class="tab-count" id="cPendentes">0</span></button>
+      <button type="button" class="tab" data-filter="comprados">Comprados <span class="tab-count" id="cComprados">0</span></button>
     </div>
     <div id="content"><p class="status-msg">Carregando lista...</p></div>
   </main>
 
   <nav class="bottom-nav hidden" id="bottomNav">
-    <button type="button" class="nav-item active" disabled><span class="nav-icon">🛒</span><span>Lista</span></button>
+    <button type="button" class="nav-item active" id="navListBtn"><span class="nav-icon">🛒</span><span>Lista</span></button>
     <button type="button" class="nav-item hidden" id="navMembersBtn"><span class="nav-icon">👥</span><span>Membros</span></button>
+    <button type="button" class="nav-item hidden" id="navHouseholdsBtn"><span class="nav-icon">🏠</span><span>Lojas</span></button>
   </nav>
 </div>
 
 <!-- MODALS -->
-<div id="membersModal" class="modal-overlay hidden">
+<div id="membersModal" class="overlay hidden">
   <div class="modal">
     <div class="modal-header">
       <p class="modal-title">Membros da casa</p>
-      <button type="button" id="closeMembersBtn" class="modal-close">×</button>
+      <button type="button" id="closeMembersBtn" class="mclose">×</button>
     </div>
     <ul class="members" id="membersList"></ul>
     <button type="button" id="openInviteBtn" class="invite-btn">+ Convidar membro</button>
   </div>
 </div>
 
-<div id="inviteModal" class="modal-overlay hidden">
+<div id="inviteModal" class="overlay hidden">
   <div class="modal">
     <div class="modal-header">
       <p class="modal-title" id="memberFormTitle">Convidar membro</p>
-      <button type="button" id="closeInviteBtn" class="modal-close">×</button>
+      <button type="button" id="closeInviteBtn" class="mclose">×</button>
     </div>
-    <form id="addMemberForm">
+    <form id="addMemberForm" class="mform">
       <input type="hidden" id="memberFormId">
       <input type="text" id="memberName" placeholder="Nome completo" required>
       <input type="email" id="memberEmail" placeholder="email@exemplo.com" required>
@@ -253,12 +287,27 @@
   </div>
 </div>
 
-<div id="confirmModal" class="modal-overlay hidden">
+<div id="hhModal" class="overlay hidden">
+  <div class="modal">
+    <div class="modal-header">
+      <p class="modal-title" id="hhModalTitle">Nova casa / loja</p>
+      <button type="button" id="closeHhModal" class="mclose">×</button>
+    </div>
+    <form id="hhForm" class="mform">
+      <input type="hidden" id="hhFormId">
+      <input type="text" id="hhFormNome" placeholder="Nome da casa / loja" required>
+      <button type="submit" id="hhFormSubmit" class="btn-primary">Criar</button>
+    </form>
+    <p class="status-msg error hidden" id="hhFormError"></p>
+  </div>
+</div>
+
+<div id="confirmModal" class="overlay hidden">
   <div class="confirm-modal">
-    <div class="confirm-icon danger" id="confirmIcon">🗑️</div>
-    <p class="confirm-title" id="confirmTitle">Excluir?</p>
-    <p class="confirm-subtitle" id="confirmSubtitle"></p>
-    <div class="confirm-actions">
+    <div class="ci danger" id="ci">🗑️</div>
+    <p class="ct" id="ct">Excluir?</p>
+    <p class="cs" id="cs"></p>
+    <div class="ca">
       <button type="button" class="btn-cancel" id="confirmCancel">Cancelar</button>
       <button type="button" class="btn-danger" id="confirmOk">Excluir</button>
     </div>
@@ -266,421 +315,531 @@
 </div>
 
 <div id="toast" class="toast">
-  <span class="toast-icon success" id="toastIcon">✓</span>
-  <span class="toast-text" id="toastMsg"></span>
-  <span class="toast-bar success" id="toastBar"></span>
+  <span class="ti success" id="ti">✓</span>
+  <span class="tt" id="tt"></span>
+  <span class="tb success" id="tb"></span>
 </div>
 
 <script>
-  const API_URL = 'https://script.google.com/macros/s/AKfycbxaLtifLTTakDmk5ga1ueBjQn9UpCi0291sx9d4DX-VEUMilsWQnpQNYufO7aEIgw0/exec';
+const API = 'https://script.google.com/macros/s/AKfycbxaLtifLTTakDmk5ga1ueBjQn9UpCi0291sx9d4DX-VEUMilsWQnpQNYufO7aEIgw0/exec';
 
-  // DOM refs
-  const loginScreen = document.getElementById('loginScreen');
-  const registerScreen = document.getElementById('registerScreen');
-  const setPasswordScreen = document.getElementById('setPasswordScreen');
-  const appScreen = document.getElementById('appScreen');
-  const bottomNav = document.getElementById('bottomNav');
-  const navMembersBtn = document.getElementById('navMembersBtn');
-  const avatarBtn = document.getElementById('avatarBtn');
-  const accountMenu = document.getElementById('accountMenu');
-  const loadingBar = document.getElementById('loadingBar');
-  const toast = document.getElementById('toast');
-  const toastIcon = document.getElementById('toastIcon');
-  const toastMsg = document.getElementById('toastMsg');
-  const toastBar = document.getElementById('toastBar');
-  const content = document.getElementById('content');
-  const filterTabs = document.getElementById('filterTabs');
-  const membersModal = document.getElementById('membersModal');
-  const inviteModal = document.getElementById('inviteModal');
-  const confirmModal = document.getElementById('confirmModal');
-  const memberSenhaHint = document.getElementById('memberSenhaHint');
+// State
+let S = {
+  email: localStorage.getItem('ue') || '',
+  senha: sessionStorage.getItem('us') || '',
+  role: '', orgId: '', households: [],
+  householdId: localStorage.getItem('uhh') || '',
+  members: [], items: [], filter: 'todos'
+};
 
-  // State
-  let currentEmail = localStorage.getItem('userEmail') || '';
-  let currentSenha = sessionStorage.getItem('userSenha') || '';
-  let currentRole = '';
-  let currentMembers = [];
-  let currentItems = [];
-  let activeFilter = 'todos';
-  let pendingEmail = '';
-  let toastTimer;
+// DOM
+const $ = id => document.getElementById(id);
+const lb = $('lb'), toastEl = $('toast'), ti = $('ti'), tt = $('tt'), tb = $('tb');
+let toastTimer;
 
-  // Theme
-  function applyTheme(t) {
-    document.documentElement.setAttribute('data-theme', t);
-    document.getElementById('themeToggle').textContent = t === 'dark' ? '☀️' : '🌙';
-    localStorage.setItem('theme', t);
+// Theme
+const applyTheme = t => {
+  document.documentElement.setAttribute('data-theme', t);
+  $('themeToggle').textContent = t === 'dark' ? '☀️' : '🌙';
+  localStorage.setItem('th', t);
+};
+applyTheme(localStorage.getItem('th') || 'light');
+$('themeToggle').addEventListener('click', () =>
+  applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+
+// Helpers
+function startLoad() { lb.classList.remove('done'); lb.classList.add('active'); }
+function stopLoad() { lb.classList.remove('active'); lb.classList.add('done'); setTimeout(() => lb.classList.remove('done'), 600); }
+
+function toast(msg, type = 'success') {
+  const icons = {success:'✓', danger:'✕', loading:'⟳'};
+  tt.textContent = msg; ti.className = `ti ${type}`; ti.textContent = icons[type]||'✓';
+  tb.className = `tb ${type === 'loading' ? 'success' : type}`;
+  tb.style.animation = 'none'; void tb.offsetWidth;
+  if (type !== 'loading') tb.style.animation = '';
+  toastEl.classList.add('show'); clearTimeout(toastTimer);
+  if (type !== 'loading') toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2800);
+}
+
+function confirm_(opts) {
+  $('ct').textContent = opts.title; $('cs').textContent = opts.sub;
+  $('ci').textContent = opts.icon || '🗑️'; $('confirmOk').textContent = opts.btn || 'Excluir';
+  $('confirmModal').classList.remove('hidden');
+  const close = () => $('confirmModal').classList.add('hidden');
+  $('confirmCancel').onclick = close;
+  $('confirmModal').onclick = e => { if (e.target === $('confirmModal')) close(); };
+  $('confirmOk').onclick = () => { close(); opts.onConfirm(); };
+}
+
+function jsonp(url) {
+  return new Promise((res, rej) => {
+    const cb = 'cb_' + Date.now() + '_' + Math.floor(Math.random()*1e5);
+    const s = document.createElement('script');
+    const clean = () => { delete window[cb]; s.remove(); };
+    window[cb] = d => { res(d); clean(); };
+    s.onerror = () => { rej(new Error('Rede')); clean(); };
+    s.src = `${url}&callback=${cb}`; document.body.appendChild(s);
+  });
+}
+
+function ini(n) {
+  if (!n) return '?';
+  const p = n.trim().split(' ');
+  return (p[0][0] + (p[1]?p[1][0]:'')).toUpperCase();
+}
+
+// Screen management
+function hideAll() {
+  ['loginScreen','registerScreen','setPasswordScreen','householdScreen','appScreen'].forEach(id => $(id).classList.add('hidden'));
+  $('bottomNav').classList.add('hidden');
+  $('avatarBtn').classList.add('hidden');
+  $('hhBadge').classList.add('hidden');
+  $('accountMenu').classList.add('hidden');
+}
+
+function showLogin(err) {
+  hideAll(); $('loginScreen').classList.remove('hidden');
+  const el = $('loginError');
+  if (err) { el.textContent = err; el.classList.remove('hidden'); } else el.classList.add('hidden');
+  if (S.email) $('loginEmail').value = S.email;
+}
+
+function showRegister() {
+  hideAll(); $('registerScreen').classList.remove('hidden');
+  $('registerError').classList.add('hidden');
+}
+
+function showSetPassword(email) {
+  S.pendingEmail = email; hideAll(); $('setPasswordScreen').classList.remove('hidden');
+  $('setPasswordError').classList.add('hidden');
+}
+
+function showHouseholds(data) {
+  hideAll();
+  $('householdScreen').classList.remove('hidden');
+  $('bottomNav').classList.remove('hidden');
+  $('avatarBtn').textContent = ini(data.user.nome);
+  $('avatarBtn').classList.remove('hidden');
+  $('accountName').textContent = data.user.nome;
+  $('accountRole').textContent = 'Dono';
+  $('navHouseholdsBtn').classList.remove('hidden');
+  $('navHouseholdsBtn').classList.add('active');
+  $('navListBtn').classList.remove('active');
+  renderHouseholds(data.households || S.households);
+}
+
+function showApp(data) {
+  hideAll();
+  $('appScreen').classList.remove('hidden');
+  $('bottomNav').classList.remove('hidden');
+  S.role = data.user.role;
+  $('avatarBtn').textContent = ini(data.user.nome);
+  $('avatarBtn').classList.remove('hidden');
+  $('accountName').textContent = data.user.nome;
+  $('accountRole').textContent = data.user.role;
+  S.items = data.items || [];
+  S.members = data.members || [];
+
+  // Show household badge for owner
+  if (data.user.role === 'owner') {
+    const hh = S.households.find(h => String(h.household_id) === String(S.householdId));
+    if (hh) {
+      $('hhBadge').textContent = hh.nome;
+      $('hhBadge').classList.remove('hidden');
+    }
+    $('navHouseholdsBtn').classList.remove('hidden');
+    $('navMembersBtn').classList.remove('hidden');
+  } else if (data.user.role === 'admin') {
+    $('navMembersBtn').classList.remove('hidden');
   }
-  applyTheme(localStorage.getItem('theme') || 'light');
-  document.getElementById('themeToggle').addEventListener('click', () =>
-    applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+  $('navListBtn').classList.add('active');
+  $('navHouseholdsBtn').classList.remove('active');
+  renderFiltered();
+  renderMembers(S.members);
+}
 
-  // Loading bar
-  function startLoading() { loadingBar.classList.remove('done'); loadingBar.classList.add('active'); }
-  function stopLoading() { loadingBar.classList.remove('active'); loadingBar.classList.add('done'); setTimeout(() => loadingBar.classList.remove('done'), 600); }
-
-  // Toast
-  function showToast(msg, type = 'success') {
-    const icons = { success: '✓', danger: '✕', loading: '⟳' };
-    toastMsg.textContent = msg;
-    toastIcon.className = `toast-icon ${type}`;
-    toastIcon.textContent = icons[type] || '✓';
-    toastBar.className = `toast-bar ${type === 'loading' ? 'success' : type}`;
-    toastBar.style.animation = 'none'; void toastBar.offsetWidth;
-    if (type !== 'loading') toastBar.style.animation = '';
-    toast.classList.add('show');
-    clearTimeout(toastTimer);
-    if (type !== 'loading') toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
+// Topbar badge click → go back to household selector (owner only)
+$('hhBadge').addEventListener('click', () => {
+  if (S.role === 'owner') {
+    S.householdId = '';
+    localStorage.removeItem('uhh');
+    showHouseholds({ user: {nome: $('accountName').textContent, role:'owner'}, households: S.households });
   }
+});
 
-  // Confirm
-  function confirmAction({ title, subtitle, icon = '🗑️', btnLabel = 'Excluir', onConfirm }) {
-    document.getElementById('confirmTitle').textContent = title;
-    document.getElementById('confirmSubtitle').textContent = subtitle;
-    document.getElementById('confirmIcon').textContent = icon;
-    document.getElementById('confirmOk').textContent = btnLabel;
-    confirmModal.classList.remove('hidden');
-    const cleanup = () => confirmModal.classList.add('hidden');
-    document.getElementById('confirmCancel').onclick = cleanup;
-    confirmModal.onclick = (e) => { if (e.target === confirmModal) cleanup(); };
-    document.getElementById('confirmOk').onclick = () => { cleanup(); onConfirm(); };
-  }
+// Avatar / logout
+$('avatarBtn').addEventListener('click', () => $('accountMenu').classList.toggle('hidden'));
+document.addEventListener('click', e => { if (!$('accountMenu').contains(e.target) && e.target !== $('avatarBtn')) $('accountMenu').classList.add('hidden'); });
+$('logoutBtn').addEventListener('click', () => {
+  localStorage.removeItem('ue'); localStorage.removeItem('uhh');
+  sessionStorage.removeItem('us');
+  S = { email:'', senha:'', role:'', orgId:'', households:[], householdId:'', members:[], items:[], filter:'todos' };
+  $('accountMenu').classList.add('hidden'); showLogin();
+});
 
-  // JSONP
-  function jsonp(url) {
-    return new Promise((resolve, reject) => {
-      const cb = 'cb_' + Date.now() + '_' + Math.floor(Math.random() * 1e5);
-      const s = document.createElement('script');
-      const cleanup = () => { delete window[cb]; s.remove(); };
-      window[cb] = (d) => { resolve(d); cleanup(); };
-      s.onerror = () => { reject(new Error('Falha de rede')); cleanup(); };
-      s.src = `${url}&callback=${cb}`;
-      document.body.appendChild(s);
-    });
-  }
+// Login
+$('loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const email = $('loginEmail').value.trim(), senha = $('loginSenha').value;
+  const btn = $('loginBtn'); btn.disabled = true; startLoad(); toast('Entrando...','loading');
+  try {
+    const d = await jsonp(`${API}?action=login&email=${encodeURIComponent(email)}&senha=${encodeURIComponent(senha)}`);
+    if (d.needsPassword) { stopLoad(); toastEl.classList.remove('show'); showSetPassword(email); return; }
+    if (d.error) { stopLoad(); toastEl.classList.remove('show'); showLogin(d.error); return; }
+    S.email = email; S.senha = senha;
+    localStorage.setItem('ue', email); sessionStorage.setItem('us', senha);
+    S.role = d.user.role; S.orgId = d.user.org_id;
+    if (d.user.role === 'owner') {
+      S.households = d.households || [];
+      if (S.householdId) { stopLoad(); loadItems(); }
+      else { stopLoad(); showHouseholds(d); }
+    } else { stopLoad(); loadItems(); }
+  } catch { stopLoad(); toastEl.classList.remove('show'); showLogin('Erro de conexão.'); }
+  finally { btn.disabled = false; }
+});
 
-  function initials(n) {
-    if (!n) return '?';
-    const p = n.trim().split(' ');
-    return (p[0][0] + (p[1] ? p[1][0] : '')).toUpperCase();
-  }
+$('goRegisterBtn').addEventListener('click', showRegister);
+$('backToLoginBtn').addEventListener('click', () => showLogin());
+$('backFromSetPassword').addEventListener('click', () => showLogin());
 
-  // ---- Screen management ----
-  function hideAllAuthScreens() {
-    loginScreen.classList.add('hidden');
-    registerScreen.classList.add('hidden');
-    setPasswordScreen.classList.add('hidden');
-    appScreen.classList.add('hidden');
-    bottomNav.classList.add('hidden');
-    avatarBtn.classList.add('hidden');
-  }
+// Register
+$('registerForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const err = $('registerError'); err.classList.add('hidden');
+  const nome = $('regNome').value.trim(), email = $('regEmail').value.trim();
+  const s1 = $('regSenha').value, s2 = $('regSenha2').value;
+  const org = $('regOrg').value.trim(), hh = $('regHousehold').value.trim();
+  if (s1 !== s2) { err.textContent='As senhas não coincidem.'; err.classList.remove('hidden'); return; }
+  if (s1.length < 6) { err.textContent='Mínimo 6 caracteres.'; err.classList.remove('hidden'); return; }
+  const btn = $('registerBtn'); btn.disabled = true; startLoad(); toast('Criando conta...','loading');
+  try {
+    const d = await jsonp(`${API}?action=register&email=${encodeURIComponent(email)}&novo_nome=${encodeURIComponent(nome)}&nova_senha=${encodeURIComponent(s1)}&nome_org=${encodeURIComponent(org)}&nome_household=${encodeURIComponent(hh)}`);
+    if (d.error) { err.textContent=d.error; err.classList.remove('hidden'); stopLoad(); toastEl.classList.remove('show'); return; }
+    S.email=email; S.senha=s1; S.role=d.user.role; S.orgId=d.user.org_id; S.households=d.households||[];
+    localStorage.setItem('ue',email); sessionStorage.setItem('us',s1);
+    stopLoad(); toast('✓ Conta criada! Bem-vindo.','success');
+    showHouseholds(d);
+  } catch { err.textContent='Erro de conexão.'; err.classList.remove('hidden'); stopLoad(); toastEl.classList.remove('show'); }
+  finally { btn.disabled = false; }
+});
 
-  function showLogin(err) {
-    hideAllAuthScreens();
-    loginScreen.classList.remove('hidden');
-    const el = document.getElementById('loginError');
-    if (err) { el.textContent = err; el.classList.remove('hidden'); }
-    else { el.classList.add('hidden'); }
-    if (currentEmail) document.getElementById('loginEmail').value = currentEmail;
-  }
+// Set password
+$('setPasswordForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const err = $('setPasswordError'); err.classList.add('hidden');
+  const s1 = $('setSenha1').value, s2 = $('setSenha2').value;
+  if (s1.length < 6) { err.textContent='Mínimo 6 caracteres.'; err.classList.remove('hidden'); return; }
+  if (s1 !== s2) { err.textContent='Senhas não coincidem.'; err.classList.remove('hidden'); return; }
+  const btn = $('setSenhaBtn'); btn.disabled = true; startLoad(); toast('Definindo senha...','loading');
+  try {
+    const d = await jsonp(`${API}?action=setPassword&email=${encodeURIComponent(S.pendingEmail)}&nova_senha=${encodeURIComponent(s1)}`);
+    if (d.error) { err.textContent=d.error; err.classList.remove('hidden'); stopLoad(); toastEl.classList.remove('show'); return; }
+    S.email=S.pendingEmail; S.senha=s1; S.role=d.user.role;
+    localStorage.setItem('ue',S.email); sessionStorage.setItem('us',s1);
+    stopLoad(); toast('✓ Senha definida!','success');
+    if (d.user.role === 'owner') { S.households=d.households||[]; showHouseholds(d); }
+    else loadItems();
+  } catch { err.textContent='Erro.'; err.classList.remove('hidden'); stopLoad(); }
+  finally { btn.disabled = false; }
+});
 
-  function showRegister() {
-    hideAllAuthScreens();
-    registerScreen.classList.remove('hidden');
-    document.getElementById('registerError').classList.add('hidden');
-  }
+// Household selector (owner)
+$('navHouseholdsBtn').addEventListener('click', () => {
+  $('navHouseholdsBtn').classList.add('active'); $('navListBtn').classList.remove('active');
+  $('appScreen').classList.add('hidden'); $('householdScreen').classList.remove('hidden');
+  $('hhBadge').classList.add('hidden');
+  renderHouseholds(S.households);
+});
 
-  function showSetPassword(email) {
-    pendingEmail = email;
-    hideAllAuthScreens();
-    setPasswordScreen.classList.remove('hidden');
-    document.getElementById('setPasswordError').classList.add('hidden');
-  }
+$('navListBtn').addEventListener('click', () => {
+  if (!S.householdId) return;
+  $('navListBtn').classList.add('active'); $('navHouseholdsBtn').classList.remove('active');
+  $('householdScreen').classList.add('hidden'); $('appScreen').classList.remove('hidden');
+  if (S.role === 'owner') $('hhBadge').classList.remove('hidden');
+});
 
-  function showApp(data) {
-    hideAllAuthScreens();
-    appScreen.classList.remove('hidden');
-    bottomNav.classList.remove('hidden');
-    currentRole = data.user.role;
-    avatarBtn.textContent = initials(data.user.nome);
-    avatarBtn.classList.remove('hidden');
-    document.getElementById('accountName').textContent = data.user.nome;
-    document.getElementById('accountRole').textContent = data.user.role;
-    currentItems = data.items || [];
-    renderFiltered();
-    if (data.user.role === 'admin' && data.members) {
-      navMembersBtn.classList.remove('hidden');
-      currentMembers = data.members;
-      renderMembers(currentMembers);
+function renderHouseholds(households) {
+  S.households = households;
+  $('hhList').innerHTML = households.map(h => `
+    <div class="hh-card" data-id="${h.household_id}">
+      <div>
+        <div class="hh-name">${h.nome}</div>
+        <div class="hh-meta">Clique para entrar</div>
+      </div>
+      <div class="hh-card-actions" onclick="event.stopPropagation()">
+        <button class="hh-action-btn hhe" data-id="${h.household_id}" data-nome="${h.nome}">✎</button>
+        <button class="hh-action-btn del hhd" data-id="${h.household_id}" data-nome="${h.nome}">×</button>
+      </div>
+    </div>`).join('');
+
+  $('hhList').querySelectorAll('.hh-card').forEach(card => {
+    card.addEventListener('click', () => selectHousehold(card.dataset.id));
+  });
+  $('hhList').querySelectorAll('.hhe').forEach(btn => {
+    btn.addEventListener('click', () => openHhForm(btn.dataset.id, btn.dataset.nome));
+  });
+  $('hhList').querySelectorAll('.hhd').forEach(btn => {
+    btn.addEventListener('click', () => deleteHousehold(btn.dataset.id, btn.dataset.nome));
+  });
+}
+
+function selectHousehold(hhId) {
+  S.householdId = hhId;
+  localStorage.setItem('uhh', hhId);
+  $('navListBtn').classList.add('active'); $('navHouseholdsBtn').classList.remove('active');
+  $('householdScreen').classList.add('hidden'); $('appScreen').classList.remove('hidden');
+  $('hhBadge').classList.remove('hidden');
+  loadItems();
+}
+
+$('addHouseholdBtn').addEventListener('click', () => openHhForm(null, ''));
+
+function openHhForm(id, nome) {
+  $('hhFormId').value = id || '';
+  $('hhFormNome').value = nome || '';
+  $('hhModalTitle').textContent = id ? 'Editar casa / loja' : 'Nova casa / loja';
+  $('hhFormSubmit').textContent = id ? 'Salvar' : 'Criar';
+  $('hhFormError').classList.add('hidden');
+  $('hhModal').classList.remove('hidden');
+}
+
+$('closeHhModal').addEventListener('click', () => $('hhModal').classList.add('hidden'));
+$('hhModal').addEventListener('click', e => { if (e.target === $('hhModal')) $('hhModal').classList.add('hidden'); });
+
+$('hhForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const id = $('hhFormId').value;
+  const nome = $('hhFormNome').value.trim();
+  const btn = $('hhFormSubmit'); btn.disabled = true; startLoad();
+  toast(id ? 'Salvando...' : 'Criando...', 'loading');
+  try {
+    let d;
+    if (id) {
+      d = await jsonp(`${API}?action=updateHousehold&household_id_target=${id}&nome=${encodeURIComponent(nome)}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
     } else {
-      navMembersBtn.classList.add('hidden');
+      d = await jsonp(`${API}?action=createHousehold&nome=${encodeURIComponent(nome)}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
     }
-  }
+    if (d.error) { $('hhFormError').textContent=d.error; $('hhFormError').classList.remove('hidden'); stopLoad(); toastEl.classList.remove('show'); return; }
+    $('hhModal').classList.add('hidden');
+    stopLoad(); toast(id ? '✓ Loja atualizada.' : '✓ Loja criada.', 'success');
+    // Refresh households list
+    const session = await jsonp(`${API}?action=login&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
+    if (session.households) { S.households = session.households; renderHouseholds(S.households); }
+  } catch { $('hhFormError').textContent='Erro.'; $('hhFormError').classList.remove('hidden'); stopLoad(); }
+  finally { btn.disabled = false; }
+});
 
-  // ---- Login ----
-  document.getElementById('loginForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('loginEmail').value.trim();
-    const senha = document.getElementById('loginSenha').value;
-    const btn = document.getElementById('loginBtn');
-    btn.disabled = true; startLoading(); showToast('Entrando...', 'loading');
-    try {
-      const data = await jsonp(`${API_URL}?action=login&email=${encodeURIComponent(email)}&senha=${encodeURIComponent(senha)}`);
-      if (data.needsPassword) { stopLoading(); toast.classList.remove('show'); showSetPassword(email); return; }
-      if (data.error) { stopLoading(); toast.classList.remove('show'); showLogin(data.error); return; }
-      currentEmail = email; currentSenha = senha;
-      localStorage.setItem('userEmail', email); sessionStorage.setItem('userSenha', senha);
-      stopLoading(); loadItems();
-    } catch (err) {
-      stopLoading(); toast.classList.remove('show'); showLogin('Erro de conexão. Tente novamente.');
-    } finally { btn.disabled = false; }
-  });
-
-  document.getElementById('goRegisterBtn').addEventListener('click', showRegister);
-  document.getElementById('backToLoginBtn').addEventListener('click', () => showLogin());
-  document.getElementById('backFromSetPassword').addEventListener('click', () => showLogin());
-
-  // ---- Register ----
-  document.getElementById('registerForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const errEl = document.getElementById('registerError');
-    errEl.classList.add('hidden');
-    const nome = document.getElementById('regNome').value.trim();
-    const email = document.getElementById('regEmail').value.trim();
-    const senha = document.getElementById('regSenha').value;
-    const senha2 = document.getElementById('regSenha2').value;
-    const household = document.getElementById('regHousehold').value.trim();
-    if (senha !== senha2) { errEl.textContent = 'As senhas não coincidem.'; errEl.classList.remove('hidden'); return; }
-    if (senha.length < 6) { errEl.textContent = 'A senha deve ter pelo menos 6 caracteres.'; errEl.classList.remove('hidden'); return; }
-    const btn = document.getElementById('registerBtn');
-    btn.disabled = true; startLoading(); showToast('Criando conta...', 'loading');
-    try {
-      const data = await jsonp(`${API_URL}?action=register&email=${encodeURIComponent(email)}&novo_nome=${encodeURIComponent(nome)}&nova_senha=${encodeURIComponent(senha)}&nome_household=${encodeURIComponent(household)}`);
-      if (data.error) { errEl.textContent = data.error; errEl.classList.remove('hidden'); stopLoading(); toast.classList.remove('show'); return; }
-      currentEmail = email; currentSenha = senha;
-      localStorage.setItem('userEmail', email); sessionStorage.setItem('userSenha', senha);
-      stopLoading(); showToast('✓ Conta criada! Bem-vindo.', 'success'); loadItems();
-    } catch (err) {
-      errEl.textContent = 'Erro de conexão.'; errEl.classList.remove('hidden'); stopLoading(); toast.classList.remove('show');
-    } finally { btn.disabled = false; }
-  });
-
-  // ---- Set Password (first access) ----
-  document.getElementById('setPasswordForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const errEl = document.getElementById('setPasswordError');
-    errEl.classList.add('hidden');
-    const s1 = document.getElementById('setSenha1').value;
-    const s2 = document.getElementById('setSenha2').value;
-    if (s1.length < 6) { errEl.textContent = 'Mínimo 6 caracteres.'; errEl.classList.remove('hidden'); return; }
-    if (s1 !== s2) { errEl.textContent = 'As senhas não coincidem.'; errEl.classList.remove('hidden'); return; }
-    const btn = document.getElementById('setSenhaBtn');
-    btn.disabled = true; startLoading(); showToast('Definindo senha...', 'loading');
-    try {
-      const data = await jsonp(`${API_URL}?action=setPassword&email=${encodeURIComponent(pendingEmail)}&nova_senha=${encodeURIComponent(s1)}`);
-      if (data.error) { errEl.textContent = data.error; errEl.classList.remove('hidden'); stopLoading(); toast.classList.remove('show'); return; }
-      currentEmail = pendingEmail; currentSenha = s1;
-      localStorage.setItem('userEmail', currentEmail); sessionStorage.setItem('userSenha', currentSenha);
-      stopLoading(); showToast('✓ Senha definida! Bem-vindo.', 'success'); loadItems();
-    } catch (err) {
-      errEl.textContent = 'Erro de conexão.'; errEl.classList.remove('hidden'); stopLoading();
-    } finally { btn.disabled = false; }
-  });
-
-  // ---- Avatar / logout ----
-  avatarBtn.addEventListener('click', () => accountMenu.classList.toggle('hidden'));
-  document.addEventListener('click', (e) => { if (!accountMenu.contains(e.target) && e.target !== avatarBtn) accountMenu.classList.add('hidden'); });
-  document.getElementById('logoutBtn').addEventListener('click', () => {
-    localStorage.removeItem('userEmail'); sessionStorage.removeItem('userSenha');
-    currentEmail = ''; currentSenha = ''; currentRole = ''; currentMembers = []; currentItems = [];
-    accountMenu.classList.add('hidden'); showLogin();
-  });
-
-  // ---- Load items ----
-  async function loadItems() {
-    try {
-      const data = await jsonp(`${API_URL}?action=getItems&email=${encodeURIComponent(currentEmail)}&senha=${encodeURIComponent(currentSenha)}`);
-      if (data.error) { localStorage.removeItem('userEmail'); sessionStorage.removeItem('userSenha'); currentEmail = ''; currentSenha = ''; showLogin(data.error); return; }
-      showApp(data);
-    } catch (err) {
-      content.innerHTML = `<p class="status-msg error">Não foi possível conectar à API.</p>`;
-      appScreen.classList.remove('hidden'); loginScreen.classList.add('hidden');
+function deleteHousehold(id, nome) {
+  confirm_({
+    title: 'Excluir loja?',
+    sub: `"${nome}" e todos os seus itens e membros serão removidos.`,
+    icon: '🏠', btn: 'Excluir',
+    onConfirm: async () => {
+      startLoad(); toast(`Removendo ${nome}...`, 'loading');
+      try {
+        const d = await jsonp(`${API}?action=deleteHousehold&household_id_target=${id}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
+        if (d.error) { alert(d.error); stopLoad(); return; }
+        if (String(S.householdId) === String(id)) { S.householdId = ''; localStorage.removeItem('uhh'); }
+        const session = await jsonp(`${API}?action=login&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
+        if (session.households) { S.households = session.households; }
+        showHouseholds({ user:{nome:$('accountName').textContent, role:'owner'}, households: S.households });
+        toast(`✕ ${nome} excluída.`, 'danger');
+      } catch { alert('Erro.'); } finally { stopLoad(); }
     }
-  }
-
-  // ---- Filters ----
-  filterTabs.addEventListener('click', (e) => {
-    const btn = e.target.closest('.tab'); if (!btn) return;
-    activeFilter = btn.dataset.filter;
-    filterTabs.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t === btn));
-    renderFiltered();
   });
+}
 
-  function renderFiltered() {
-    const pending = currentItems.filter(i => i.status !== 'comprado');
-    const done = currentItems.filter(i => i.status === 'comprado');
-    document.getElementById('countTodos').textContent = currentItems.length;
-    document.getElementById('countPendentes').textContent = pending.length;
-    document.getElementById('countComprados').textContent = done.length;
-    if (!currentItems.length) { content.innerHTML = '<p class="empty">Nenhum item ainda.<br>Adicione o primeiro acima.</p>'; return; }
-    let html = '';
-    if (activeFilter !== 'comprados' && pending.length) html += '<p class="section-label">Pendentes</p>' + renderItemGroup(pending);
-    if (activeFilter !== 'pendentes' && done.length) html += '<p class="section-label">Comprados</p>' + renderItemGroup(done);
-    content.innerHTML = html || '<p class="empty">Nada por aqui nesse filtro.</p>';
-    content.querySelectorAll('.check, .info').forEach(el => el.addEventListener('click', () => toggleItem(el.dataset.id)));
-    content.querySelectorAll('.delete').forEach(el => el.addEventListener('click', () => deleteItemAction(el.dataset.id)));
-  }
+// Load items
+async function loadItems() {
+  const hhParam = S.role === 'owner' || !S.role ? `&household_id=${encodeURIComponent(S.householdId)}` : '';
+  try {
+    const d = await jsonp(`${API}?action=getItems&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhParam}`);
+    if (d.error) { localStorage.removeItem('ue'); sessionStorage.removeItem('us'); S.email=''; S.senha=''; showLogin(d.error); return; }
+    S.role = d.user.role; S.households = d.households || S.households;
+    S.householdId = d.currentHouseholdId || S.householdId;
+    showApp(d);
+  } catch { $('content').innerHTML = `<p class="status-msg error">Não foi possível conectar à API.</p>`; }
+}
 
-  function renderItemGroup(items) {
-    return '<ul class="items">' + items.map(item => {
-      const isDone = item.status === 'comprado';
-      const owner = currentMembers.find(m => String(m.user_id) === String(item.user_id));
-      return `<li class="item${isDone ? ' done' : ''}">
-        <button class="check" data-id="${item.item_id}">${isDone ? '✓' : ''}</button>
-        <div class="info" data-id="${item.item_id}"><span class="name">${item.nome_item}</span></div>
-        <span class="qty-badge">x${item.quantidade}</span>
-        ${owner ? `<span class="avatar">${initials(owner.nome)}</span>` : ''}
-        ${currentRole === 'admin' ? `<button class="delete" data-id="${item.item_id}">×</button>` : ''}
-      </li>`;
-    }).join('') + '</ul>';
-  }
+// Filters
+$('filterTabs').addEventListener('click', e => {
+  const btn = e.target.closest('.tab'); if (!btn) return;
+  S.filter = btn.dataset.filter;
+  $('filterTabs').querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t===btn));
+  renderFiltered();
+});
 
-  async function toggleItem(itemId) {
-    const item = currentItems.find(i => String(i.item_id) === String(itemId));
-    if (item) item.status = item.status === 'comprado' ? 'pendente' : 'comprado';
-    renderFiltered();
-    try {
-      await jsonp(`${API_URL}?action=toggleItem&item_id=${itemId}&email=${encodeURIComponent(currentEmail)}&senha=${encodeURIComponent(currentSenha)}`);
-      loadItems();
-    } catch { if (item) { item.status = item.status === 'comprado' ? 'pendente' : 'comprado'; renderFiltered(); } }
-  }
+function renderFiltered() {
+  const pending = S.items.filter(i => i.status !== 'comprado');
+  const done = S.items.filter(i => i.status === 'comprado');
+  $('cTodos').textContent = S.items.length;
+  $('cPendentes').textContent = pending.length;
+  $('cComprados').textContent = done.length;
+  if (!S.items.length) { $('content').innerHTML = '<p class="empty">Nenhum item ainda.<br>Adicione o primeiro acima.</p>'; return; }
+  let html = '';
+  if (S.filter !== 'comprados' && pending.length) html += '<p class="section-label">Pendentes</p>' + renderGroup(pending);
+  if (S.filter !== 'pendentes' && done.length) html += '<p class="section-label">Comprados</p>' + renderGroup(done);
+  $('content').innerHTML = html || '<p class="empty">Nada por aqui nesse filtro.</p>';
+  $('content').querySelectorAll('.check,.info').forEach(el => el.addEventListener('click', () => toggleItem(el.dataset.id)));
+  $('content').querySelectorAll('.del').forEach(el => el.addEventListener('click', () => deleteItemAction(el.dataset.id)));
+}
 
-  async function deleteItemAction(itemId) {
-    const item = currentItems.find(i => String(i.item_id) === String(itemId));
-    confirmAction({
-      title: 'Excluir item?', subtitle: `"${item ? item.nome_item : 'item'}" será removido.`, icon: '🗑️', btnLabel: 'Excluir',
-      onConfirm: async () => {
-        startLoading(); showToast('Removendo item...', 'loading');
-        try {
-          await jsonp(`${API_URL}?action=deleteItem&item_id=${itemId}&email=${encodeURIComponent(currentEmail)}&senha=${encodeURIComponent(currentSenha)}`);
-          showToast('✕ Item removido da lista.', 'danger'); loadItems();
-        } catch { alert('Erro ao excluir item.'); } finally { stopLoading(); }
-      }
-    });
-  }
+function renderGroup(items) {
+  return '<ul class="items">' + items.map(item => {
+    const done = item.status === 'comprado';
+    const owner = S.members.find(m => String(m.user_id) === String(item.user_id));
+    return `<li class="item${done?' done':''}">
+      <button class="check" data-id="${item.item_id}">${done?'✓':''}</button>
+      <div class="info" data-id="${item.item_id}"><span class="name">${item.nome_item}</span></div>
+      <span class="qty-badge">x${item.quantidade}</span>
+      ${owner?`<span class="avatar">${ini(owner.nome)}</span>`:''}
+      ${['admin','owner'].includes(S.role)?`<button class="del" data-id="${item.item_id}">×</button>`:''}
+    </li>`;
+  }).join('') + '</ul>';
+}
 
-  document.getElementById('addForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const nome = document.getElementById('itemName').value.trim();
-    const qty = document.getElementById('itemQty').value;
-    if (!nome) return;
-    const btn = e.target.querySelector('.add-btn');
-    btn.disabled = true; startLoading(); showToast('Adicionando item...', 'loading');
-    try {
-      await jsonp(`${API_URL}?action=addItem&nome_item=${encodeURIComponent(nome)}&quantidade=${qty}&email=${encodeURIComponent(currentEmail)}&senha=${encodeURIComponent(currentSenha)}`);
-      document.getElementById('itemName').value = ''; document.getElementById('itemQty').value = 1;
-      showToast('✓ Item adicionado à lista.', 'success'); loadItems();
-    } catch { alert('Erro ao adicionar item.'); } finally { btn.disabled = false; stopLoading(); }
-  });
-
-  // ---- Members ----
-  navMembersBtn.addEventListener('click', () => { renderMembers(currentMembers); membersModal.classList.remove('hidden'); });
-  document.getElementById('closeMembersBtn').addEventListener('click', () => membersModal.classList.add('hidden'));
-  membersModal.addEventListener('click', (e) => { if (e.target === membersModal) membersModal.classList.add('hidden'); });
-
-  function renderMembers(members) {
-    document.getElementById('membersList').innerHTML = members.map(m => `
-      <li>
-        <div>
-          <span class="m-name">${m.nome}</span>
-          <div class="m-badges">
-            <span class="m-role">${m.role}</span>
-            ${!m.tem_senha ? '<span class="m-nopass">sem senha</span>' : ''}
-          </div>
-        </div>
-        <div class="m-actions">
-          <button type="button" class="m-edit" data-id="${m.user_id}">✎</button>
-          <button type="button" class="m-delete" data-id="${m.user_id}">×</button>
-        </div>
-      </li>`).join('');
-    document.getElementById('membersList').querySelectorAll('.m-edit').forEach(btn => {
-      btn.addEventListener('click', () => { const m = currentMembers.find(x => String(x.user_id) === btn.dataset.id); if (m) openMemberForm(m); });
-    });
-    document.getElementById('membersList').querySelectorAll('.m-delete').forEach(btn => {
-      btn.addEventListener('click', () => deleteMember(btn.dataset.id));
-    });
-  }
-
-  function openMemberForm(member) {
-    document.getElementById('memberError').classList.add('hidden');
-    const editing = !!member;
-    document.getElementById('memberFormId').value = member ? member.user_id : '';
-    document.getElementById('memberName').value = member ? member.nome : '';
-    document.getElementById('memberEmail').value = member ? member.email : '';
-    document.getElementById('memberRole').value = member ? member.role : 'membro';
-    document.getElementById('memberSenha').value = '';
-    document.getElementById('memberSenha').required = !editing;
-    memberSenhaHint.textContent = editing ? 'Deixe em branco para manter a senha atual.' : 'Obrigatória para novo membro.';
-    document.getElementById('memberFormTitle').textContent = editing ? 'Editar membro' : 'Convidar membro';
-    document.getElementById('memberFormSubmit').textContent = editing ? 'Salvar alterações' : 'Convidar membro';
-    membersModal.classList.add('hidden'); inviteModal.classList.remove('hidden');
-  }
-
-  async function deleteMember(userId) {
-    const member = currentMembers.find(m => String(m.user_id) === String(userId));
-    const nome = member ? member.nome : 'este membro';
-    confirmAction({
-      title: 'Remover membro?', subtitle: `${nome} perderá acesso à lista da casa.`, icon: '👤', btnLabel: 'Remover',
-      onConfirm: async () => {
-        startLoading(); showToast(`Removendo ${nome}...`, 'loading');
-        try {
-          const r = await jsonp(`${API_URL}?action=deleteUser&user_id_target=${userId}&email=${encodeURIComponent(currentEmail)}&senha=${encodeURIComponent(currentSenha)}`);
-          if (r.error) { alert(r.error); stopLoading(); return; }
-          await loadItems(); membersModal.classList.remove('hidden'); showToast(`✕ ${nome} removido da casa.`, 'danger');
-        } catch { alert('Erro ao excluir membro.'); } finally { stopLoading(); }
-      }
-    });
-  }
-
-  document.getElementById('openInviteBtn').addEventListener('click', () => openMemberForm(null));
-  document.getElementById('closeInviteBtn').addEventListener('click', () => { inviteModal.classList.add('hidden'); membersModal.classList.remove('hidden'); });
-  inviteModal.addEventListener('click', (e) => { if (e.target === inviteModal) { inviteModal.classList.add('hidden'); membersModal.classList.remove('hidden'); } });
-
-  document.getElementById('addMemberForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const errEl = document.getElementById('memberError');
-    errEl.classList.add('hidden');
-    const editingId = document.getElementById('memberFormId').value;
-    const nome = document.getElementById('memberName').value.trim();
-    const email = document.getElementById('memberEmail').value.trim();
-    const role = document.getElementById('memberRole').value;
-    const novaSenha = document.getElementById('memberSenha').value;
-    if (!nome || !email) return;
-    if (!editingId && novaSenha.length < 6) { errEl.textContent = 'A senha deve ter pelo menos 6 caracteres.'; errEl.classList.remove('hidden'); return; }
-    const action = editingId ? 'updateUser' : 'addUser';
-    const idParam = editingId ? `&user_id_target=${editingId}` : '';
-    const senhaParam = novaSenha ? `&nova_senha=${encodeURIComponent(novaSenha)}` : '';
-    const btn = document.getElementById('memberFormSubmit');
-    btn.disabled = true; startLoading(); showToast(editingId ? 'Salvando alterações...' : 'Cadastrando membro...', 'loading');
-    try {
-      const r = await jsonp(`${API_URL}?action=${action}${idParam}&novo_nome=${encodeURIComponent(nome)}&novo_email=${encodeURIComponent(email)}&novo_role=${role}${senhaParam}&email=${encodeURIComponent(currentEmail)}&senha=${encodeURIComponent(currentSenha)}`);
-      if (r.error) { errEl.textContent = r.error; errEl.classList.remove('hidden'); return; }
-      document.getElementById('addMemberForm').reset();
-      document.getElementById('memberFormId').value = '';
-      await loadItems();
-      inviteModal.classList.add('hidden'); membersModal.classList.remove('hidden');
-      showToast(editingId ? `✓ Alterações de ${nome} salvas.` : `✓ ${nome} adicionado à casa.`, 'success');
-    } catch { errEl.textContent = 'Erro de conexão.'; errEl.classList.remove('hidden'); } finally { btn.disabled = false; stopLoading(); }
-  });
-
-  // ---- Init ----
-  if (currentEmail && currentSenha) {
-    appScreen.classList.remove('hidden');
-    content.innerHTML = '<p class="status-msg">Carregando lista...</p>';
+async function toggleItem(id) {
+  const item = S.items.find(i => String(i.item_id) === String(id));
+  if (item) item.status = item.status === 'comprado' ? 'pendente' : 'comprado';
+  renderFiltered();
+  const hhP = S.role === 'owner' ? `&household_id=${encodeURIComponent(S.householdId)}` : '';
+  try {
+    await jsonp(`${API}?action=toggleItem&item_id=${id}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
     loadItems();
-  } else {
-    showLogin();
-  }
+  } catch { if (item) { item.status = item.status === 'comprado' ? 'pendente' : 'comprado'; renderFiltered(); } }
+}
+
+async function deleteItemAction(id) {
+  const item = S.items.find(i => String(i.item_id) === String(id));
+  confirm_({
+    title:'Excluir item?', sub:`"${item?item.nome_item:'item'}" será removido.`, icon:'🗑️', btn:'Excluir',
+    onConfirm: async () => {
+      startLoad(); toast('Removendo item...','loading');
+      const hhP = S.role === 'owner' ? `&household_id=${encodeURIComponent(S.householdId)}` : '';
+      try {
+        await jsonp(`${API}?action=deleteItem&item_id=${id}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
+        toast('✕ Item removido.','danger'); loadItems();
+      } catch { alert('Erro.'); } finally { stopLoad(); }
+    }
+  });
+}
+
+$('addForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const nome = $('itemName').value.trim(), qty = $('itemQty').value;
+  if (!nome) return;
+  const btn = e.target.querySelector('.add-btn'); btn.disabled = true; startLoad(); toast('Adicionando...','loading');
+  const hhP = S.role === 'owner' ? `&household_id=${encodeURIComponent(S.householdId)}` : '';
+  try {
+    await jsonp(`${API}?action=addItem&nome_item=${encodeURIComponent(nome)}&quantidade=${qty}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
+    $('itemName').value = ''; $('itemQty').value = 1;
+    toast('✓ Item adicionado.','success'); loadItems();
+  } catch { alert('Erro.'); } finally { btn.disabled = false; stopLoad(); }
+});
+
+// Members
+$('navMembersBtn').addEventListener('click', () => { renderMembers(S.members); $('membersModal').classList.remove('hidden'); });
+$('closeMembersBtn').addEventListener('click', () => $('membersModal').classList.add('hidden'));
+$('membersModal').addEventListener('click', e => { if (e.target === $('membersModal')) $('membersModal').classList.add('hidden'); });
+
+function renderMembers(members) {
+  $('membersList').innerHTML = members.map(m => `
+    <li>
+      <div>
+        <span class="m-name">${m.nome}</span>
+        <div class="m-badges">
+          <span class="m-role">${m.role}</span>
+          ${!m.tem_senha?'<span class="m-nopass">sem senha</span>':''}
+        </div>
+      </div>
+      <div class="m-actions">
+        <button type="button" class="me" data-id="${m.user_id}">✎</button>
+        <button type="button" class="md" data-id="${m.user_id}">×</button>
+      </div>
+    </li>`).join('');
+  $('membersList').querySelectorAll('.me').forEach(btn => {
+    btn.addEventListener('click', () => { const m = S.members.find(x => String(x.user_id)===btn.dataset.id); if(m) openMemberForm(m); });
+  });
+  $('membersList').querySelectorAll('.md').forEach(btn => {
+    btn.addEventListener('click', () => deleteMember(btn.dataset.id));
+  });
+}
+
+function openMemberForm(m) {
+  $('memberError').classList.add('hidden');
+  const ed = !!m;
+  $('memberFormId').value = m ? m.user_id : '';
+  $('memberName').value = m ? m.nome : '';
+  $('memberEmail').value = m ? m.email : '';
+  $('memberRole').value = m ? m.role : 'membro';
+  $('memberSenha').value = '';
+  $('memberSenha').required = !ed;
+  $('memberSenhaHint').textContent = ed ? 'Deixe em branco para manter.' : 'Obrigatória para novo membro.';
+  $('memberFormTitle').textContent = ed ? 'Editar membro' : 'Convidar membro';
+  $('memberFormSubmit').textContent = ed ? 'Salvar alterações' : 'Convidar membro';
+  $('membersModal').classList.add('hidden');
+  $('inviteModal').classList.remove('hidden');
+}
+
+async function deleteMember(userId) {
+  const m = S.members.find(x => String(x.user_id)===String(userId));
+  const nome = m ? m.nome : 'este membro';
+  confirm_({
+    title:'Remover membro?', sub:`${nome} perderá acesso à lista.`, icon:'👤', btn:'Remover',
+    onConfirm: async () => {
+      startLoad(); toast(`Removendo ${nome}...`,'loading');
+      const hhP = S.role === 'owner' ? `&household_id=${encodeURIComponent(S.householdId)}` : '';
+      try {
+        const d = await jsonp(`${API}?action=deleteUser&user_id_target=${userId}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
+        if (d.error) { alert(d.error); stopLoad(); return; }
+        await loadItems(); $('membersModal').classList.remove('hidden'); toast(`✕ ${nome} removido.`,'danger');
+      } catch { alert('Erro.'); } finally { stopLoad(); }
+    }
+  });
+}
+
+$('openInviteBtn').addEventListener('click', () => openMemberForm(null));
+$('closeInviteBtn').addEventListener('click', () => { $('inviteModal').classList.add('hidden'); $('membersModal').classList.remove('hidden'); });
+$('inviteModal').addEventListener('click', e => { if(e.target===$('inviteModal')){ $('inviteModal').classList.add('hidden'); $('membersModal').classList.remove('hidden'); } });
+
+$('addMemberForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const errEl = $('memberError'); errEl.classList.add('hidden');
+  const editId = $('memberFormId').value;
+  const nome = $('memberName').value.trim(), email = $('memberEmail').value.trim();
+  const role = $('memberRole').value, senha = $('memberSenha').value;
+  if (!nome || !email) return;
+  if (!editId && senha.length < 6) { errEl.textContent='Senha deve ter 6+ caracteres.'; errEl.classList.remove('hidden'); return; }
+  const action = editId ? 'updateUser' : 'addUser';
+  const idP = editId ? `&user_id_target=${editId}` : '';
+  const senhaP = senha ? `&nova_senha=${encodeURIComponent(senha)}` : '';
+  const hhP = S.role === 'owner' ? `&household_id=${encodeURIComponent(S.householdId)}` : '';
+  const btn = $('memberFormSubmit'); btn.disabled = true; startLoad();
+  toast(editId ? 'Salvando...' : 'Cadastrando...','loading');
+  try {
+    const d = await jsonp(`${API}?action=${action}${idP}&novo_nome=${encodeURIComponent(nome)}&novo_email=${encodeURIComponent(email)}&novo_role=${role}${senhaP}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
+    if (d.error) { errEl.textContent=d.error; errEl.classList.remove('hidden'); return; }
+    $('addMemberForm').reset(); $('memberFormId').value='';
+    await loadItems(); $('inviteModal').classList.add('hidden'); $('membersModal').classList.remove('hidden');
+    toast(editId ? `✓ ${nome} atualizado.` : `✓ ${nome} adicionado.`,'success');
+  } catch { errEl.textContent='Erro.'; errEl.classList.remove('hidden'); } finally { btn.disabled=false; stopLoad(); }
+});
+
+// Init
+if (S.email && S.senha) {
+  $('loginScreen').classList.add('hidden');
+  $('appScreen').classList.remove('hidden');
+  $('content').innerHTML = '<p class="status-msg">Carregando lista...</p>';
+  // Need to re-establish role first
+  jsonp(`${API}?action=login&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`).then(d => {
+    if (d.error || d.needsPassword) { showLogin(); return; }
+    S.role = d.user.role; S.orgId = d.user.org_id; S.households = d.households || [];
+    if (d.user.role === 'owner' && !S.householdId) { showHouseholds(d); }
+    else { loadItems(); }
+  }).catch(() => showLogin());
+} else {
+  showLogin();
+}
 </script>
 </body>
 </html>
