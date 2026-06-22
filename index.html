@@ -641,27 +641,41 @@ function renderGroup(items){
 async function toggleItem(id){
   if(!can('toggle_item'))return;
   const item=S.items.find(i=>String(i.item_id)===String(id));
-  if(item)item.status=item.status==='comprado'?'pendente':'comprado';renderFiltered();
+  if(item)item.status=item.status==='comprado'?'pendente':'comprado';
+  renderFiltered();
   const hhP=can('view_all_lojas')?`&household_id=${encodeURIComponent(S.hhId)}`:'';
-  try{await jsonp(`${API}?action=toggleItem&item_id=${id}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);loadItems()}
+  try{await jsonp(`${API}?action=toggleItem&item_id=${id}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`)}
   catch{if(item){item.status=item.status==='comprado'?'pendente':'comprado';renderFiltered()}}
 }
 async function deleteItemAction(id){
   const item=S.items.find(i=>String(i.item_id)===String(id));
   confirm_({title:'Excluir item?',sub:`"${item?item.nome_item:'item'}" será removido.`,icon:'🗑️',btn:'Excluir',
-    onConfirm:async()=>{startLoad();toast('Removendo item...','loading');
+    onConfirm:async()=>{
+      startLoad();toast('Removendo item...','loading');
       const hhP=can('view_all_lojas')?`&household_id=${encodeURIComponent(S.hhId)}`:'';
-      try{await jsonp(`${API}?action=deleteItem&item_id=${id}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);toast('✕ Item removido.','danger');loadItems()}
-      catch{alert('Erro.')}finally{stopLoad()}}
+      try{
+        const d=await jsonp(`${API}?action=deleteItem&item_id=${id}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
+        if(d.error){alert(d.error);stopLoad();return}
+        S.items=S.items.filter(i=>String(i.item_id)!==String(id));
+        renderFiltered();toast('✕ Item removido.','danger');
+      }catch{alert('Erro.')}finally{stopLoad()}
+    }
   });
 }
 $('addForm').addEventListener('submit',async e=>{
   e.preventDefault();if(!can('add_item'))return;
-  const nome=$('itemName').value.trim(),qty=$('itemQty').value;if(!nome)return;
+  const nome=$('itemName').value.trim(),qty=parseInt($('itemQty').value)||1;if(!nome)return;
   const btn=e.target.querySelector('.add-btn');btn.disabled=true;startLoad();toast('Adicionando...','loading');
   const hhP=can('view_all_lojas')?`&household_id=${encodeURIComponent(S.hhId)}`:'';
-  try{await jsonp(`${API}?action=addItem&nome_item=${encodeURIComponent(nome)}&quantidade=${qty}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);$('itemName').value='';$('itemQty').value=1;toast('✓ Item adicionado.','success');loadItems()}
-  catch{alert('Erro.')}finally{btn.disabled=false;stopLoad()}
+  try{
+    const d=await jsonp(`${API}?action=addItem&nome_item=${encodeURIComponent(nome)}&quantidade=${qty}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
+    if(d.error){alert(d.error);stopLoad();btn.disabled=false;return}
+    $('itemName').value='';$('itemQty').value=1;
+    // Atualiza local sem chamar servidor
+    S.items.push({item_id:Date.now(),household_id:S.hhId,user_id:S.userId,nome_item:nome,quantidade:qty,status:'pendente'});
+    renderFiltered();
+    toast('✓ Item adicionado.','success');
+  }catch{alert('Erro.')}finally{btn.disabled=false;stopLoad()}
 });
 
 // ---- MEMBERS ----
@@ -803,9 +817,12 @@ async function deleteMember(userId){
   confirm_({title:'Remover membro?',sub:`${nome} perderá acesso.`,icon:'👤',btn:'Remover',
     onConfirm:async()=>{startLoad();toast(`Removendo ${nome}...`,'loading');
       const hhP=can('view_all_lojas')?`&household_id=${encodeURIComponent(S.hhId)}`:'';
-      try{const d=await jsonp(`${API}?action=deleteUser&user_id_target=${userId}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
+      try{
+        const d=await jsonp(`${API}?action=deleteUser&user_id_target=${userId}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
         if(d.error){alert(d.error);stopLoad();return}
-        await loadItems();$('membersModal').classList.remove('hidden');toast(`✕ ${nome} removido.`,'danger');
+        S.members=S.members.filter(m=>String(m.user_id)!==String(userId));
+        renderMembers(S.members);$('membersModal').classList.remove('hidden');
+        toast(`✕ ${nome} removido.`,'danger');
       }catch{alert('Erro.')}finally{stopLoad()}}
   });
 }
@@ -830,7 +847,15 @@ $('mForm').addEventListener('submit',async e=>{
     const d=await jsonp(`${API}?action=${action}${idP}&novo_nome=${encodeURIComponent(nome)}&novo_email=${encodeURIComponent(email)}${senhaP}&permissions=${encodeURIComponent(perms)}&group_id=${encodeURIComponent(groupId)}&accessible_households=${encodeURIComponent(extraHHs)}&household_id=${encodeURIComponent(newPrimaryHH)}&access_schedule=${encodeURIComponent(scheduleJSON)}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
     if(d.error){err.textContent=d.error;err.classList.remove('hidden');return}
     $('mForm').reset();$('mFormId').value='';
-    await loadItems();$('inviteModal').classList.add('hidden');$('membersModal').classList.remove('hidden');
+    // Atualiza membros local sem chamar servidor
+    if(editId){
+      const idx=S.members.findIndex(m=>String(m.user_id)===String(editId));
+      if(idx>=0) S.members[idx]={...S.members[idx],nome,email,group_id:groupId,permissions:perms,accessible_households:extraHHs,access_schedule:scheduleJSON,household_id:newPrimaryHH};
+    }else{
+      S.members.push({user_id:Date.now(),nome,email,role:'membro',group_id:groupId,permissions:perms,accessible_households:extraHHs,tem_senha:true});
+    }
+    renderMembers(S.members);
+    $('inviteModal').classList.add('hidden');$('membersModal').classList.remove('hidden');
     toast(editId?`✓ ${nome} atualizado.`:`✓ ${nome} adicionado.`,'success');
   }catch{err.textContent='Erro.';err.classList.remove('hidden')}finally{btn.disabled=false;stopLoad()}
 });
@@ -898,15 +923,21 @@ async function deleteGroup(id,nome){
   });
 }
 
-// Init
+// Init — se já tem email+senha+hhId, vai direto pro getItems (pula o login)
 if(S.email&&S.senha){
   $('loginScreen').classList.add('hidden');$('appScreen').classList.remove('hidden');
   $('content').innerHTML='<p class="status-msg">Carregando lista...</p>';
-  jsonp(`${API}?action=login&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`).then(d=>{
-    if(d.error||d.needsPassword){showLogin();return}
-    S.role=d.user.role;S.orgId=d.user.org_id;S.userId=String(d.user.user_id);S.permissions=d.user.permissions||[];S.households=d.households||[];
-    if(can('view_all_lojas')&&!S.hhId)showHH(d);else loadItems();
-  }).catch(()=>showLogin());
+  if(S.hhId){
+    // Tem loja guardada → vai direto pro getItems (1 chamada só)
+    loadItems();
+  }else{
+    // Sem loja → precisa do login pra pegar a lista de lojas
+    jsonp(`${API}?action=login&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`).then(d=>{
+      if(d.error||d.needsPassword){showLogin();return}
+      S.role=d.user.role;S.orgId=d.user.org_id;S.userId=String(d.user.user_id);S.permissions=d.user.permissions||[];S.households=d.households||[];
+      if(can('view_all_lojas'))showHH(d);else loadItems();
+    }).catch(()=>showLogin());
+  }
 }else{showLogin()}
 </script>
 </body>
