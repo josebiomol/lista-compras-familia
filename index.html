@@ -427,7 +427,13 @@ function hideAll(){
 }
 
 function showLogin(err){
-  hideAll();$('loginScreen').classList.remove('hidden');
+  hideAll();
+  // Limpa dados de sessão anterior para não mostrar dados de outro usuário
+  S.items=[];S.members=[];S.households=[];S.role='';S.permissions=[];
+  S.hhId='';S.orgId='';S.userId='';S.userName='';S.groups=[];
+  localStorage.removeItem('uhh');
+  $('content').innerHTML='';$('hhList').innerHTML='';
+  $('loginScreen').classList.remove('hidden');
   const el=$('loginErr');
   if(err){el.textContent=err;el.classList.remove('hidden')}else el.classList.add('hidden');
   if(S.email)$('lEmail').value=S.email;
@@ -512,7 +518,8 @@ $('loginForm').addEventListener('submit',async e=>{
     S.email=email;S.senha=senha;S.role=d.user.role;S.orgId=d.user.org_id;S.permissions=d.user.permissions||[];S.userId=String(d.user.user_id);S.households=d.households||[];
     localStorage.setItem('ue',email);sessionStorage.setItem('us',senha);
     stopLoad();
-    if(can('view_all_lojas')&&!S.hhId)showHH(d);else loadItems();
+    // Se pode ver todas as lojas → sempre vai pro seletor (ignora hhId antigo de outra sessão)
+    if(can('view_all_lojas'))showHH(d);else loadItems();
   }catch{stopLoad();$('toast').classList.remove('show');showLogin('Erro de conexão.')}finally{btn.disabled=false}
 });
 
