@@ -29,7 +29,6 @@
     --danger: #F87171;
     --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
   }
-
   * { box-sizing: border-box; }
   body {
     margin: 0;
@@ -41,494 +40,125 @@
     justify-content: center;
     transition: background 0.2s, color 0.2s;
   }
-  .app {
-    width: 100%;
-    max-width: 440px;
-    min-height: 100vh;
-    background: var(--bg);
-    display: flex;
-    flex-direction: column;
-    position: relative;
-  }
+  .app { width: 100%; max-width: 440px; min-height: 100vh; background: var(--bg); display: flex; flex-direction: column; position: relative; }
 
-  .topbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 18px 20px 10px;
-  }
-  .app-title {
-    font-family: 'Archivo', sans-serif;
-    font-weight: 800;
-    font-size: 19px;
-    margin: 0;
-  }
+  /* Loading bar */
+  .loading-bar { position: fixed; top: 0; left: 0; height: 3px; width: 0%; background: var(--green); z-index: 100; transition: width 0.3s ease, opacity 0.3s ease; opacity: 0; }
+  .loading-bar.active { opacity: 1; animation: loading-progress 1.8s ease-in-out infinite; }
+  .loading-bar.done { width: 100% !important; opacity: 0; transition: width 0.2s ease, opacity 0.4s ease 0.2s; animation: none; }
+  @keyframes loading-progress { 0%{width:0%} 30%{width:50%} 70%{width:80%} 100%{width:90%} }
+
+  /* Topbar */
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px 10px; }
+  .app-title { font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 19px; margin: 0; }
   .topbar-actions { display: flex; align-items: center; gap: 10px; position: relative; }
-  .icon-btn {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    background: var(--card);
-    color: var(--text);
-    font-size: 15px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .avatar-btn {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    border: none;
-    background: var(--green);
-    color: #fff;
-    font-family: 'Archivo', sans-serif;
-    font-weight: 700;
-    font-size: 13px;
-    cursor: pointer;
-  }
-  .account-menu {
-    position: absolute;
-    top: 44px;
-    right: 0;
-    background: var(--card);
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow);
-    border-radius: 12px;
-    padding: 14px;
-    min-width: 160px;
-    z-index: 20;
-  }
+  .icon-btn { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: var(--card); color: var(--text); font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .avatar-btn { width: 36px; height: 36px; border-radius: 50%; border: none; background: var(--green); color: #fff; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; }
+  .account-menu { position: absolute; top: 44px; right: 0; background: var(--card); border: 1px solid var(--border); box-shadow: var(--shadow); border-radius: 12px; padding: 14px; min-width: 160px; z-index: 20; }
   .account-name { margin: 0; font-weight: 600; font-size: 14px; }
-  .account-role {
-    margin: 2px 0 12px;
-    font-size: 11px;
-    text-transform: uppercase;
-    color: var(--green);
-    letter-spacing: 0.4px;
-  }
-  .account-logout {
-    width: 100%;
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 8px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-family: 'Inter', sans-serif;
-    font-size: 13px;
-  }
+  .account-role { margin: 2px 0 12px; font-size: 11px; text-transform: uppercase; color: var(--green); letter-spacing: 0.4px; }
+  .account-logout { width: 100%; background: transparent; border: 1px solid var(--border); color: var(--text); padding: 8px; border-radius: 8px; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 13px; }
   .account-logout:hover { border-color: var(--danger); color: var(--danger); }
 
-  .login-screen {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 32px;
-    text-align: center;
-  }
-  .login-icon {
-    width: 64px; height: 64px;
-    border-radius: 20px;
-    background: var(--green-bg);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 28px;
-    margin-bottom: 18px;
-  }
-  .login-screen h1 {
-    font-family: 'Archivo', sans-serif;
-    font-size: 22px;
-    margin: 0 0 6px;
-  }
-  .login-screen p {
-    color: var(--text-soft);
-    font-size: 13px;
-    margin: 0 0 28px;
-    line-height: 1.5;
-  }
+  /* Login */
+  .login-screen { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px; text-align: center; }
+  .login-icon { width: 64px; height: 64px; border-radius: 20px; background: var(--green-bg); display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 18px; }
+  .login-screen h1 { font-family: 'Archivo', sans-serif; font-size: 22px; margin: 0 0 6px; }
+  .login-screen p { color: var(--text-soft); font-size: 13px; margin: 0 0 28px; line-height: 1.5; }
   .login-screen form { width: 100%; display: flex; flex-direction: column; gap: 10px; }
 
-  input[type="email"], input[type="text"], input[type="number"] {
-    width: 100%;
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    border: 1px solid var(--border);
-    background: var(--card);
-    color: var(--text);
-    padding: 13px 14px;
-    border-radius: 12px;
+  input[type="email"], input[type="text"], input[type="number"], input[type="password"] {
+    width: 100%; font-family: 'Inter', sans-serif; font-size: 14px; border: 1px solid var(--border);
+    background: var(--card); color: var(--text); padding: 13px 14px; border-radius: 12px;
   }
   input:focus { outline: 2px solid var(--green); outline-offset: 1px; }
   ::placeholder { color: var(--text-soft); }
-
   button { font-family: 'Inter', sans-serif; cursor: pointer; }
-  .btn-primary {
-    width: 100%;
-    background: var(--green);
-    color: #fff;
-    border: none;
-    padding: 13px;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 14px;
-  }
+  .btn-primary { width: 100%; background: var(--green); color: #fff; border: none; padding: 13px; border-radius: 12px; font-weight: 600; font-size: 14px; }
   .btn-primary:hover { filter: brightness(0.95); }
+  .btn-primary:disabled { opacity: 0.6; cursor: default; }
 
+  /* Main */
   .main { flex: 1; padding: 4px 20px 90px; }
-
-  .add-bar {
-    display: flex;
-    gap: 8px;
-    margin: 10px 0 16px;
-  }
+  .add-bar { display: flex; gap: 8px; margin: 10px 0 16px; }
   .add-bar input { flex: 1; }
   .add-bar .qty-input { width: 56px; flex: none; text-align: center; }
-  .add-btn {
-    width: 46px;
-    background: var(--green);
-    color: #fff;
-    border: none;
-    border-radius: 12px;
-    font-size: 20px;
-    flex: none;
-  }
-
-  .tabs {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 18px;
-  }
-  .tab {
-    background: var(--card);
-    border: 1px solid var(--border);
-    color: var(--text-soft);
-    padding: 8px 12px;
-    border-radius: 10px;
-    font-size: 12.5px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
+  .add-btn { width: 46px; background: var(--green); color: #fff; border: none; border-radius: 12px; font-size: 20px; flex: none; }
+  .tabs { display: flex; gap: 6px; margin-bottom: 18px; }
+  .tab { background: var(--card); border: 1px solid var(--border); color: var(--text-soft); padding: 8px 12px; border-radius: 10px; font-size: 12.5px; font-weight: 500; display: flex; align-items: center; gap: 6px; }
   .tab.active { background: var(--green-bg); color: var(--green); border-color: transparent; font-weight: 600; }
-  .tab-count {
-    background: rgba(120,120,120,0.15);
-    border-radius: 6px;
-    padding: 1px 6px;
-    font-size: 11px;
-  }
+  .tab-count { background: rgba(120,120,120,0.15); border-radius: 6px; padding: 1px 6px; font-size: 11px; }
   .tab.active .tab-count { background: var(--green); color: #fff; }
-
-  .section-label {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-soft);
-    margin: 18px 0 8px;
-  }
-
+  .section-label { font-size: 12px; font-weight: 600; color: var(--text-soft); margin: 18px 0 8px; }
   ul.items { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
-  .item {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 12px 14px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    box-shadow: var(--shadow);
-  }
-  .item .check {
-    width: 22px; height: 22px;
-    border-radius: 7px;
-    border: 1.5px solid var(--border);
-    background: transparent;
-    flex-shrink: 0;
-    cursor: pointer;
-    color: #fff;
-    font-size: 13px;
-    display: flex; align-items: center; justify-content: center;
-  }
+  .item { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 12px 14px; display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow); }
+  .item .check { width: 22px; height: 22px; border-radius: 7px; border: 1.5px solid var(--border); background: transparent; flex-shrink: 0; cursor: pointer; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; }
   .item.done .check { background: var(--green); border-color: var(--green); }
   .item .info { flex: 1; min-width: 0; cursor: pointer; }
   .item .name { display: block; font-weight: 600; font-size: 14px; }
   .item.done .name { text-decoration: line-through; color: var(--text-soft); }
-  .item .qty-badge {
-    background: var(--bg);
-    border-radius: 8px;
-    padding: 3px 8px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-soft);
-    flex-shrink: 0;
-  }
-  .item .avatar {
-    width: 26px; height: 26px;
-    border-radius: 50%;
-    background: var(--green-bg);
-    color: var(--green);
-    font-size: 11px;
-    font-weight: 700;
-    font-family: 'Archivo', sans-serif;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
-  .item .delete {
-    background: none;
-    border: none;
-    color: var(--text-soft);
-    font-size: 17px;
-    cursor: pointer;
-    flex-shrink: 0;
-    line-height: 1;
-  }
+  .item .qty-badge { background: var(--bg); border-radius: 8px; padding: 3px 8px; font-size: 12px; font-weight: 600; color: var(--text-soft); flex-shrink: 0; }
+  .item .avatar { width: 26px; height: 26px; border-radius: 50%; background: var(--green-bg); color: var(--green); font-size: 11px; font-weight: 700; font-family: 'Archivo', sans-serif; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .item .delete { background: none; border: none; color: var(--text-soft); font-size: 17px; cursor: pointer; flex-shrink: 0; line-height: 1; }
   .item .delete:hover { color: var(--danger); }
-
-  .empty, .status-msg {
-    text-align: center;
-    font-size: 13px;
-    color: var(--text-soft);
-    padding: 32px 0;
-  }
+  .empty, .status-msg { text-align: center; font-size: 13px; color: var(--text-soft); padding: 32px 0; }
   .error { color: var(--danger); }
   .hidden { display: none !important; }
 
-  .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    max-width: 440px;
-    background: var(--card);
-    border-top: 1px solid var(--border);
-    display: flex;
-    padding: 10px 0 14px;
-  }
-  .nav-item {
-    flex: 1;
-    background: none;
-    border: none;
-    color: var(--text-soft);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 3px;
-    font-size: 11px;
-    cursor: pointer;
-  }
+  /* Bottom nav */
+  .bottom-nav { position: fixed; bottom: 0; width: 100%; max-width: 440px; background: var(--card); border-top: 1px solid var(--border); display: flex; padding: 10px 0 14px; }
+  .nav-item { flex: 1; background: none; border: none; color: var(--text-soft); display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 11px; cursor: pointer; }
   .nav-item.active { color: var(--green); }
   .nav-icon { font-size: 18px; }
 
-  .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-    z-index: 30;
-  }
+  /* Modals */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 30; }
   .modal-overlay.hidden { display: none; }
-  .modal {
-    background: var(--card);
-    color: var(--text);
-    width: 100%;
-    max-width: 360px;
-    padding: 22px;
-    border-radius: 18px;
-    box-shadow: var(--shadow);
-  }
-  .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-  }
+  .modal { background: var(--card); color: var(--text); width: 100%; max-width: 360px; padding: 22px; border-radius: 18px; box-shadow: var(--shadow); }
+  .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
   .modal-title { font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 16px; margin: 0; }
-  .modal-close {
-    background: none;
-    border: none;
-    color: var(--text-soft);
-    font-size: 18px;
-    cursor: pointer;
-  }
+  .modal-close { background: none; border: none; color: var(--text-soft); font-size: 18px; cursor: pointer; }
   .modal-close:hover { color: var(--text); }
-
-  select {
-    width: 100%;
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    border: 1px solid var(--border);
-    background: var(--card);
-    color: var(--text);
-    padding: 13px 14px;
-    border-radius: 12px;
-  }
+  select { width: 100%; font-family: 'Inter', sans-serif; font-size: 14px; border: 1px solid var(--border); background: var(--card); color: var(--text); padding: 13px 14px; border-radius: 12px; }
   #addMemberForm { display: flex; flex-direction: column; gap: 10px; }
+  .field-hint { font-size: 11px; color: var(--text-soft); margin: -4px 0 0 2px; }
 
+  /* Members list */
   ul.members { list-style: none; margin: 0 0 16px; padding: 0; display: flex; flex-direction: column; gap: 8px; }
-  .members li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    background: var(--bg);
-    border-radius: 12px;
-    padding: 10px 12px;
-  }
+  .members li { display: flex; align-items: center; justify-content: space-between; gap: 8px; background: var(--bg); border-radius: 12px; padding: 10px 12px; }
   .members .m-name { display: block; font-weight: 600; font-size: 13.5px; }
+  .members .m-badges { display: flex; gap: 6px; align-items: center; margin-top: 2px; }
   .members .m-role { font-size: 11px; color: var(--green); text-transform: uppercase; }
+  .members .m-nopass { font-size: 10px; color: var(--danger); background: rgba(220,38,38,0.1); padding: 1px 6px; border-radius: 4px; }
   .members .m-actions { display: flex; gap: 10px; flex-shrink: 0; }
-  .members .m-actions button {
-    background: none; border: none; color: var(--text-soft); cursor: pointer; font-size: 14px;
-  }
+  .members .m-actions button { background: none; border: none; color: var(--text-soft); cursor: pointer; font-size: 14px; }
   .members .m-actions .m-delete:hover { color: var(--danger); }
   .members .m-actions .m-edit:hover { color: var(--green); }
+  .invite-btn { width: 100%; background: var(--green-bg); color: var(--green); border: none; padding: 12px; border-radius: 12px; font-weight: 600; font-size: 14px; }
 
-  .invite-btn {
-    width: 100%;
-    background: var(--green-bg);
-    color: var(--green);
-    border: none;
-    padding: 12px;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 14px;
-  }
+  /* Confirm modal */
+  .confirm-modal { background: var(--card); color: var(--text); width: 100%; max-width: 320px; padding: 28px 24px 22px; border-radius: 20px; box-shadow: var(--shadow); text-align: center; }
+  .confirm-icon { width: 52px; height: 52px; border-radius: 50%; margin: 0 auto 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+  .confirm-icon.danger { background: rgba(220,38,38,0.1); }
+  .confirm-title { font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 16px; margin: 0 0 6px; }
+  .confirm-subtitle { font-size: 13px; color: var(--text-soft); margin: 0 0 22px; }
+  .confirm-actions { display: flex; gap: 10px; }
+  .btn-cancel { flex: 1; background: var(--bg); color: var(--text); border: 1px solid var(--border); padding: 12px; border-radius: 12px; font-weight: 600; font-size: 14px; }
+  .btn-danger { flex: 1; background: var(--danger); color: #fff; border: none; padding: 12px; border-radius: 12px; font-weight: 600; font-size: 14px; }
 
-  .toast {
-    position: fixed;
-    top: 18px;
-    left: 50%;
-    transform: translateX(-50%) translateY(-80px);
-    background: #1C1E22;
-    color: #F2F3F1;
-    font-size: 14px;
-    font-weight: 600;
-    padding: 13px 18px;
-    border-radius: 14px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.35);
-    z-index: 50;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    min-width: 220px;
-    max-width: 340px;
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    overflow: hidden;
-  }
+  /* Toast */
+  .toast { position: fixed; top: 18px; left: 50%; transform: translateX(-50%) translateY(-80px); background: #1C1E22; color: #F2F3F1; font-size: 14px; font-weight: 600; padding: 13px 18px; border-radius: 14px; box-shadow: 0 8px 32px rgba(0,0,0,0.35); z-index: 50; display: flex; align-items: center; gap: 10px; min-width: 220px; max-width: 340px; transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); overflow: hidden; }
   .toast.show { transform: translateX(-50%) translateY(0); }
-  .toast-icon {
-    width: 26px; height: 26px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 13px;
-    flex-shrink: 0;
-    font-weight: 700;
-    color: #fff;
-  }
+  .toast-icon { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; font-weight: 700; color: #fff; }
   .toast-icon.success { background: var(--green); }
   .toast-icon.danger { background: var(--danger); }
   .toast-icon.loading { background: #555; animation: spin 1s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .toast-text {
-    flex: 1;
-    color: #F2F3F1;
-    font-size: 14px;
-    font-weight: 600;
-    white-space: nowrap;
-  }
-  .toast-bar {
-    position: absolute;
-    bottom: 0; left: 0;
-    height: 3px;
-    border-radius: 0 0 14px 14px;
-    animation: toast-progress 2.8s linear forwards;
-  }
+  .toast-text { flex: 1; color: #F2F3F1; font-size: 14px; font-weight: 600; white-space: nowrap; }
+  .toast-bar { position: absolute; bottom: 0; left: 0; height: 3px; border-radius: 0 0 14px 14px; animation: toast-progress 2.8s linear forwards; }
   .toast-bar.success { background: var(--green); }
   .toast-bar.danger { background: var(--danger); }
-  @keyframes toast-progress {
-    from { width: 100%; }
-    to { width: 0%; }
-  }
-
-  /* Loading bar */
-  .loading-bar {
-    position: fixed;
-    top: 0; left: 0;
-    height: 3px;
-    width: 0%;
-    background: var(--green);
-    z-index: 100;
-    transition: width 0.3s ease, opacity 0.3s ease;
-    opacity: 0;
-  }
-  .loading-bar.active {
-    opacity: 1;
-    animation: loading-progress 1.8s ease-in-out infinite;
-  }
-  .loading-bar.done {
-    width: 100% !important;
-    opacity: 0;
-    transition: width 0.2s ease, opacity 0.4s ease 0.2s;
-    animation: none;
-  }
-  @keyframes loading-progress {
-    0%   { width: 0%; }
-    30%  { width: 50%; }
-    70%  { width: 80%; }
-    100% { width: 90%; }
-  }
-  .confirm-modal {
-    background: var(--card);
-    color: var(--text);
-    width: 100%;
-    max-width: 320px;
-    padding: 28px 24px 22px;
-    border-radius: 20px;
-    box-shadow: var(--shadow);
-    text-align: center;
-  }
-  .confirm-icon {
-    width: 52px; height: 52px;
-    border-radius: 50%;
-    margin: 0 auto 14px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-  }
-  .confirm-icon.danger { background: rgba(220,38,38,0.1); }
-  .confirm-icon.warning { background: rgba(234,179,8,0.1); }
-  .confirm-title {
-    font-family: 'Archivo', sans-serif;
-    font-weight: 700;
-    font-size: 16px;
-    margin: 0 0 6px;
-  }
-  .confirm-subtitle {
-    font-size: 13px;
-    color: var(--text-soft);
-    margin: 0 0 22px;
-  }
-  .confirm-actions { display: flex; gap: 10px; }
-  .btn-cancel {
-    flex: 1;
-    background: var(--bg);
-    color: var(--text);
-    border: 1px solid var(--border);
-    padding: 12px;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 14px;
-  }
-  .btn-danger {
-    flex: 1;
-    background: var(--danger);
-    color: #fff;
-    border: none;
-    padding: 12px;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 14px;
-  }
+  @keyframes toast-progress { from{width:100%} to{width:0%} }
 </style>
 </head>
 <body>
@@ -549,61 +179,71 @@
     </div>
   </header>
 
+  <!-- Tela de login -->
   <div id="loginScreen" class="login-screen">
     <div class="login-icon">🛍️</div>
     <h1>Lista de Compras</h1>
     <p>Organize as compras da sua casa com sua família.</p>
     <form id="loginForm">
       <input type="email" id="loginEmail" placeholder="Seu e-mail cadastrado" required>
-      <button type="submit" class="btn-primary">Entrar</button>
+      <input type="password" id="loginSenha" placeholder="Senha" required>
+      <button type="submit" class="btn-primary" id="loginBtn">Entrar</button>
     </form>
     <p class="status-msg error hidden" id="loginError"></p>
   </div>
 
+  <!-- Tela de definir senha (primeiro acesso) -->
+  <div id="setPasswordScreen" class="login-screen hidden">
+    <div class="login-icon">🔑</div>
+    <h1>Defina sua senha</h1>
+    <p>Primeiro acesso detectado. Crie uma senha de pelo menos 6 caracteres.</p>
+    <form id="setPasswordForm">
+      <input type="password" id="setSenha1" placeholder="Nova senha (mín. 6 caracteres)" required>
+      <input type="password" id="setSenha2" placeholder="Confirmar senha" required>
+      <button type="submit" class="btn-primary" id="setSenhaBtn">Definir senha e entrar</button>
+    </form>
+    <p class="status-msg error hidden" id="setPasswordError"></p>
+  </div>
+
+  <!-- App principal -->
   <main id="appScreen" class="main hidden">
     <form class="add-bar" id="addForm">
       <input type="text" id="itemName" placeholder="Adicionar item..." required>
       <input type="number" id="itemQty" value="1" min="1" class="qty-input" required>
       <button type="submit" class="add-btn" aria-label="adicionar">+</button>
     </form>
-
     <div class="tabs" id="filterTabs">
       <button type="button" class="tab active" data-filter="todos">Todos <span class="tab-count" id="countTodos">0</span></button>
       <button type="button" class="tab" data-filter="pendentes">Pendentes <span class="tab-count" id="countPendentes">0</span></button>
       <button type="button" class="tab" data-filter="comprados">Comprados <span class="tab-count" id="countComprados">0</span></button>
     </div>
-
-    <div id="content">
-      <p class="status-msg">carregando lista...</p>
-    </div>
+    <div id="content"><p class="status-msg">Carregando lista...</p></div>
   </main>
 
   <nav class="bottom-nav hidden" id="bottomNav">
-    <button type="button" class="nav-item active" disabled>
-      <span class="nav-icon">🛒</span><span>Lista</span>
-    </button>
-    <button type="button" class="nav-item hidden" id="navMembersBtn">
-      <span class="nav-icon">👥</span><span>Membros</span>
-    </button>
+    <button type="button" class="nav-item active" disabled><span class="nav-icon">🛒</span><span>Lista</span></button>
+    <button type="button" class="nav-item hidden" id="navMembersBtn"><span class="nav-icon">👥</span><span>Membros</span></button>
   </nav>
 </div>
 
+<!-- Modal membros -->
 <div id="membersModal" class="modal-overlay hidden">
   <div class="modal">
     <div class="modal-header">
       <p class="modal-title">Membros da casa</p>
-      <button type="button" id="closeMembersBtn" class="modal-close" aria-label="fechar">×</button>
+      <button type="button" id="closeMembersBtn" class="modal-close">×</button>
     </div>
     <ul class="members" id="membersList"></ul>
     <button type="button" id="openInviteBtn" class="invite-btn">+ Convidar membro</button>
   </div>
 </div>
 
+<!-- Modal convidar/editar membro -->
 <div id="inviteModal" class="modal-overlay hidden">
   <div class="modal">
     <div class="modal-header">
       <p class="modal-title" id="memberFormTitle">Convidar membro</p>
-      <button type="button" id="closeInviteBtn" class="modal-close" aria-label="fechar">×</button>
+      <button type="button" id="closeInviteBtn" class="modal-close">×</button>
     </div>
     <form id="addMemberForm">
       <input type="hidden" id="memberFormId" value="">
@@ -613,9 +253,24 @@
         <option value="membro">Membro</option>
         <option value="admin">Admin</option>
       </select>
+      <input type="password" id="memberSenha" placeholder="Senha (mín. 6 caracteres)">
+      <p class="field-hint" id="memberSenhaHint">Obrigatória para novo membro.</p>
       <button type="submit" id="memberFormSubmit" class="btn-primary">Convidar membro</button>
     </form>
     <p class="status-msg error hidden" id="memberError"></p>
+  </div>
+</div>
+
+<!-- Modal confirmar -->
+<div id="confirmModal" class="modal-overlay hidden">
+  <div class="confirm-modal">
+    <div class="confirm-icon danger" id="confirmIcon">🗑️</div>
+    <p class="confirm-title" id="confirmTitle">Excluir?</p>
+    <p class="confirm-subtitle" id="confirmSubtitle"></p>
+    <div class="confirm-actions">
+      <button type="button" class="btn-cancel" id="confirmCancel">Cancelar</button>
+      <button type="button" class="btn-danger" id="confirmOk">Excluir</button>
+    </div>
   </div>
 </div>
 
@@ -625,25 +280,19 @@
   <span class="toast-bar success" id="toastBar"></span>
 </div>
 
-<div id="confirmModal" class="modal-overlay hidden">
-  <div class="confirm-modal">
-    <div class="confirm-icon danger" id="confirmIcon">🗑️</div>
-    <p class="confirm-title" id="confirmTitle">Excluir item?</p>
-    <p class="confirm-subtitle" id="confirmSubtitle"></p>
-    <div class="confirm-actions">
-      <button type="button" class="btn-cancel" id="confirmCancel">Cancelar</button>
-      <button type="button" class="btn-danger" id="confirmOk">Excluir</button>
-    </div>
-  </div>
-</div>
-
 <script>
   const API_URL = 'https://script.google.com/macros/s/AKfycbxaLtifLTTakDmk5ga1ueBjQn9UpCi0291sx9d4DX-VEUMilsWQnpQNYufO7aEIgw0/exec';
 
+  // DOM
   const loginScreen = document.getElementById('loginScreen');
+  const setPasswordScreen = document.getElementById('setPasswordScreen');
   const appScreen = document.getElementById('appScreen');
   const loginForm = document.getElementById('loginForm');
   const loginError = document.getElementById('loginError');
+  const loginBtn = document.getElementById('loginBtn');
+  const setPasswordForm = document.getElementById('setPasswordForm');
+  const setPasswordError = document.getElementById('setPasswordError');
+  const setSenhaBtn = document.getElementById('setSenhaBtn');
   const addForm = document.getElementById('addForm');
   const content = document.getElementById('content');
   const filterTabs = document.getElementById('filterTabs');
@@ -666,24 +315,30 @@
   const closeInviteBtn = document.getElementById('closeInviteBtn');
   const addMemberForm = document.getElementById('addMemberForm');
   const memberError = document.getElementById('memberError');
-  const toast = document.getElementById('toast');
-  const toastIcon = document.getElementById('toastIcon');
-  const toastMsg = document.getElementById('toastMsg');
-  const toastBar = document.getElementById('toastBar');
+  const memberSenhaHint = document.getElementById('memberSenhaHint');
   const confirmModal = document.getElementById('confirmModal');
   const confirmTitle = document.getElementById('confirmTitle');
   const confirmSubtitle = document.getElementById('confirmSubtitle');
   const confirmIcon = document.getElementById('confirmIcon');
   const confirmCancel = document.getElementById('confirmCancel');
   const confirmOk = document.getElementById('confirmOk');
+  const loadingBar = document.getElementById('loadingBar');
+  const toast = document.getElementById('toast');
+  const toastIcon = document.getElementById('toastIcon');
+  const toastMsg = document.getElementById('toastMsg');
+  const toastBar = document.getElementById('toastBar');
 
+  // Estado
   let currentEmail = localStorage.getItem('userEmail') || '';
+  let currentSenha = sessionStorage.getItem('userSenha') || '';
   let currentRole = '';
   let currentMembers = [];
   let currentItems = [];
   let activeFilter = 'todos';
+  let pendingSetPasswordEmail = '';
   let toastTimer;
 
+  // Tema
   function applyTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
     themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
@@ -691,12 +346,10 @@
   }
   applyTheme(localStorage.getItem('theme') || 'light');
   themeToggle.addEventListener('click', () => {
-    const current = document.documentElement.getAttribute('data-theme');
-    applyTheme(current === 'dark' ? 'light' : 'dark');
+    applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
   });
 
-  const loadingBar = document.getElementById('loadingBar');
-
+  // Loading bar
   function startLoading() {
     loadingBar.classList.remove('done');
     loadingBar.classList.add('active');
@@ -707,6 +360,7 @@
     setTimeout(() => loadingBar.classList.remove('done'), 600);
   }
 
+  // Toast
   function showToast(msg, type = 'success') {
     const icons = { success: '✓', danger: '✕', loading: '⟳' };
     toastMsg.textContent = msg;
@@ -718,28 +372,33 @@
     if (type !== 'loading') toastBar.style.animation = '';
     toast.classList.add('show');
     clearTimeout(toastTimer);
-    if (type !== 'loading') {
-      toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
-    }
+    if (type !== 'loading') toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
   }
 
-  function hideToast() {
-    clearTimeout(toastTimer);
-    toast.classList.remove('show');
-  }
-
-  function confirmAction({ title, subtitle, icon = '🗑️', btnLabel = 'Excluir', type = 'danger', onConfirm }) {
+  // Confirm modal
+  function confirmAction({ title, subtitle, icon = '🗑️', btnLabel = 'Excluir', onConfirm }) {
     confirmTitle.textContent = title;
     confirmSubtitle.textContent = subtitle;
     confirmIcon.textContent = icon;
-    confirmIcon.className = `confirm-icon ${type}`;
     confirmOk.textContent = btnLabel;
-    confirmOk.className = type === 'danger' ? 'btn-danger' : 'btn-primary';
     confirmModal.classList.remove('hidden');
     const cleanup = () => confirmModal.classList.add('hidden');
     confirmCancel.onclick = cleanup;
     confirmModal.onclick = (e) => { if (e.target === confirmModal) cleanup(); };
     confirmOk.onclick = () => { cleanup(); onConfirm(); };
+  }
+
+  // JSONP
+  function jsonp(url) {
+    return new Promise((resolve, reject) => {
+      const cb = 'cb_' + Date.now() + '_' + Math.floor(Math.random() * 100000);
+      const script = document.createElement('script');
+      const cleanup = () => { delete window[cb]; script.remove(); };
+      window[cb] = (data) => { resolve(data); cleanup(); };
+      script.onerror = () => { reject(new Error('Falha de rede')); cleanup(); };
+      script.src = `${url}&callback=${cb}`;
+      document.body.appendChild(script);
+    });
   }
 
   function initials(name) {
@@ -748,24 +407,158 @@
     return (parts[0][0] + (parts[1] ? parts[1][0] : '')).toUpperCase();
   }
 
-  function jsonp(url) {
-    return new Promise((resolve, reject) => {
-      const callbackName = 'cb_' + Date.now() + '_' + Math.floor(Math.random() * 100000);
-      const script = document.createElement('script');
-      const cleanup = () => { delete window[callbackName]; script.remove(); };
-      window[callbackName] = (data) => { resolve(data); cleanup(); };
-      script.onerror = () => { reject(new Error('Falha de rede')); cleanup(); };
-      script.src = `${url}&callback=${callbackName}`;
-      document.body.appendChild(script);
-    });
+  // ---- Telas ----
+  function showLogin(errorMsg) {
+    loginScreen.classList.remove('hidden');
+    setPasswordScreen.classList.add('hidden');
+    appScreen.classList.add('hidden');
+    bottomNav.classList.add('hidden');
+    avatarBtn.classList.add('hidden');
+    accountMenu.classList.add('hidden');
+    if (errorMsg) {
+      loginError.textContent = errorMsg;
+      loginError.classList.remove('hidden');
+    } else {
+      loginError.classList.add('hidden');
+    }
+    if (currentEmail) document.getElementById('loginEmail').value = currentEmail;
   }
 
+  function showSetPassword(email) {
+    pendingSetPasswordEmail = email;
+    loginScreen.classList.add('hidden');
+    setPasswordScreen.classList.remove('hidden');
+    appScreen.classList.add('hidden');
+  }
+
+  function showApp(data) {
+    loginScreen.classList.add('hidden');
+    setPasswordScreen.classList.add('hidden');
+    appScreen.classList.remove('hidden');
+    bottomNav.classList.remove('hidden');
+    currentRole = data.user.role;
+    avatarBtn.textContent = initials(data.user.nome);
+    avatarBtn.classList.remove('hidden');
+    accountName.textContent = data.user.nome;
+    accountRole.textContent = data.user.role;
+    currentItems = data.items || [];
+    renderFiltered();
+    if (data.user.role === 'admin' && data.members) {
+      navMembersBtn.classList.remove('hidden');
+      currentMembers = data.members;
+      renderMembers(currentMembers);
+    } else {
+      navMembersBtn.classList.add('hidden');
+    }
+  }
+
+  // ---- Login ----
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    loginError.classList.add('hidden');
+    const email = document.getElementById('loginEmail').value.trim();
+    const senha = document.getElementById('loginSenha').value;
+    loginBtn.disabled = true;
+    startLoading();
+    showToast('Entrando...', 'loading');
+    try {
+      const data = await jsonp(`${API_URL}?action=login&email=${encodeURIComponent(email)}&senha=${encodeURIComponent(senha)}`);
+      if (data.needsPassword) {
+        stopLoading();
+        toast.classList.remove('show');
+        showSetPassword(email);
+        return;
+      }
+      if (data.error) {
+        loginError.textContent = data.error;
+        loginError.classList.remove('hidden');
+        toast.classList.remove('show');
+        stopLoading();
+        return;
+      }
+      currentEmail = email;
+      currentSenha = senha;
+      localStorage.setItem('userEmail', email);
+      sessionStorage.setItem('userSenha', senha);
+      stopLoading();
+      loadItems();
+    } catch (err) {
+      loginError.textContent = 'Erro de conexão. Tente novamente.';
+      loginError.classList.remove('hidden');
+      toast.classList.remove('show');
+      stopLoading();
+    } finally {
+      loginBtn.disabled = false;
+    }
+  });
+
+  // ---- Definir senha (primeiro acesso) ----
+  setPasswordForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    setPasswordError.classList.add('hidden');
+    const s1 = document.getElementById('setSenha1').value;
+    const s2 = document.getElementById('setSenha2').value;
+    if (s1.length < 6) {
+      setPasswordError.textContent = 'A senha deve ter pelo menos 6 caracteres.';
+      setPasswordError.classList.remove('hidden');
+      return;
+    }
+    if (s1 !== s2) {
+      setPasswordError.textContent = 'As senhas não coincidem.';
+      setPasswordError.classList.remove('hidden');
+      return;
+    }
+    setSenhaBtn.disabled = true;
+    startLoading();
+    showToast('Definindo senha...', 'loading');
+    try {
+      const data = await jsonp(`${API_URL}?action=setPassword&email=${encodeURIComponent(pendingSetPasswordEmail)}&nova_senha=${encodeURIComponent(s1)}`);
+      if (data.error) {
+        setPasswordError.textContent = data.error;
+        setPasswordError.classList.remove('hidden');
+        stopLoading();
+        toast.classList.remove('show');
+        return;
+      }
+      currentEmail = pendingSetPasswordEmail;
+      currentSenha = s1;
+      localStorage.setItem('userEmail', currentEmail);
+      sessionStorage.setItem('userSenha', currentSenha);
+      stopLoading();
+      showToast('✓ Senha definida! Bem-vindo.', 'success');
+      loadItems();
+    } catch (err) {
+      setPasswordError.textContent = 'Erro de conexão.';
+      setPasswordError.classList.remove('hidden');
+      stopLoading();
+    } finally {
+      setSenhaBtn.disabled = false;
+    }
+  });
+
+  // ---- Logout / avatar ----
+  avatarBtn.addEventListener('click', () => accountMenu.classList.toggle('hidden'));
+  document.addEventListener('click', (e) => {
+    if (!accountMenu.contains(e.target) && e.target !== avatarBtn) accountMenu.classList.add('hidden');
+  });
+  logoutBtn.addEventListener('click', () => {
+    localStorage.removeItem('userEmail');
+    sessionStorage.removeItem('userSenha');
+    currentEmail = '';
+    currentSenha = '';
+    accountMenu.classList.add('hidden');
+    showLogin();
+  });
+
+  // ---- Carregar itens ----
   async function loadItems() {
     try {
-      const data = await jsonp(`${API_URL}?action=getItems&email=${encodeURIComponent(currentEmail)}`);
+      const data = await jsonp(`${API_URL}?action=getItems&email=${encodeURIComponent(currentEmail)}&senha=${encodeURIComponent(currentSenha)}`);
       if (data.error) {
         localStorage.removeItem('userEmail');
+        sessionStorage.removeItem('userSenha');
         currentEmail = '';
+        currentSenha = '';
         showLogin(data.error);
         return;
       }
@@ -777,52 +570,7 @@
     }
   }
 
-  function showLogin(errorMsg) {
-    loginScreen.classList.remove('hidden');
-    appScreen.classList.add('hidden');
-    bottomNav.classList.add('hidden');
-    avatarBtn.classList.add('hidden');
-    accountMenu.classList.add('hidden');
-    if (errorMsg) {
-      loginError.textContent = errorMsg;
-      loginError.classList.remove('hidden');
-    }
-  }
-
-  function showApp(data) {
-    loginScreen.classList.add('hidden');
-    appScreen.classList.remove('hidden');
-    bottomNav.classList.remove('hidden');
-    currentRole = data.user.role;
-
-    avatarBtn.textContent = initials(data.user.nome);
-    avatarBtn.classList.remove('hidden');
-    accountName.textContent = data.user.nome;
-    accountRole.textContent = data.user.role;
-
-    currentItems = data.items;
-    renderFiltered();
-
-    if (data.user.role === 'admin' && data.members) {
-      navMembersBtn.classList.remove('hidden');
-      currentMembers = data.members;
-      renderMembers(currentMembers);
-    } else {
-      navMembersBtn.classList.add('hidden');
-    }
-  }
-
-  avatarBtn.addEventListener('click', () => accountMenu.classList.toggle('hidden'));
-  document.addEventListener('click', (e) => {
-    if (!accountMenu.contains(e.target) && e.target !== avatarBtn) accountMenu.classList.add('hidden');
-  });
-  logoutBtn.addEventListener('click', () => {
-    localStorage.removeItem('userEmail');
-    currentEmail = '';
-    accountMenu.classList.add('hidden');
-    showLogin();
-  });
-
+  // ---- Filtros / lista ----
   filterTabs.addEventListener('click', (e) => {
     const btn = e.target.closest('.tab');
     if (!btn) return;
@@ -834,31 +582,19 @@
   function renderFiltered() {
     const pending = currentItems.filter(i => i.status !== 'comprado');
     const done = currentItems.filter(i => i.status === 'comprado');
-
     countTodos.textContent = currentItems.length;
     countPendentes.textContent = pending.length;
     countComprados.textContent = done.length;
-
     if (!currentItems.length) {
       content.innerHTML = '<p class="empty">Nenhum item ainda.<br>Adicione o primeiro acima.</p>';
       return;
     }
-
     let html = '';
-    if (activeFilter !== 'comprados' && pending.length) {
-      html += '<p class="section-label">Pendentes</p>' + renderItemGroup(pending);
-    }
-    if (activeFilter !== 'pendentes' && done.length) {
-      html += '<p class="section-label">Comprados</p>' + renderItemGroup(done);
-    }
+    if (activeFilter !== 'comprados' && pending.length) html += '<p class="section-label">Pendentes</p>' + renderItemGroup(pending);
+    if (activeFilter !== 'pendentes' && done.length) html += '<p class="section-label">Comprados</p>' + renderItemGroup(done);
     content.innerHTML = html || '<p class="empty">Nada por aqui nesse filtro.</p>';
-
-    content.querySelectorAll('.check, .info').forEach(el => {
-      el.addEventListener('click', () => toggleItem(el.dataset.id));
-    });
-    content.querySelectorAll('.delete').forEach(el => {
-      el.addEventListener('click', () => deleteItemAction(el.dataset.id));
-    });
+    content.querySelectorAll('.check, .info').forEach(el => el.addEventListener('click', () => toggleItem(el.dataset.id)));
+    content.querySelectorAll('.delete').forEach(el => el.addEventListener('click', () => deleteItemAction(el.dataset.id)));
   }
 
   function renderItemGroup(items) {
@@ -866,17 +602,13 @@
       const isDone = item.status === 'comprado';
       const owner = currentMembers.find(m => String(m.user_id) === String(item.user_id));
       const avatarHtml = owner ? `<span class="avatar">${initials(owner.nome)}</span>` : '';
-      return `
-        <li class="item${isDone ? ' done' : ''}">
-          <button class="check" data-id="${item.item_id}" aria-label="marcar como comprado">${isDone ? '✓' : ''}</button>
-          <div class="info" data-id="${item.item_id}">
-            <span class="name">${item.nome_item}</span>
-          </div>
-          <span class="qty-badge">x${item.quantidade}</span>
-          ${avatarHtml}
-          ${currentRole === 'admin' ? `<button class="delete" data-id="${item.item_id}" aria-label="excluir">×</button>` : ''}
-        </li>
-      `;
+      return `<li class="item${isDone ? ' done' : ''}">
+        <button class="check" data-id="${item.item_id}">${isDone ? '✓' : ''}</button>
+        <div class="info" data-id="${item.item_id}"><span class="name">${item.nome_item}</span></div>
+        <span class="qty-badge">x${item.quantidade}</span>
+        ${avatarHtml}
+        ${currentRole === 'admin' ? `<button class="delete" data-id="${item.item_id}">×</button>` : ''}
+      </li>`;
     }).join('') + '</ul>';
   }
 
@@ -884,32 +616,28 @@
     const item = currentItems.find(i => String(i.item_id) === String(itemId));
     if (item) item.status = item.status === 'comprado' ? 'pendente' : 'comprado';
     renderFiltered();
-
     try {
-      await jsonp(`${API_URL}?action=toggleItem&item_id=${itemId}&email=${encodeURIComponent(currentEmail)}`);
+      await jsonp(`${API_URL}?action=toggleItem&item_id=${itemId}&email=${encodeURIComponent(currentEmail)}&senha=${encodeURIComponent(currentSenha)}`);
       loadItems();
     } catch (err) {
       if (item) item.status = item.status === 'comprado' ? 'pendente' : 'comprado';
       renderFiltered();
-      alert('Erro ao atualizar item.');
     }
   }
 
   async function deleteItemAction(itemId) {
     const item = currentItems.find(i => String(i.item_id) === String(itemId));
-    const nome = item ? item.nome_item : 'este item';
     confirmAction({
       title: 'Excluir item?',
-      subtitle: `"${nome}" será removido da lista.`,
+      subtitle: `"${item ? item.nome_item : 'item'}" será removido da lista.`,
       icon: '🗑️',
       btnLabel: 'Excluir',
-      type: 'danger',
       onConfirm: async () => {
         startLoading();
         showToast('Removendo item...', 'loading');
         try {
-          await jsonp(`${API_URL}?action=deleteItem&item_id=${itemId}&email=${encodeURIComponent(currentEmail)}`);
-          showToast('🗑 Item removido da lista.', 'danger');
+          await jsonp(`${API_URL}?action=deleteItem&item_id=${itemId}&email=${encodeURIComponent(currentEmail)}&senha=${encodeURIComponent(currentSenha)}`);
+          showToast('✕ Item removido da lista.', 'danger');
           loadItems();
         } catch (err) {
           alert('Erro ao excluir item.');
@@ -930,7 +658,7 @@
     startLoading();
     showToast('Adicionando item...', 'loading');
     try {
-      await jsonp(`${API_URL}?action=addItem&nome_item=${encodeURIComponent(nome)}&quantidade=${qty}&email=${encodeURIComponent(currentEmail)}`);
+      await jsonp(`${API_URL}?action=addItem&nome_item=${encodeURIComponent(nome)}&quantidade=${qty}&email=${encodeURIComponent(currentEmail)}&senha=${encodeURIComponent(currentSenha)}`);
       document.getElementById('itemName').value = '';
       document.getElementById('itemQty').value = 1;
       showToast('✓ Item adicionado à lista.', 'success');
@@ -943,37 +671,26 @@
     }
   });
 
-  loginForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    loginError.classList.add('hidden');
-    currentEmail = document.getElementById('loginEmail').value.trim();
-    localStorage.setItem('userEmail', currentEmail);
-    loadItems();
-  });
-
-  navMembersBtn.addEventListener('click', () => {
-    renderMembers(currentMembers);
-    membersModal.classList.remove('hidden');
-  });
+  // ---- Membros ----
+  navMembersBtn.addEventListener('click', () => { renderMembers(currentMembers); membersModal.classList.remove('hidden'); });
   closeMembersBtn.addEventListener('click', () => membersModal.classList.add('hidden'));
-  membersModal.addEventListener('click', (e) => {
-    if (e.target === membersModal) membersModal.classList.add('hidden');
-  });
+  membersModal.addEventListener('click', (e) => { if (e.target === membersModal) membersModal.classList.add('hidden'); });
 
   function renderMembers(members) {
     membersList.innerHTML = members.map(m => `
       <li>
         <div>
           <span class="m-name">${m.nome}</span>
-          <span class="m-role">${m.role}</span>
+          <div class="m-badges">
+            <span class="m-role">${m.role}</span>
+            ${!m.tem_senha ? '<span class="m-nopass">sem senha</span>' : ''}
+          </div>
         </div>
         <div class="m-actions">
-          <button type="button" class="m-edit" data-id="${m.user_id}" aria-label="editar">✎</button>
-          <button type="button" class="m-delete" data-id="${m.user_id}" aria-label="excluir">×</button>
+          <button type="button" class="m-edit" data-id="${m.user_id}">✎</button>
+          <button type="button" class="m-delete" data-id="${m.user_id}">×</button>
         </div>
-      </li>
-    `).join('');
-
+      </li>`).join('');
     membersList.querySelectorAll('.m-edit').forEach(btn => {
       btn.addEventListener('click', () => {
         const member = currentMembers.find(m => String(m.user_id) === btn.dataset.id);
@@ -987,12 +704,16 @@
 
   function openMemberForm(member) {
     memberError.classList.add('hidden');
+    const editing = !!member;
     document.getElementById('memberFormId').value = member ? member.user_id : '';
     document.getElementById('memberName').value = member ? member.nome : '';
     document.getElementById('memberEmail').value = member ? member.email : '';
     document.getElementById('memberRole').value = member ? member.role : 'membro';
-    document.getElementById('memberFormTitle').textContent = member ? 'Editar membro' : 'Convidar membro';
-    document.getElementById('memberFormSubmit').textContent = member ? 'Salvar alterações' : 'Convidar membro';
+    document.getElementById('memberSenha').value = '';
+    document.getElementById('memberSenha').required = !editing;
+    memberSenhaHint.textContent = editing ? 'Deixe em branco para manter a senha atual.' : 'Obrigatória para novo membro.';
+    document.getElementById('memberFormTitle').textContent = editing ? 'Editar membro' : 'Convidar membro';
+    document.getElementById('memberFormSubmit').textContent = editing ? 'Salvar alterações' : 'Convidar membro';
     membersModal.classList.add('hidden');
     inviteModal.classList.remove('hidden');
   }
@@ -1005,16 +726,15 @@
       subtitle: `${nome} perderá acesso à lista da casa.`,
       icon: '👤',
       btnLabel: 'Remover',
-      type: 'danger',
       onConfirm: async () => {
         startLoading();
         showToast(`Removendo ${nome}...`, 'loading');
         try {
-          const result = await jsonp(`${API_URL}?action=deleteUser&user_id_target=${userId}&email=${encodeURIComponent(currentEmail)}`);
+          const result = await jsonp(`${API_URL}?action=deleteUser&user_id_target=${userId}&email=${encodeURIComponent(currentEmail)}&senha=${encodeURIComponent(currentSenha)}`);
           if (result.error) { alert(result.error); stopLoading(); return; }
           await loadItems();
           membersModal.classList.remove('hidden');
-          showToast(`🗑 ${nome} removido da casa.`, 'danger');
+          showToast(`✕ ${nome} removido da casa.`, 'danger');
         } catch (err) {
           alert('Erro ao excluir membro.');
         } finally {
@@ -1025,36 +745,34 @@
   }
 
   openInviteBtn.addEventListener('click', () => openMemberForm(null));
-  closeInviteBtn.addEventListener('click', () => {
-    inviteModal.classList.add('hidden');
-    membersModal.classList.remove('hidden');
-  });
+  closeInviteBtn.addEventListener('click', () => { inviteModal.classList.add('hidden'); membersModal.classList.remove('hidden'); });
   inviteModal.addEventListener('click', (e) => {
-    if (e.target === inviteModal) {
-      inviteModal.classList.add('hidden');
-      membersModal.classList.remove('hidden');
-    }
+    if (e.target === inviteModal) { inviteModal.classList.add('hidden'); membersModal.classList.remove('hidden'); }
   });
 
   addMemberForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     memberError.classList.add('hidden');
-
     const editingId = document.getElementById('memberFormId').value;
     const nome = document.getElementById('memberName').value.trim();
     const email = document.getElementById('memberEmail').value.trim();
     const role = document.getElementById('memberRole').value;
+    const novaSenha = document.getElementById('memberSenha').value;
     if (!nome || !email) return;
-
+    if (!editingId && novaSenha.length < 6) {
+      memberError.textContent = 'A senha deve ter pelo menos 6 caracteres.';
+      memberError.classList.remove('hidden');
+      return;
+    }
     const action = editingId ? 'updateUser' : 'addUser';
     const idParam = editingId ? `&user_id_target=${editingId}` : '';
-
+    const senhaParam = novaSenha ? `&nova_senha=${encodeURIComponent(novaSenha)}` : '';
     const submitBtn = document.getElementById('memberFormSubmit');
     submitBtn.disabled = true;
     startLoading();
     showToast(editingId ? 'Salvando alterações...' : 'Cadastrando membro...', 'loading');
     try {
-      const result = await jsonp(`${API_URL}?action=${action}${idParam}&novo_nome=${encodeURIComponent(nome)}&novo_email=${encodeURIComponent(email)}&novo_role=${role}&email=${encodeURIComponent(currentEmail)}`);
+      const result = await jsonp(`${API_URL}?action=${action}${idParam}&novo_nome=${encodeURIComponent(nome)}&novo_email=${encodeURIComponent(email)}&novo_role=${role}${senhaParam}&email=${encodeURIComponent(currentEmail)}&senha=${encodeURIComponent(currentSenha)}`);
       if (result.error) {
         memberError.textContent = result.error;
         memberError.classList.remove('hidden');
@@ -1062,17 +780,12 @@
       }
       addMemberForm.reset();
       document.getElementById('memberFormId').value = '';
-      // Carrega dados em segundo plano SEM fechar o inviteModal ainda
       await loadItems();
-      // Só agora troca os modais — sem tela em branco no meio
       inviteModal.classList.add('hidden');
       membersModal.classList.remove('hidden');
-      showToast(
-        editingId ? `✓ Alterações de ${nome} salvas.` : `✓ ${nome} adicionado à casa.`,
-        'success'
-      );
+      showToast(editingId ? `✓ Alterações de ${nome} salvas.` : `✓ ${nome} adicionado à casa.`, 'success');
     } catch (err) {
-      memberError.textContent = editingId ? 'Erro ao salvar membro.' : 'Erro ao convidar membro.';
+      memberError.textContent = editingId ? 'Erro ao salvar.' : 'Erro ao convidar.';
       memberError.classList.remove('hidden');
     } finally {
       submitBtn.disabled = false;
@@ -1080,16 +793,17 @@
     }
   });
 
-  if (currentEmail) {
-    // Já tem sessão — mostra a tela do app imediatamente, sem passar pelo login
+  // ---- Init ----
+  if (currentEmail && currentSenha) {
     loginScreen.classList.add('hidden');
     appScreen.classList.remove('hidden');
     content.innerHTML = '<p class="status-msg">Carregando lista...</p>';
     loadItems();
+  } else if (currentEmail) {
+    showLogin();
   } else {
     showLogin();
   }
 </script>
-
 </body>
 </html>
