@@ -42,6 +42,7 @@
   .btn-sec:hover{border-color:var(--green);color:var(--green)}
   .btn-back{background:none;border:none;color:var(--text-soft);font-size:13px;cursor:pointer;margin-top:8px;text-decoration:underline}
   input[type=email],input[type=text],input[type=number],input[type=password]{width:100%;font-family:'Inter',sans-serif;font-size:14px;border:1px solid var(--border);background:var(--card);color:var(--text);padding:13px 14px;border-radius:12px}
+  input[type=time]{font-family:'Inter',sans-serif;font-size:13px;border:1px solid var(--border);background:var(--card);color:var(--text);padding:8px 10px;border-radius:8px;width:90px}
   input:focus{outline:2px solid var(--green);outline-offset:1px}
   ::placeholder{color:var(--text-soft)}
   select{width:100%;font-family:'Inter',sans-serif;font-size:14px;border:1px solid var(--border);background:var(--card);color:var(--text);padding:13px 14px;border-radius:12px}
@@ -98,9 +99,9 @@
   .mc{background:none;border:none;color:var(--text-soft);font-size:18px;cursor:pointer}
   .mform{display:flex;flex-direction:column;gap:10px}
   .fh{font-size:11px;color:var(--text-soft);margin:-4px 0 0 2px}
-  .section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-soft);margin:8px 0 6px;padding-top:8px;border-top:1px solid var(--border)}
+  .section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-soft);margin:10px 0 6px;padding-top:10px;border-top:1px solid var(--border)}
   .perm-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-  .perm-item{display:flex;align-items:center;gap:7px;background:var(--bg);border-radius:8px;padding:8px 10px;cursor:pointer;border:1px solid transparent;transition:border-color .1s}
+  .perm-item{display:flex;align-items:center;gap:7px;background:var(--bg);border-radius:8px;padding:8px 10px;cursor:pointer;border:1px solid transparent}
   .perm-item:hover{border-color:var(--green)}
   .perm-item input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--green);flex-shrink:0;margin:0}
   .perm-item label{font-size:12px;cursor:pointer;line-height:1.3}
@@ -108,7 +109,16 @@
   .hh-check-item{display:flex;align-items:center;gap:8px;background:var(--bg);border-radius:8px;padding:8px 10px}
   .hh-check-item input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--green);flex-shrink:0;margin:0}
   .hh-check-item label{font-size:13px;font-weight:500;cursor:pointer}
-  ul.mems{list-style:none;margin:0 0 16px;padding:0;display:flex;flex-direction:column;gap:8px}
+  /* Schedule table */
+  .schedule-table{width:100%;border-collapse:collapse;font-size:12px}
+  .schedule-table th{color:var(--text-soft);font-weight:600;text-align:center;padding:4px 6px;font-size:11px}
+  .schedule-table th:first-child{text-align:left}
+  .schedule-table td{padding:4px 6px;vertical-align:middle}
+  .schedule-table td:first-child{font-weight:500;padding-left:0}
+  .schedule-table input[type=checkbox]{width:15px;height:15px;accent-color:var(--green);cursor:pointer}
+  .schedule-table tr.day-off td:not(:first-child):not(:nth-child(2)){opacity:.3;pointer-events:none}
+  /* Members list */
+  ul.mems{list-style:none;margin:0 0 12px;padding:0;display:flex;flex-direction:column;gap:8px}
   .mems li{display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--bg);border-radius:12px;padding:10px 12px}
   .mn{display:block;font-weight:600;font-size:13.5px}
   .mbadges{display:flex;gap:5px;align-items:center;margin-top:3px;flex-wrap:wrap}
@@ -118,7 +128,19 @@
   .macts{display:flex;gap:10px;flex-shrink:0}
   .macts button{background:none;border:none;color:var(--text-soft);cursor:pointer;font-size:14px}
   .me:hover{color:var(--green)}.md:hover{color:var(--danger)}
-  .inv-btn{width:100%;background:var(--green-bg);color:var(--green);border:none;padding:12px;border-radius:12px;font-weight:600;font-size:14px}
+  .inv-btn{width:100%;background:var(--green-bg);color:var(--green);border:none;padding:12px;border-radius:12px;font-weight:600;font-size:14px;margin-bottom:8px}
+  .manage-groups-btn{width:100%;background:transparent;border:1px solid var(--border);color:var(--text-soft);padding:10px;border-radius:12px;font-size:13px}
+  .manage-groups-btn:hover{border-color:var(--green);color:var(--green)}
+  /* Groups list */
+  ul.groups-list{list-style:none;margin:0 0 12px;padding:0;display:flex;flex-direction:column;gap:8px}
+  .group-item{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;background:var(--bg);border-radius:12px;padding:12px}
+  .group-name{font-weight:700;font-size:14px}
+  .group-perms{font-size:11px;color:var(--text-soft);margin-top:3px;line-height:1.4}
+  .group-acts{display:flex;gap:8px;flex-shrink:0}
+  .group-acts button{background:none;border:none;color:var(--text-soft);cursor:pointer;font-size:14px}
+  .group-acts .ge:hover{color:var(--green)}.group-acts .gd:hover{color:var(--danger)}
+  .add-group-btn{width:100%;background:var(--green-bg);color:var(--green);border:none;padding:12px;border-radius:12px;font-weight:600;font-size:14px}
+  /* Confirm */
   .cf-modal{background:var(--card);color:var(--text);width:100%;max-width:320px;padding:28px 24px 22px;border-radius:20px;box-shadow:var(--shadow);text-align:center}
   .cfi{width:52px;height:52px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:22px}
   .cfi.danger{background:rgba(220,38,38,.1)}
@@ -230,16 +252,17 @@
   </nav>
 </div>
 
-<!-- MEMBROS MODAL -->
+<!-- MEMBROS -->
 <div id="membersModal" class="ov hidden">
   <div class="modal">
     <div class="mh"><p class="mt">Membros da loja</p><button type="button" id="closeMembersBtn" class="mc">×</button></div>
     <ul class="mems" id="membersList"></ul>
     <button type="button" id="openInviteBtn" class="inv-btn">+ Convidar membro</button>
+    <button type="button" id="openGroupsBtn" class="manage-groups-btn hidden">⚙ Gerenciar grupos</button>
   </div>
 </div>
 
-<!-- CONVIDAR/EDITAR MEMBRO MODAL -->
+<!-- CONVIDAR/EDITAR MEMBRO -->
 <div id="inviteModal" class="ov hidden">
   <div class="modal">
     <div class="mh"><p class="mt" id="mFormTitle">Convidar membro</p><button type="button" id="closeInviteBtn" class="mc">×</button></div>
@@ -251,9 +274,7 @@
       <p class="fh" id="mSenhaHint">Obrigatória para novo membro.</p>
 
       <p class="section-title">Grupo (perfil pré-configurado)</p>
-      <select id="mGroupSelect">
-        <option value="">— Nenhum (configurar manualmente) —</option>
-      </select>
+      <select id="mGroupSelect"><option value="">— Nenhum (configurar manualmente) —</option></select>
 
       <p class="section-title">Permissões</p>
       <div class="perm-grid" id="permGrid"></div>
@@ -263,13 +284,44 @@
         <div class="hh-check-list" id="hhCheckList"></div>
       </div>
 
-      <button type="submit" id="mFormSubmit" class="btn-p" style="margin-top:8px">Convidar membro</button>
+      <p class="section-title">Horário de acesso</p>
+      <p class="fh" style="margin:0 0 8px">Deixe sem restrição para acesso livre. Dias desmarcados = acesso bloqueado.</p>
+      <table class="schedule-table" id="scheduleTable">
+        <thead><tr><th>Dia</th><th>Ativo</th><th>Entrada</th><th>Saída</th></tr></thead>
+        <tbody id="scheduleTbody"></tbody>
+      </table>
+
+      <button type="submit" id="mFormSubmit" class="btn-p" style="margin-top:12px">Convidar membro</button>
     </form>
     <p class="status-msg err hidden" id="mErr"></p>
   </div>
 </div>
 
-<!-- EDITAR PERFIL MODAL -->
+<!-- GERENCIAR GRUPOS -->
+<div id="groupsModal" class="ov hidden">
+  <div class="modal">
+    <div class="mh"><p class="mt">Gerenciar grupos</p><button type="button" id="closeGroupsBtn" class="mc">×</button></div>
+    <ul class="groups-list" id="groupsList"></ul>
+    <button type="button" id="addGroupBtn" class="add-group-btn">+ Criar novo grupo</button>
+  </div>
+</div>
+
+<!-- CRIAR/EDITAR GRUPO -->
+<div id="groupFormModal" class="ov hidden">
+  <div class="modal">
+    <div class="mh"><p class="mt" id="groupFormTitle">Novo grupo</p><button type="button" id="closeGroupFormBtn" class="mc">×</button></div>
+    <form id="groupForm" class="mform">
+      <input type="hidden" id="groupFormId">
+      <input type="text" id="groupFormNome" placeholder="Nome do grupo (ex: Gerente de Vendas)" required>
+      <p class="section-title">Permissões do grupo</p>
+      <div class="perm-grid" id="groupPermGrid"></div>
+      <button type="submit" id="groupFormSubmit" class="btn-p" style="margin-top:8px">Criar grupo</button>
+    </form>
+    <p class="status-msg err hidden" id="groupFormErr"></p>
+  </div>
+</div>
+
+<!-- EDITAR PERFIL -->
 <div id="editProfileModal" class="ov hidden">
   <div class="modal">
     <div class="mh"><p class="mt">Editar meus dados</p><button type="button" id="closeEditProfile" class="mc">×</button></div>
@@ -283,7 +335,7 @@
   </div>
 </div>
 
-<!-- LOJA MODAL -->
+<!-- LOJA -->
 <div id="hhModal" class="ov hidden">
   <div class="modal">
     <div class="mh"><p class="mt" id="hhMTitle">Nova loja</p><button type="button" id="closeHHModal" class="mc">×</button></div>
@@ -296,7 +348,7 @@
   </div>
 </div>
 
-<!-- CONFIRM MODAL -->
+<!-- CONFIRM -->
 <div id="confirmModal" class="ov hidden">
   <div class="cf-modal">
     <div class="cfi danger" id="cfI">🗑️</div>
@@ -316,51 +368,32 @@
 </div>
 
 <script>
-const API = 'https://script.google.com/macros/s/AKfycbxaLtifLTTakDmk5ga1ueBjQn9UpCi0291sx9d4DX-VEUMilsWQnpQNYufO7aEIgw0/exec';
-const $ = id => document.getElementById(id);
+const API='https://script.google.com/macros/s/AKfycbxaLtifLTTakDmk5ga1ueBjQn9UpCi0291sx9d4DX-VEUMilsWQnpQNYufO7aEIgw0/exec';
+const $=id=>document.getElementById(id);
+const DAYS=['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+const ALL_PERMS={add_item:'Adicionar item',toggle_item:'Marcar como comprado',delete_item:'Excluir item',view_members:'Ver membros',invite_member:'Convidar membro',edit_member:'Editar membro',delete_member:'Excluir membro',view_all_lojas:'Ver todas as lojas',manage_lojas:'Gerenciar lojas'};
 
-const ALL_PERMS = {
-  add_item:       'Adicionar item',
-  toggle_item:    'Marcar como comprado',
-  delete_item:    'Excluir item',
-  view_members:   'Ver membros',
-  invite_member:  'Convidar membro',
-  edit_member:    'Editar membro',
-  delete_member:  'Excluir membro',
-  view_all_lojas: 'Ver todas as lojas',
-  manage_lojas:   'Gerenciar lojas'
-};
+let S={email:localStorage.getItem('ue')||'',senha:sessionStorage.getItem('us')||'',role:'',orgId:'',hhId:localStorage.getItem('uhh')||'',households:[],members:[],items:[],groups:[],permissions:[],filter:'todos',pendingEmail:'',userId:'',userName:''};
 
-let S = {
-  email: localStorage.getItem('ue')||'', senha: sessionStorage.getItem('us')||'',
-  role:'', orgId:'', hhId: localStorage.getItem('uhh')||'',
-  households:[], members:[], items:[], groups:[],
-  permissions:[], filter:'todos',
-  pendingEmail:'', userId:'', userName:''
-};
+function can(k){return S.role==='owner'||S.permissions.includes(k)}
 
-function can(key) {
-  if (S.role === 'owner') return true;
-  return S.permissions.includes(key);
-}
-
-const applyTheme = t => { document.documentElement.setAttribute('data-theme',t); $('themeToggle').textContent=t==='dark'?'☀️':'🌙'; localStorage.setItem('th',t); };
+const applyTheme=t=>{document.documentElement.setAttribute('data-theme',t);$('themeToggle').textContent=t==='dark'?'☀️':'🌙';localStorage.setItem('th',t)};
 applyTheme(localStorage.getItem('th')||'light');
-$('themeToggle').addEventListener('click', () => applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));
+$('themeToggle').addEventListener('click',()=>applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));
 
 const lbEl=$('lb');
 function startLoad(){lbEl.classList.remove('done');lbEl.classList.add('active')}
 function stopLoad(){lbEl.classList.remove('active');lbEl.classList.add('done');setTimeout(()=>lbEl.classList.remove('done'),600)}
 
-let toastTimer;
+let tTimer;
 function toast(msg,type='success'){
   const icons={success:'✓',danger:'✕',loading:'⟳'};
   $('tt').textContent=msg;$('ti').className=`ti ${type}`;$('ti').textContent=icons[type]||'✓';
   $('tb').className=`tb ${type==='loading'?'success':type}`;
   $('tb').style.animation='none';void $('tb').offsetWidth;
   if(type!=='loading')$('tb').style.animation='';
-  $('toast').classList.add('show');clearTimeout(toastTimer);
-  if(type!=='loading')toastTimer=setTimeout(()=>$('toast').classList.remove('show'),2800);
+  $('toast').classList.add('show');clearTimeout(tTimer);
+  if(type!=='loading')tTimer=setTimeout(()=>$('toast').classList.remove('show'),2800);
 }
 
 function confirm_(opts){
@@ -390,8 +423,7 @@ function hideAll(){
   ['loginScreen','regScreen','setPassScreen','hhScreen','appScreen'].forEach(id=>$(id).classList.add('hidden'));
   $('botNav').classList.add('hidden');$('avBtn').classList.add('hidden');
   $('hhBadge').classList.add('hidden');$('accMenu').classList.add('hidden');
-  $('navMembers').classList.add('hidden');$('navHH').classList.add('hidden');
-  $('addHHBtn').classList.add('hidden');
+  $('navMembers').classList.add('hidden');$('navHH').classList.add('hidden');$('addHHBtn').classList.add('hidden');
 }
 
 function showLogin(err){
@@ -414,17 +446,16 @@ function showHH(data){
   hideAll();$('hhScreen').classList.remove('hidden');$('botNav').classList.remove('hidden');
   setupAvatar(data.user.nome,data.user.role);
   $('navHH').classList.remove('hidden');$('navHH').classList.add('active');$('navList').classList.remove('active');
-  if(data.user.role==='owner'||can('manage_lojas'))$('addHHBtn').classList.remove('hidden');
+  if(can('manage_lojas'))$('addHHBtn').classList.remove('hidden');
   renderHH(data.households||S.households);
 }
 
 function showApp(data){
   hideAll();$('appScreen').classList.remove('hidden');$('botNav').classList.remove('hidden');
-  S.role=data.user.role;S.userId=String(data.user.user_id);
-  S.permissions=data.user.permissions||[];
+  S.role=data.user.role;S.userId=String(data.user.user_id);S.permissions=data.user.permissions||[];
   setupAvatar(data.user.nome,data.user.role);
   S.items=data.items||[];S.members=data.members||[];
-  if(can('view_all_lojas')||S.role==='owner'){
+  if(can('view_all_lojas')){
     const hh=S.households.find(h=>String(h.household_id)===String(S.hhId));
     if(hh){$('hhBadge').textContent=hh.nome;$('hhBadge').classList.remove('hidden')}
     $('navHH').classList.remove('hidden');
@@ -443,7 +474,6 @@ $('logoutBtn').addEventListener('click',()=>{
   $('accMenu').classList.add('hidden');showLogin();
 });
 
-// Edit profile
 $('editProfileBtn').addEventListener('click',()=>{
   $('accMenu').classList.add('hidden');$('epNome').value=S.userName;
   $('epNovaSenha').value='';$('epNovaSenha2').value='';$('epErr').classList.add('hidden');
@@ -453,8 +483,7 @@ $('closeEditProfile').addEventListener('click',()=>$('editProfileModal').classLi
 $('editProfileModal').addEventListener('click',e=>{if(e.target===$('editProfileModal'))$('editProfileModal').classList.add('hidden')});
 $('editProfileForm').addEventListener('submit',async e=>{
   e.preventDefault();const err=$('epErr');err.classList.add('hidden');
-  const nome=$('epNome').value.trim();
-  const ns=$('epNovaSenha').value,ns2=$('epNovaSenha2').value;
+  const nome=$('epNome').value.trim(),ns=$('epNovaSenha').value,ns2=$('epNovaSenha2').value;
   if(ns&&ns.length<6){err.textContent='Mínimo 6 caracteres.';err.classList.remove('hidden');return}
   if(ns&&ns!==ns2){err.textContent='Senhas não coincidem.';err.classList.remove('hidden');return}
   const btn=$('epSubmit');btn.disabled=true;startLoad();toast('Salvando...','loading');
@@ -465,19 +494,13 @@ $('editProfileForm').addEventListener('submit',async e=>{
     S.userName=nome;if(ns){S.senha=ns;sessionStorage.setItem('us',ns)}
     $('avBtn').textContent=ini(nome);$('accName').textContent=nome;
     $('editProfileModal').classList.add('hidden');stopLoad();toast('✓ Dados atualizados.','success');
-  }catch{err.textContent='Erro.';err.classList.remove('hidden');stopLoad()}
-  finally{btn.disabled=false}
+  }catch{err.textContent='Erro.';err.classList.remove('hidden');stopLoad()}finally{btn.disabled=false}
 });
 
-// HH badge
 $('hhBadge').addEventListener('click',()=>{
-  if(can('view_all_lojas')||S.role==='owner'){
-    S.hhId='';localStorage.removeItem('uhh');
-    showHH({user:{nome:S.userName,role:S.role},households:S.households});
-  }
+  if(can('view_all_lojas')){S.hhId='';localStorage.removeItem('uhh');showHH({user:{nome:S.userName,role:S.role},households:S.households})}
 });
 
-// Login
 $('loginForm').addEventListener('submit',async e=>{
   e.preventDefault();
   const email=$('lEmail').value.trim(),senha=$('lSenha').value;
@@ -486,13 +509,11 @@ $('loginForm').addEventListener('submit',async e=>{
     const d=await jsonp(`${API}?action=login&email=${encodeURIComponent(email)}&senha=${encodeURIComponent(senha)}`);
     if(d.needsPassword){stopLoad();$('toast').classList.remove('show');showSetPass(email);return}
     if(d.error){stopLoad();$('toast').classList.remove('show');showLogin(d.error);return}
-    S.email=email;S.senha=senha;S.role=d.user.role;S.orgId=d.user.org_id;S.permissions=d.user.permissions||[];
-    S.userId=String(d.user.user_id);S.households=d.households||[];
+    S.email=email;S.senha=senha;S.role=d.user.role;S.orgId=d.user.org_id;S.permissions=d.user.permissions||[];S.userId=String(d.user.user_id);S.households=d.households||[];
     localStorage.setItem('ue',email);sessionStorage.setItem('us',senha);
     stopLoad();
-    if((S.role==='owner'||can('view_all_lojas'))&&!S.hhId)showHH(d);else loadItems();
-  }catch{stopLoad();$('toast').classList.remove('show');showLogin('Erro de conexão.')}
-  finally{btn.disabled=false}
+    if(can('view_all_lojas')&&!S.hhId)showHH(d);else loadItems();
+  }catch{stopLoad();$('toast').classList.remove('show');showLogin('Erro de conexão.')}finally{btn.disabled=false}
 });
 
 $('goRegBtn').addEventListener('click',showReg);
@@ -501,9 +522,7 @@ $('backFromSetPass').addEventListener('click',()=>showLogin());
 
 $('regForm').addEventListener('submit',async e=>{
   e.preventDefault();const err=$('regErr');err.classList.add('hidden');
-  const nome=$('rNome').value.trim(),email=$('rEmail').value.trim();
-  const s1=$('rSenha').value,s2=$('rSenha2').value;
-  const org=$('rOrg').value.trim(),hh=$('rHH').value.trim();
+  const nome=$('rNome').value.trim(),email=$('rEmail').value.trim(),s1=$('rSenha').value,s2=$('rSenha2').value,org=$('rOrg').value.trim(),hh=$('rHH').value.trim();
   if(s1!==s2){err.textContent='Senhas não coincidem.';err.classList.remove('hidden');return}
   if(s1.length<6){err.textContent='Mínimo 6 caracteres.';err.classList.remove('hidden');return}
   const btn=$('regBtn');btn.disabled=true;startLoad();toast('Criando conta...','loading');
@@ -513,8 +532,7 @@ $('regForm').addEventListener('submit',async e=>{
     S.email=email;S.senha=s1;S.role=d.user.role;S.orgId=d.user.org_id;S.households=d.households||[];S.userId=String(d.user.user_id);
     localStorage.setItem('ue',email);sessionStorage.setItem('us',s1);
     stopLoad();toast('✓ Conta criada!','success');showHH(d);
-  }catch{err.textContent='Erro.';err.classList.remove('hidden');stopLoad();$('toast').classList.remove('show')}
-  finally{btn.disabled=false}
+  }catch{err.textContent='Erro.';err.classList.remove('hidden');stopLoad();$('toast').classList.remove('show')}finally{btn.disabled=false}
 });
 
 $('setPassForm').addEventListener('submit',async e=>{
@@ -529,110 +547,70 @@ $('setPassForm').addEventListener('submit',async e=>{
     S.email=S.pendingEmail;S.senha=s1;S.role=d.user.role;S.permissions=d.user.permissions||[];S.orgId=d.user.org_id;S.households=d.households||[];S.userId=String(d.user.user_id);
     localStorage.setItem('ue',S.email);sessionStorage.setItem('us',s1);
     stopLoad();toast('✓ Senha definida!','success');
-    if((S.role==='owner'||can('view_all_lojas'))&&!S.hhId)showHH(d);else loadItems();
-  }catch{err.textContent='Erro.';err.classList.remove('hidden');stopLoad()}
-  finally{btn.disabled=false}
+    if(can('view_all_lojas')&&!S.hhId)showHH(d);else loadItems();
+  }catch{err.textContent='Erro.';err.classList.remove('hidden');stopLoad()}finally{btn.disabled=false}
 });
 
-// HH Nav
-$('navHH').addEventListener('click',()=>{
-  $('navHH').classList.add('active');$('navList').classList.remove('active');
-  $('appScreen').classList.add('hidden');$('hhScreen').classList.remove('hidden');
-  $('hhBadge').classList.add('hidden');renderHH(S.households);
-});
-$('navList').addEventListener('click',()=>{
-  if(!S.hhId)return;
-  $('navList').classList.add('active');$('navHH').classList.remove('active');
-  $('hhScreen').classList.add('hidden');$('appScreen').classList.remove('hidden');
-  if(can('view_all_lojas')||S.role==='owner')$('hhBadge').classList.remove('hidden');
-});
+$('navHH').addEventListener('click',()=>{$('navHH').classList.add('active');$('navList').classList.remove('active');$('appScreen').classList.add('hidden');$('hhScreen').classList.remove('hidden');$('hhBadge').classList.add('hidden');renderHH(S.households)});
+$('navList').addEventListener('click',()=>{if(!S.hhId)return;$('navList').classList.add('active');$('navHH').classList.remove('active');$('hhScreen').classList.add('hidden');$('appScreen').classList.remove('hidden');if(can('view_all_lojas'))$('hhBadge').classList.remove('hidden')});
 
 function renderHH(hhs){
-  S.households=hhs;
-  const canManage=S.role==='owner'||can('manage_lojas');
+  S.households=hhs;const canManage=can('manage_lojas');
   $('hhList').innerHTML=hhs.map(h=>`
     <div class="hh-card" data-id="${h.household_id}">
       <div><div class="hh-name">${h.nome}</div><div class="hh-meta">Clique para entrar</div></div>
-      ${canManage?`<div class="hh-acts" onclick="event.stopPropagation()">
-        <button class="hh-ab hhe" data-id="${h.household_id}" data-nome="${h.nome}">✎</button>
-        <button class="hh-ab del hhd" data-id="${h.household_id}" data-nome="${h.nome}">×</button>
-      </div>`:''}</div>`).join('');
+      ${canManage?`<div class="hh-acts" onclick="event.stopPropagation()"><button class="hh-ab hhe" data-id="${h.household_id}" data-nome="${h.nome}">✎</button><button class="hh-ab del hhd" data-id="${h.household_id}" data-nome="${h.nome}">×</button></div>`:''}</div>`).join('');
   $('hhList').querySelectorAll('.hh-card').forEach(c=>c.addEventListener('click',()=>selectHH(c.dataset.id)));
   $('hhList').querySelectorAll('.hhe').forEach(b=>b.addEventListener('click',()=>openHHForm(b.dataset.id,b.dataset.nome)));
   $('hhList').querySelectorAll('.hhd').forEach(b=>b.addEventListener('click',()=>deleteHH(b.dataset.id,b.dataset.nome)));
 }
 
-function selectHH(id){
-  S.hhId=id;localStorage.setItem('uhh',id);
-  $('navList').classList.add('active');$('navHH').classList.remove('active');
-  $('hhScreen').classList.add('hidden');$('appScreen').classList.remove('hidden');
-  $('hhBadge').classList.remove('hidden');loadItems();
-}
-
+function selectHH(id){S.hhId=id;localStorage.setItem('uhh',id);$('navList').classList.add('active');$('navHH').classList.remove('active');$('hhScreen').classList.add('hidden');$('appScreen').classList.remove('hidden');$('hhBadge').classList.remove('hidden');loadItems()}
 $('addHHBtn').addEventListener('click',()=>openHHForm(null,''));
-function openHHForm(id,nome){
-  $('hhFId').value=id||'';$('hhFNome').value=nome||'';
-  $('hhMTitle').textContent=id?'Editar loja':'Nova loja';
-  $('hhFSubmit').textContent=id?'Salvar':'Criar';
-  $('hhFErr').classList.add('hidden');$('hhModal').classList.remove('hidden');
-}
+function openHHForm(id,nome){$('hhFId').value=id||'';$('hhFNome').value=nome||'';$('hhMTitle').textContent=id?'Editar loja':'Nova loja';$('hhFSubmit').textContent=id?'Salvar':'Criar';$('hhFErr').classList.add('hidden');$('hhModal').classList.remove('hidden')}
 $('closeHHModal').addEventListener('click',()=>$('hhModal').classList.add('hidden'));
 $('hhModal').addEventListener('click',e=>{if(e.target===$('hhModal'))$('hhModal').classList.add('hidden')});
-
 $('hhForm').addEventListener('submit',async e=>{
-  e.preventDefault();
-  const id=$('hhFId').value,nome=$('hhFNome').value.trim();
+  e.preventDefault();const id=$('hhFId').value,nome=$('hhFNome').value.trim();
   const btn=$('hhFSubmit');btn.disabled=true;startLoad();toast(id?'Salvando...':'Criando...','loading');
   try{
-    const action=id?'updateHousehold':'createHousehold';
-    const extra=id?`&household_id_target=${id}`:'';
+    const action=id?'updateHousehold':'createHousehold',extra=id?`&household_id_target=${id}`:'';
     const d=await jsonp(`${API}?action=${action}&nome=${encodeURIComponent(nome)}${extra}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
     if(d.error){$('hhFErr').textContent=d.error;$('hhFErr').classList.remove('hidden');stopLoad();$('toast').classList.remove('show');return}
     $('hhModal').classList.add('hidden');stopLoad();toast(id?'✓ Loja atualizada.':'✓ Loja criada.','success');
     const sess=await jsonp(`${API}?action=login&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
     if(sess.households){S.households=sess.households;renderHH(S.households)}
-  }catch{$('hhFErr').textContent='Erro.';$('hhFErr').classList.remove('hidden');stopLoad()}
-  finally{btn.disabled=false}
+  }catch{$('hhFErr').textContent='Erro.';$('hhFErr').classList.remove('hidden');stopLoad()}finally{btn.disabled=false}
 });
-
 function deleteHH(id,nome){
   confirm_({title:'Excluir loja?',sub:`"${nome}" e todos os seus dados serão removidos.`,icon:'🏠',btn:'Excluir',
-    onConfirm:async()=>{
-      startLoad();toast(`Removendo ${nome}...`,'loading');
-      try{
-        const d=await jsonp(`${API}?action=deleteHousehold&household_id_target=${id}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
+    onConfirm:async()=>{startLoad();toast(`Removendo ${nome}...`,'loading');
+      try{const d=await jsonp(`${API}?action=deleteHousehold&household_id_target=${id}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
         if(d.error){alert(d.error);stopLoad();return}
         if(String(S.hhId)===String(id)){S.hhId='';localStorage.removeItem('uhh')}
         const sess=await jsonp(`${API}?action=login&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
         if(sess.households)S.households=sess.households;
-        showHH({user:{nome:S.userName,role:S.role},households:S.households});
-        toast(`✕ ${nome} excluída.`,'danger');
-      }catch{alert('Erro.')}finally{stopLoad()}
-    }
+        showHH({user:{nome:S.userName,role:S.role},households:S.households});toast(`✕ ${nome} excluída.`,'danger');
+      }catch{alert('Erro.')}finally{stopLoad()}}
   });
 }
 
 async function loadItems(){
-  const hhP=(S.role==='owner'||can('view_all_lojas'))?`&household_id=${encodeURIComponent(S.hhId)}`:'';
+  const hhP=can('view_all_lojas')?`&household_id=${encodeURIComponent(S.hhId)}`:'';
   try{
     const d=await jsonp(`${API}?action=getItems&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
     if(d.error){localStorage.removeItem('ue');sessionStorage.removeItem('us');S.email='';S.senha='';showLogin(d.error);return}
-    S.role=d.user.role;S.permissions=d.user.permissions||[];
-    S.households=d.households||S.households;S.hhId=d.currentHouseholdId||S.hhId;
+    S.role=d.user.role;S.permissions=d.user.permissions||[];S.households=d.households||S.households;S.hhId=d.currentHouseholdId||S.hhId;
     showApp(d);
   }catch{$('content').innerHTML=`<p class="status-msg err">Não foi possível conectar à API.</p>`}
 }
 
 $('filterTabs').addEventListener('click',e=>{
   const btn=e.target.closest('.tab');if(!btn)return;
-  S.filter=btn.dataset.filter;
-  $('filterTabs').querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===btn));
-  renderFiltered();
+  S.filter=btn.dataset.filter;$('filterTabs').querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===btn));renderFiltered();
 });
-
 function renderFiltered(){
-  const pend=S.items.filter(i=>i.status!=='comprado');
-  const done=S.items.filter(i=>i.status==='comprado');
+  const pend=S.items.filter(i=>i.status!=='comprado'),done=S.items.filter(i=>i.status==='comprado');
   $('cT').textContent=S.items.length;$('cP').textContent=pend.length;$('cC').textContent=done.length;
   if(!S.items.length){$('content').innerHTML='<p class="empty">Nenhum item ainda.<br>Adicione o primeiro acima.</p>';return}
   let html='';
@@ -642,198 +620,173 @@ function renderFiltered(){
   $('content').querySelectorAll('.ck,.inf').forEach(el=>el.addEventListener('click',()=>toggleItem(el.dataset.id)));
   $('content').querySelectorAll('.dl').forEach(el=>el.addEventListener('click',()=>deleteItemAction(el.dataset.id)));
 }
-
 function renderGroup(items){
   return '<ul class="items">'+items.map(item=>{
-    const done=item.status==='comprado';
-    const owner=S.members.find(m=>String(m.user_id)===String(item.user_id));
-    return `<li class="item${done?' done':''}">
-      <button class="ck" data-id="${item.item_id}">${done?'✓':''}</button>
-      <div class="inf" data-id="${item.item_id}"><span class="nm">${item.nome_item}</span></div>
-      <span class="qb">x${item.quantidade}</span>
-      ${owner?`<span class="av">${ini(owner.nome)}</span>`:''}
-      ${can('delete_item')?`<button class="dl" data-id="${item.item_id}">×</button>`:''}
-    </li>`;
+    const done=item.status==='comprado',owner=S.members.find(m=>String(m.user_id)===String(item.user_id));
+    return `<li class="item${done?' done':''}"><button class="ck" data-id="${item.item_id}">${done?'✓':''}</button><div class="inf" data-id="${item.item_id}"><span class="nm">${item.nome_item}</span></div><span class="qb">x${item.quantidade}</span>${owner?`<span class="av">${ini(owner.nome)}</span>`:''}${can('delete_item')?`<button class="dl" data-id="${item.item_id}">×</button>`:''}</li>`;
   }).join('')+'</ul>';
 }
-
 async function toggleItem(id){
   if(!can('toggle_item'))return;
   const item=S.items.find(i=>String(i.item_id)===String(id));
-  if(item)item.status=item.status==='comprado'?'pendente':'comprado';
-  renderFiltered();
-  const hhP=(S.role==='owner'||can('view_all_lojas'))?`&household_id=${encodeURIComponent(S.hhId)}`:'';
+  if(item)item.status=item.status==='comprado'?'pendente':'comprado';renderFiltered();
+  const hhP=can('view_all_lojas')?`&household_id=${encodeURIComponent(S.hhId)}`:'';
   try{await jsonp(`${API}?action=toggleItem&item_id=${id}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);loadItems()}
   catch{if(item){item.status=item.status==='comprado'?'pendente':'comprado';renderFiltered()}}
 }
-
 async function deleteItemAction(id){
   const item=S.items.find(i=>String(i.item_id)===String(id));
   confirm_({title:'Excluir item?',sub:`"${item?item.nome_item:'item'}" será removido.`,icon:'🗑️',btn:'Excluir',
-    onConfirm:async()=>{
-      startLoad();toast('Removendo item...','loading');
-      const hhP=(S.role==='owner'||can('view_all_lojas'))?`&household_id=${encodeURIComponent(S.hhId)}`:'';
+    onConfirm:async()=>{startLoad();toast('Removendo item...','loading');
+      const hhP=can('view_all_lojas')?`&household_id=${encodeURIComponent(S.hhId)}`:'';
       try{await jsonp(`${API}?action=deleteItem&item_id=${id}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);toast('✕ Item removido.','danger');loadItems()}
-      catch{alert('Erro.')}finally{stopLoad()}
-    }
+      catch{alert('Erro.')}finally{stopLoad()}}
   });
 }
-
 $('addForm').addEventListener('submit',async e=>{
   e.preventDefault();if(!can('add_item'))return;
   const nome=$('itemName').value.trim(),qty=$('itemQty').value;if(!nome)return;
   const btn=e.target.querySelector('.add-btn');btn.disabled=true;startLoad();toast('Adicionando...','loading');
-  const hhP=(S.role==='owner'||can('view_all_lojas'))?`&household_id=${encodeURIComponent(S.hhId)}`:'';
-  try{
-    await jsonp(`${API}?action=addItem&nome_item=${encodeURIComponent(nome)}&quantidade=${qty}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
-    $('itemName').value='';$('itemQty').value=1;toast('✓ Item adicionado.','success');loadItems();
-  }catch{alert('Erro.')}finally{btn.disabled=false;stopLoad()}
+  const hhP=can('view_all_lojas')?`&household_id=${encodeURIComponent(S.hhId)}`:'';
+  try{await jsonp(`${API}?action=addItem&nome_item=${encodeURIComponent(nome)}&quantidade=${qty}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);$('itemName').value='';$('itemQty').value=1;toast('✓ Item adicionado.','success');loadItems()}
+  catch{alert('Erro.')}finally{btn.disabled=false;stopLoad()}
 });
 
-// Members
+// ---- MEMBERS ----
 $('navMembers').addEventListener('click',()=>{renderMembers(S.members);$('membersModal').classList.remove('hidden')});
 $('closeMembersBtn').addEventListener('click',()=>$('membersModal').classList.add('hidden'));
 $('membersModal').addEventListener('click',e=>{if(e.target===$('membersModal'))$('membersModal').classList.add('hidden')});
 
-function getGroupName(groupId){
-  const g=S.groups.find(x=>String(x.group_id)===String(groupId));
-  return g?g.nome:'';
-}
+function getGroupName(gid){const g=S.groups.find(x=>String(x.group_id)===String(gid));return g?g.nome:''}
 
 function renderMembers(members){
   $('membersList').innerHTML=members.map(m=>{
     const gName=getGroupName(m.group_id);
-    return `<li>
-      <div>
-        <span class="mn">${m.nome}</span>
-        <div class="mbadges">
-          ${gName?`<span class="badge badge-group">${gName}</span>`:''}
-          ${!m.tem_senha?'<span class="badge badge-nopass">sem senha</span>':''}
-        </div>
-      </div>
-      <div class="macts">
-        ${can('edit_member')?`<button type="button" class="me" data-id="${m.user_id}">✎</button>`:''}
-        ${can('delete_member')&&String(m.user_id)!==S.userId?`<button type="button" class="md" data-id="${m.user_id}">×</button>`:''}
-      </div>
-    </li>`;
+    return `<li><div><span class="mn">${m.nome}</span><div class="mbadges">${gName?`<span class="badge badge-group">${gName}</span>`:''} ${!m.tem_senha?'<span class="badge badge-nopass">sem senha</span>':''}</div></div><div class="macts">${can('edit_member')?`<button type="button" class="me" data-id="${m.user_id}">✎</button>`:''}${can('delete_member')&&String(m.user_id)!==S.userId?`<button type="button" class="md" data-id="${m.user_id}">×</button>`:''}</div></li>`;
   }).join('');
-  $('membersList').querySelectorAll('.me').forEach(b=>{
-    b.addEventListener('click',()=>{const m=S.members.find(x=>String(x.user_id)===b.dataset.id);if(m)openMemberForm(m)});
-  });
-  $('membersList').querySelectorAll('.md').forEach(b=>{
-    b.addEventListener('click',()=>deleteMember(b.dataset.id));
-  });
+  $('membersList').querySelectorAll('.me').forEach(b=>b.addEventListener('click',()=>{const m=S.members.find(x=>String(x.user_id)===b.dataset.id);if(m)openMemberForm(m)}));
+  $('membersList').querySelectorAll('.md').forEach(b=>b.addEventListener('click',()=>deleteMember(b.dataset.id)));
+  // Show groups management button for owner/admin
+  if(S.role==='owner'||can('manage_lojas'))$('openGroupsBtn').classList.remove('hidden');
 }
 
+// ---- SCHEDULE helpers ----
+function buildScheduleTbody(existingSchedule){
+  const sched=existingSchedule||{};
+  $('scheduleTbody').innerHTML=DAYS.map((day,i)=>{
+    const ds=sched[String(i)]||{on:false,in:'08:00',out:'18:00'};
+    const on=ds.on!==undefined?ds.on:false;
+    return `<tr class="${on?'':'day-off'}" data-day="${i}">
+      <td>${day}</td>
+      <td style="text-align:center"><input type="checkbox" data-sched-day="${i}" ${on?'checked':''} onchange="toggleDayRow(${i},this.checked)"></td>
+      <td><input type="time" data-sched-in="${i}" value="${ds.in||'08:00'}" ${!on?'disabled':''}></td>
+      <td><input type="time" data-sched-out="${i}" value="${ds.out||'18:00'}" ${!on?'disabled':''}></td>
+    </tr>`;
+  }).join('');
+}
+window.toggleDayRow=function(day,checked){
+  const tr=document.querySelector(`#scheduleTbody tr[data-day="${day}"]`);
+  if(tr){tr.className=checked?'':'day-off';tr.querySelectorAll('input[type=time]').forEach(i=>i.disabled=!checked)}
+};
+function getScheduleJSON(){
+  const obj={};
+  DAYS.forEach((_,i)=>{
+    const cb=document.querySelector(`[data-sched-day="${i}"]`);
+    if(!cb)return;
+    const inVal=document.querySelector(`[data-sched-in="${i}"]`)?.value||'08:00';
+    const outVal=document.querySelector(`[data-sched-out="${i}"]`)?.value||'18:00';
+    obj[String(i)]={on:cb.checked,in:inVal,out:outVal};
+  });
+  // If all off → empty string (no restriction)
+  const anyOn=Object.values(obj).some(d=>d.on);
+  return anyOn?JSON.stringify(obj):'';
+}
+
+// ---- PERM GRID helpers ----
+function renderPermGrid(containerId,selectedPerms){
+  $(containerId).innerHTML=Object.entries(ALL_PERMS).map(([key,label])=>{
+    const checked=selectedPerms.includes(key);
+    return `<div class="perm-item" onclick="toggleCb('${containerId}','${key}')"><input type="checkbox" id="${containerId}_${key}" data-perm="${key}" ${checked?'checked':''} onclick="event.stopPropagation()"><label for="${containerId}_${key}">${label}</label></div>`;
+  }).join('');
+}
+window.toggleCb=function(cid,key){const cb=document.getElementById(`${cid}_${key}`);if(cb)cb.checked=!cb.checked};
+function getCheckedPerms(containerId){
+  return Array.from($(containerId).querySelectorAll('input[type=checkbox]:checked')).map(cb=>cb.dataset.perm).join(',');
+}
+
+// ---- MEMBER FORM ----
 async function openMemberForm(m){
-  // Load groups if not yet loaded
   if(S.groups.length===0){
     try{const d=await jsonp(`${API}?action=getGroups&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);if(d.groups)S.groups=d.groups}catch{}
   }
-
   $('mErr').classList.add('hidden');
   const ed=!!m;
   $('mFormId').value=m?m.user_id:'';
-  $('mNome').value=m?m.nome:'';
-  $('mEmail').value=m?m.email:'';
+  $('mNome').value=m?m.nome:'';$('mEmail').value=m?m.email:'';
   $('mSenha').value='';$('mSenha').required=!ed;
   $('mSenhaHint').textContent=ed?'Deixe em branco para manter.':'Obrigatória para novo membro.';
   $('mFormTitle').textContent=ed?'Editar membro':'Convidar membro';
   $('mFormSubmit').textContent=ed?'Salvar alterações':'Convidar membro';
 
-  // Populate group selector
   const gSel=$('mGroupSelect');
   gSel.innerHTML='<option value="">— Nenhum (configurar manualmente) —</option>';
-  S.groups.forEach(g=>{
-    const opt=document.createElement('option');
-    opt.value=g.group_id;opt.textContent=g.nome;
-    gSel.appendChild(opt);
-  });
+  S.groups.forEach(g=>{const o=document.createElement('option');o.value=g.group_id;o.textContent=g.nome;gSel.appendChild(o)});
   if(m&&m.group_id)gSel.value=String(m.group_id);
 
-  // Render permission checkboxes
-  const currentPerms=m&&m.permissions?String(m.permissions).split(',').map(p=>p.trim()).filter(Boolean):[];
-  renderPermGrid(currentPerms);
+  const curPerms=m&&m.permissions?String(m.permissions).split(',').map(p=>p.trim()).filter(Boolean):[];
+  renderPermGrid('permGrid',curPerms);
 
-  // Render HH access (only for users who can view multiple)
   if(S.households.length>1){
     $('hhAccessSection').classList.remove('hidden');
-    const currentHHs=m&&m.accessible_households?String(m.accessible_households).split(',').map(s=>s.trim()).filter(Boolean):[];
+    const curHHs=m&&m.accessible_households?String(m.accessible_households).split(',').map(s=>s.trim()).filter(Boolean):[];
     const primaryHH=m?String(m.household_id||S.hhId):String(S.hhId);
     $('hhCheckList').innerHTML=S.households.map(h=>{
       const hId=String(h.household_id);
-      const isChecked=hId===primaryHH||currentHHs.includes(hId);
-      return `<div class="hh-check-item">
-        <input type="checkbox" id="hhc_${hId}" data-hhid="${hId}" ${isChecked?'checked':''}>
-        <label for="hhc_${hId}">${h.nome}${hId===primaryHH?' (principal)':''}</label>
-      </div>`;
+      const isChecked=hId===primaryHH||curHHs.includes(hId);
+      return `<div class="hh-check-item"><input type="checkbox" id="hhc_${hId}" data-hhid="${hId}" ${isChecked?'checked':''}><label for="hhc_${hId}">${h.nome}${hId===primaryHH?' (principal)':''}</label></div>`;
     }).join('');
-    // Update labels dynamically as user changes selection
-    $('hhCheckList').querySelectorAll('input[type=checkbox]').forEach(cb=>{
-      cb.addEventListener('change',updateHHLabels);
-    });
+    $('hhCheckList').querySelectorAll('input').forEach(cb=>cb.addEventListener('change',updateHHLabels));
   }else{
     $('hhAccessSection').classList.add('hidden');
   }
 
+  let existingSchedule=null;
+  if(m&&m.access_schedule&&String(m.access_schedule).trim()){
+    try{existingSchedule=JSON.parse(String(m.access_schedule))}catch{}
+  }
+  buildScheduleTbody(existingSchedule);
+
   $('membersModal').classList.add('hidden');$('inviteModal').classList.remove('hidden');
 }
 
-function renderPermGrid(selectedPerms){
-  $('permGrid').innerHTML=Object.entries(ALL_PERMS).map(([key,label])=>{
-    const checked=selectedPerms.includes(key);
-    return `<div class="perm-item" onclick="togglePermCheck('${key}')">
-      <input type="checkbox" id="perm_${key}" data-perm="${key}" ${checked?'checked':''} onclick="event.stopPropagation()">
-      <label for="perm_${key}">${label}</label>
-    </div>`;
-  }).join('');
-  $('permGrid').querySelectorAll('input[type=checkbox]').forEach(cb=>{
-    cb.addEventListener('change',()=>{/* handled by perm-item click */});
-  });
-}
-
-window.togglePermCheck=function(key){
-  const cb=$(`perm_${key}`);if(cb)cb.checked=!cb.checked;
-};
-
 function updateHHLabels(){
-  const cbs=Array.from($('hhCheckList').querySelectorAll('input[type=checkbox]'));
+  const cbs=Array.from($('hhCheckList').querySelectorAll('input'));
   const checked=cbs.filter(c=>c.checked);
-  // If none checked, re-check the one that was just unchecked
   if(checked.length===0){cbs.forEach(c=>c.checked=true);return}
-  const firstChecked=checked[0];
+  const first=checked[0];
   cbs.forEach(cb=>{
-    const lbl=document.querySelector(`label[for="${cb.id}"]`);
-    if(!lbl)return;
+    const lbl=document.querySelector(`label[for="${cb.id}"]`);if(!lbl)return;
     const baseName=S.households.find(h=>String(h.household_id)===cb.dataset.hhid)?.nome||'';
-    lbl.textContent=cb===firstChecked?`${baseName} (principal)`:baseName;
+    lbl.textContent=cb===first?`${baseName} (principal)`:baseName;
   });
 }
 
-// Group selector fills checkboxes
 $('mGroupSelect').addEventListener('change',()=>{
   const gId=$('mGroupSelect').value;
-  if(!gId){renderPermGrid([]);return}
+  if(!gId){renderPermGrid('permGrid',[]);return}
   const group=S.groups.find(g=>String(g.group_id)===String(gId));
-  if(group){
-    const perms=String(group.permissions||'').split(',').map(p=>p.trim()).filter(Boolean);
-    renderPermGrid(perms);
-  }
+  if(group){const perms=String(group.permissions||'').split(',').map(p=>p.trim()).filter(Boolean);renderPermGrid('permGrid',perms)}
 });
 
 async function deleteMember(userId){
-  const m=S.members.find(x=>String(x.user_id)===String(userId));
-  const nome=m?m.nome:'este membro';
-  confirm_({title:'Remover membro?',sub:`${nome} perderá acesso à lista.`,icon:'👤',btn:'Remover',
-    onConfirm:async()=>{
-      startLoad();toast(`Removendo ${nome}...`,'loading');
-      const hhP=(S.role==='owner'||can('view_all_lojas'))?`&household_id=${encodeURIComponent(S.hhId)}`:'';
-      try{
-        const d=await jsonp(`${API}?action=deleteUser&user_id_target=${userId}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
+  const m=S.members.find(x=>String(x.user_id)===String(userId));const nome=m?m.nome:'este membro';
+  confirm_({title:'Remover membro?',sub:`${nome} perderá acesso.`,icon:'👤',btn:'Remover',
+    onConfirm:async()=>{startLoad();toast(`Removendo ${nome}...`,'loading');
+      const hhP=can('view_all_lojas')?`&household_id=${encodeURIComponent(S.hhId)}`:'';
+      try{const d=await jsonp(`${API}?action=deleteUser&user_id_target=${userId}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
         if(d.error){alert(d.error);stopLoad();return}
         await loadItems();$('membersModal').classList.remove('hidden');toast(`✕ ${nome} removido.`,'danger');
-      }catch{alert('Erro.')}finally{stopLoad()}
-    }
+      }catch{alert('Erro.')}finally{stopLoad()}}
   });
 }
 
@@ -842,45 +795,88 @@ $('closeInviteBtn').addEventListener('click',()=>{$('inviteModal').classList.add
 $('inviteModal').addEventListener('click',e=>{if(e.target===$('inviteModal')){$('inviteModal').classList.add('hidden');$('membersModal').classList.remove('hidden')}});
 
 $('mForm').addEventListener('submit',async e=>{
-  e.preventDefault();
-  const err=$('mErr');err.classList.add('hidden');
-  const editId=$('mFormId').value;
-  const nome=$('mNome').value.trim(),email=$('mEmail').value.trim();
-  const senha=$('mSenha').value;
-  const groupId=$('mGroupSelect').value;
-
-  // Collect checked permissions
-  const perms=Array.from($('permGrid').querySelectorAll('input[type=checkbox]:checked'))
-    .map(cb=>cb.dataset.perm).join(',');
-
-  // Collect accessible households
-  const accessHHs=Array.from(document.querySelectorAll('#hhCheckList input[type=checkbox]:checked:not(:disabled)'))
-    .map(cb=>cb.dataset.hhid).join(',');
-
-  // Collect accessible households — first checked = new primary
-  const allCheckedHH=Array.from(document.querySelectorAll('#hhCheckList input[type=checkbox]:checked'))
-    .map(cb=>cb.dataset.hhid).filter(Boolean);
+  e.preventDefault();const err=$('mErr');err.classList.add('hidden');
+  const editId=$('mFormId').value,nome=$('mNome').value.trim(),email=$('mEmail').value.trim(),senha=$('mSenha').value,groupId=$('mGroupSelect').value;
+  const perms=getCheckedPerms('permGrid');
+  const allCheckedHH=Array.from(document.querySelectorAll('#hhCheckList input:checked')).map(cb=>cb.dataset.hhid).filter(Boolean);
   const newPrimaryHH=allCheckedHH[0]||S.hhId;
   const extraHHs=allCheckedHH.slice(1).join(',');
-
+  const scheduleJSON=getScheduleJSON();
   if(!nome||!email)return;
   if(!editId&&senha.length<6){err.textContent='Senha deve ter 6+ caracteres.';err.classList.remove('hidden');return}
-
-  const action=editId?'updateUser':'addUser';
-  const idP=editId?`&user_id_target=${editId}`:'';
-  const senhaP=senha?`&nova_senha=${encodeURIComponent(senha)}`:'';
-  const hhP=`&household_id=${encodeURIComponent(newPrimaryHH)}`;
-  const btn=$('mFormSubmit');btn.disabled=true;startLoad();
-  toast(editId?'Salvando...':'Cadastrando...','loading');
+  const action=editId?'updateUser':'addUser',idP=editId?`&user_id_target=${editId}`:'',senhaP=senha?`&nova_senha=${encodeURIComponent(senha)}`:'';
+  const btn=$('mFormSubmit');btn.disabled=true;startLoad();toast(editId?'Salvando...':'Cadastrando...','loading');
   try{
-    const d=await jsonp(`${API}?action=${action}${idP}&novo_nome=${encodeURIComponent(nome)}&novo_email=${encodeURIComponent(email)}${senhaP}&permissions=${encodeURIComponent(perms)}&group_id=${encodeURIComponent(groupId)}&accessible_households=${encodeURIComponent(extraHHs)}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
+    const d=await jsonp(`${API}?action=${action}${idP}&novo_nome=${encodeURIComponent(nome)}&novo_email=${encodeURIComponent(email)}${senhaP}&permissions=${encodeURIComponent(perms)}&group_id=${encodeURIComponent(groupId)}&accessible_households=${encodeURIComponent(extraHHs)}&household_id=${encodeURIComponent(newPrimaryHH)}&access_schedule=${encodeURIComponent(scheduleJSON)}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
     if(d.error){err.textContent=d.error;err.classList.remove('hidden');return}
     $('mForm').reset();$('mFormId').value='';
     await loadItems();$('inviteModal').classList.add('hidden');$('membersModal').classList.remove('hidden');
     toast(editId?`✓ ${nome} atualizado.`:`✓ ${nome} adicionado.`,'success');
-  }catch{err.textContent='Erro.';err.classList.remove('hidden')}
-  finally{btn.disabled=false;stopLoad()}
+  }catch{err.textContent='Erro.';err.classList.remove('hidden')}finally{btn.disabled=false;stopLoad()}
 });
+
+// ---- GROUPS MANAGEMENT ----
+$('openGroupsBtn').addEventListener('click',async()=>{
+  startLoad();toast('Carregando grupos...','loading');
+  try{const d=await jsonp(`${API}?action=getGroups&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
+    if(d.groups)S.groups=d.groups;stopLoad();$('toast').classList.remove('show');
+    renderGroupsList();$('membersModal').classList.add('hidden');$('groupsModal').classList.remove('hidden');
+  }catch{stopLoad();alert('Erro ao carregar grupos.')}
+});
+$('closeGroupsBtn').addEventListener('click',()=>{$('groupsModal').classList.add('hidden');$('membersModal').classList.remove('hidden')});
+$('groupsModal').addEventListener('click',e=>{if(e.target===$('groupsModal')){$('groupsModal').classList.add('hidden');$('membersModal').classList.remove('hidden')}});
+
+function renderGroupsList(){
+  $('groupsList').innerHTML=S.groups.map(g=>{
+    const permLabels=String(g.permissions||'').split(',').map(p=>ALL_PERMS[p.trim()]||p.trim()).filter(Boolean);
+    const preview=permLabels.slice(0,3).join(', ')+(permLabels.length>3?` +${permLabels.length-3}`:'');
+    return `<li class="group-item"><div><div class="group-name">${g.nome}</div><div class="group-perms">${preview||'Sem permissões'}</div></div><div class="group-acts"><button type="button" class="ge" data-id="${g.group_id}">✎</button><button type="button" class="gd" data-id="${g.group_id}" data-nome="${g.nome}">×</button></div></li>`;
+  }).join('')||'<li style="text-align:center;padding:16px;color:var(--text-soft);font-size:13px">Nenhum grupo criado ainda.</li>';
+  $('groupsList').querySelectorAll('.ge').forEach(b=>b.addEventListener('click',()=>{const g=S.groups.find(x=>String(x.group_id)===b.dataset.id);if(g)openGroupForm(g)}));
+  $('groupsList').querySelectorAll('.gd').forEach(b=>b.addEventListener('click',()=>deleteGroup(b.dataset.id,b.dataset.nome)));
+}
+
+$('addGroupBtn').addEventListener('click',()=>openGroupForm(null));
+function openGroupForm(g){
+  $('groupFormId').value=g?g.group_id:'';
+  $('groupFormNome').value=g?g.nome:'';
+  $('groupFormTitle').textContent=g?'Editar grupo':'Novo grupo';
+  $('groupFormSubmit').textContent=g?'Salvar':'Criar grupo';
+  $('groupFormErr').classList.add('hidden');
+  const perms=g&&g.permissions?String(g.permissions).split(',').map(p=>p.trim()).filter(Boolean):[];
+  renderPermGrid('groupPermGrid',perms);
+  $('groupsModal').classList.add('hidden');$('groupFormModal').classList.remove('hidden');
+}
+$('closeGroupFormBtn').addEventListener('click',()=>{$('groupFormModal').classList.add('hidden');$('groupsModal').classList.remove('hidden')});
+$('groupFormModal').addEventListener('click',e=>{if(e.target===$('groupFormModal')){$('groupFormModal').classList.add('hidden');$('groupsModal').classList.remove('hidden')}});
+
+$('groupForm').addEventListener('submit',async e=>{
+  e.preventDefault();const err=$('groupFormErr');err.classList.add('hidden');
+  const id=$('groupFormId').value,nome=$('groupFormNome').value.trim(),perms=getCheckedPerms('groupPermGrid');
+  if(!nome){err.textContent='Nome obrigatório.';err.classList.remove('hidden');return}
+  const action=id?'updateGroup':'createGroup',idP=id?`&group_id=${id}`:'';
+  const btn=$('groupFormSubmit');btn.disabled=true;startLoad();toast(id?'Salvando...':'Criando...','loading');
+  try{
+    const d=await jsonp(`${API}?action=${action}${idP}&nome=${encodeURIComponent(nome)}&permissions=${encodeURIComponent(perms)}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
+    if(d.error){err.textContent=d.error;err.classList.remove('hidden');stopLoad();$('toast').classList.remove('show');return}
+    const dg=await jsonp(`${API}?action=getGroups&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
+    if(dg.groups)S.groups=dg.groups;
+    $('groupFormModal').classList.add('hidden');$('groupsModal').classList.remove('hidden');
+    renderGroupsList();stopLoad();toast(id?'✓ Grupo atualizado.':'✓ Grupo criado.','success');
+  }catch{err.textContent='Erro.';err.classList.remove('hidden');stopLoad()}finally{btn.disabled=false}
+});
+
+async function deleteGroup(id,nome){
+  confirm_({title:'Excluir grupo?',sub:`"${nome}" será removido. Membros do grupo não são afetados.`,icon:'👥',btn:'Excluir',
+    onConfirm:async()=>{startLoad();toast(`Removendo ${nome}...`,'loading');
+      try{const d=await jsonp(`${API}?action=deleteGroup&group_id=${id}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
+        if(d.error){alert(d.error);stopLoad();return}
+        const dg=await jsonp(`${API}?action=getGroups&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
+        if(dg.groups)S.groups=dg.groups;
+        renderGroupsList();toast(`✕ ${nome} excluído.`,'danger');
+      }catch{alert('Erro.')}finally{stopLoad()}}
+  });
+}
 
 // Init
 if(S.email&&S.senha){
@@ -888,9 +884,8 @@ if(S.email&&S.senha){
   $('content').innerHTML='<p class="status-msg">Carregando lista...</p>';
   jsonp(`${API}?action=login&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`).then(d=>{
     if(d.error||d.needsPassword){showLogin();return}
-    S.role=d.user.role;S.orgId=d.user.org_id;S.userId=String(d.user.user_id);
-    S.permissions=d.user.permissions||[];S.households=d.households||[];
-    if((S.role==='owner'||can('view_all_lojas'))&&!S.hhId)showHH(d);else loadItems();
+    S.role=d.user.role;S.orgId=d.user.org_id;S.userId=String(d.user.user_id);S.permissions=d.user.permissions||[];S.households=d.households||[];
+    if(can('view_all_lojas')&&!S.hhId)showHH(d);else loadItems();
   }).catch(()=>showLogin());
 }else{showLogin()}
 </script>
