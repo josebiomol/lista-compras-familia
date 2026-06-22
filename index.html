@@ -50,6 +50,7 @@
   .btn-p{width:100%;background:var(--green);color:#fff;border:none;padding:13px;border-radius:12px;font-weight:600;font-size:14px}
   .btn-p:hover{filter:brightness(.95)}
   .btn-p:disabled{opacity:.6;cursor:default}
+  /* Household screen */
   .hh-screen{flex:1;display:flex;flex-direction:column;padding:20px 20px 90px}
   .hh-screen h2{font-family:'Archivo',sans-serif;font-weight:800;font-size:18px;margin:0 0 4px}
   .hh-screen .sub{font-size:13px;color:var(--text-soft);margin:0 0 20px}
@@ -62,35 +63,60 @@
   .hh-ab{background:none;border:none;color:var(--text-soft);font-size:15px;padding:4px;cursor:pointer}
   .hh-ab:hover{color:var(--green)}.hh-ab.del:hover{color:var(--danger)}
   .hh-add{width:100%;background:var(--green-bg);color:var(--green);border:none;padding:14px;border-radius:14px;font-weight:600;font-size:14px;margin-top:4px}
+  /* Main app */
   .main{flex:1;padding:4px 20px 90px}
-  .add-bar{display:flex;gap:8px;margin:10px 0 16px}
-  .add-bar input{flex:1}
-  .qty-input{width:56px;flex:none;text-align:center}
-  .add-btn{width:46px;background:var(--green);color:#fff;border:none;border-radius:12px;font-size:20px;flex:none}
-  .tabs{display:flex;gap:6px;margin-bottom:18px}
-  .tab{background:var(--card);border:1px solid var(--border);color:var(--text-soft);padding:8px 12px;border-radius:10px;font-size:12.5px;font-weight:500;display:flex;align-items:center;gap:6px}
+  /* Add form */
+  .add-form-wrap{margin:10px 0 16px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px;box-shadow:var(--shadow)}
+  .add-row1{display:flex;gap:8px;align-items:center}
+  .add-row1 input{flex:1;padding:11px 14px;font-size:14px}
+  .add-btn{width:42px;height:42px;background:var(--green);color:#fff;border:none;border-radius:10px;font-size:20px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+  .expand-btn{width:34px;height:34px;background:none;border:1px solid var(--border);border-radius:8px;color:var(--text-soft);font-size:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:transform .2s}
+  .expand-btn.open{transform:rotate(90deg)}
+  .add-extra{display:none;padding-top:10px;border-top:1px solid var(--border);margin-top:10px;display:flex;flex-direction:column;gap:8px}
+  .add-extra.hidden{display:none!important}
+  .qty-unit-row{display:flex;gap:8px}
+  .qty-unit-row input{flex:1}
+  .unit-sel{width:90px;flex-shrink:0;padding:11px 8px;font-size:13px}
+  /* Category pills */
+  .cat-pills-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+  .cat-pills-wrap::-webkit-scrollbar{display:none}
+  .cat-pills{display:flex;gap:6px;white-space:nowrap}
+  .cat-pill{border:none;padding:6px 10px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;background:var(--bg);color:var(--text-soft);border:1px solid var(--border);white-space:nowrap;transition:all .15s}
+  .cat-pill.selected{border-color:transparent;color:#fff}
+  /* Filter */
+  .filter-row{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+  .tabs{display:flex;gap:6px;flex:1}
+  .tab{background:var(--card);border:1px solid var(--border);color:var(--text-soft);padding:8px 10px;border-radius:10px;font-size:12px;font-weight:500;display:flex;align-items:center;gap:5px;white-space:nowrap}
   .tab.active{background:var(--green-bg);color:var(--green);border-color:transparent;font-weight:600}
-  .tab-count{background:rgba(120,120,120,.15);border-radius:6px;padding:1px 6px;font-size:11px}
+  .tab-count{background:rgba(120,120,120,.15);border-radius:5px;padding:1px 5px;font-size:11px}
   .tab.active .tab-count{background:var(--green);color:#fff}
-  .sec-label{font-size:12px;font-weight:600;color:var(--text-soft);margin:18px 0 8px}
-  ul.items{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
-  .item{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow)}
+  .group-toggle{background:none;border:1px solid var(--border);color:var(--text-soft);padding:8px 10px;border-radius:10px;font-size:12px;white-space:nowrap}
+  .group-toggle.active{background:var(--green-bg);color:var(--green);border-color:transparent}
+  /* Items */
+  .sec-label{font-size:11px;font-weight:700;color:var(--text-soft);margin:16px 0 6px;text-transform:uppercase;letter-spacing:.4px;display:flex;align-items:center;gap:6px}
+  ul.items{list-style:none;margin:0 0 8px;padding:0;display:flex;flex-direction:column;gap:6px}
+  .item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow)}
   .item .ck{width:22px;height:22px;border-radius:7px;border:1.5px solid var(--border);background:transparent;flex-shrink:0;cursor:pointer;color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center}
   .item.done .ck{background:var(--green);border-color:var(--green)}
   .item .inf{flex:1;min-width:0;cursor:pointer}
-  .item .nm{display:block;font-weight:600;font-size:14px}
+  .item .nm{display:block;font-weight:600;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .item.done .nm{text-decoration:line-through;color:var(--text-soft)}
+  .item .cat-tag{display:inline-block;font-size:10px;font-weight:600;padding:1px 6px;border-radius:10px;margin-top:2px}
   .item .qb{background:var(--bg);border-radius:8px;padding:3px 8px;font-size:12px;font-weight:600;color:var(--text-soft);flex-shrink:0}
-  .item .av{width:26px;height:26px;border-radius:50%;background:var(--green-bg);color:var(--green);font-size:11px;font-weight:700;font-family:'Archivo',sans-serif;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .item .av{width:24px;height:24px;border-radius:50%;background:var(--green-bg);color:var(--green);font-size:10px;font-weight:700;font-family:'Archivo',sans-serif;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .item .edit-i{background:none;border:none;color:var(--text-soft);font-size:14px;cursor:pointer;flex-shrink:0;padding:2px 4px}
+  .item .edit-i:hover{color:var(--green)}
   .item .dl{background:none;border:none;color:var(--text-soft);font-size:17px;cursor:pointer;flex-shrink:0;line-height:1}
   .item .dl:hover{color:var(--danger)}
   .empty,.status-msg{text-align:center;font-size:13px;color:var(--text-soft);padding:32px 0}
   .err{color:var(--danger)!important}
   .hidden{display:none!important}
+  /* Nav */
   .bot-nav{position:fixed;bottom:0;width:100%;max-width:440px;background:var(--card);border-top:1px solid var(--border);display:flex;padding:10px 0 14px}
   .nav-it{flex:1;background:none;border:none;color:var(--text-soft);display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;cursor:pointer}
   .nav-it.active{color:var(--green)}
   .nav-ic{font-size:18px}
+  /* Modals */
   .ov{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:16px;z-index:30}
   .ov.hidden{display:none}
   .modal{background:var(--card);color:var(--text);width:100%;max-width:400px;padding:22px;border-radius:18px;box-shadow:var(--shadow);max-height:90vh;overflow-y:auto}
@@ -109,7 +135,6 @@
   .hh-check-item{display:flex;align-items:center;gap:8px;background:var(--bg);border-radius:8px;padding:8px 10px}
   .hh-check-item input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--green);flex-shrink:0;margin:0}
   .hh-check-item label{font-size:13px;font-weight:500;cursor:pointer}
-  /* Schedule table */
   .schedule-table{width:100%;border-collapse:collapse;font-size:12px}
   .schedule-table th{color:var(--text-soft);font-weight:600;text-align:center;padding:4px 6px;font-size:11px}
   .schedule-table th:first-child{text-align:left}
@@ -117,7 +142,6 @@
   .schedule-table td:first-child{font-weight:500;padding-left:0}
   .schedule-table input[type=checkbox]{width:15px;height:15px;accent-color:var(--green);cursor:pointer}
   .schedule-table tr.day-off td:not(:first-child):not(:nth-child(2)){opacity:.3;pointer-events:none}
-  /* Members list */
   ul.mems{list-style:none;margin:0 0 12px;padding:0;display:flex;flex-direction:column;gap:8px}
   .mems li{display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--bg);border-radius:12px;padding:10px 12px}
   .mn{display:block;font-weight:600;font-size:13.5px}
@@ -131,7 +155,6 @@
   .inv-btn{width:100%;background:var(--green-bg);color:var(--green);border:none;padding:12px;border-radius:12px;font-weight:600;font-size:14px;margin-bottom:8px}
   .manage-groups-btn{width:100%;background:transparent;border:1px solid var(--border);color:var(--text-soft);padding:10px;border-radius:12px;font-size:13px}
   .manage-groups-btn:hover{border-color:var(--green);color:var(--green)}
-  /* Groups list */
   ul.groups-list{list-style:none;margin:0 0 12px;padding:0;display:flex;flex-direction:column;gap:8px}
   .group-item{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;background:var(--bg);border-radius:12px;padding:12px}
   .group-name{font-weight:700;font-size:14px}
@@ -140,7 +163,6 @@
   .group-acts button{background:none;border:none;color:var(--text-soft);cursor:pointer;font-size:14px}
   .group-acts .ge:hover{color:var(--green)}.group-acts .gd:hover{color:var(--danger)}
   .add-group-btn{width:100%;background:var(--green-bg);color:var(--green);border:none;padding:12px;border-radius:12px;font-weight:600;font-size:14px}
-  /* Confirm */
   .cf-modal{background:var(--card);color:var(--text);width:100%;max-width:320px;padding:28px 24px 22px;border-radius:20px;box-shadow:var(--shadow);text-align:center}
   .cfi{width:52px;height:52px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:22px}
   .cfi.danger{background:rgba(220,38,38,.1)}
@@ -232,16 +254,43 @@
   </div>
 
   <main id="appScreen" class="main hidden">
-    <form class="add-bar" id="addForm">
-      <input type="text" id="itemName" placeholder="Adicionar item..." required>
-      <input type="number" id="itemQty" value="1" min="1" class="qty-input" required>
-      <button type="submit" class="add-btn">+</button>
+    <form id="addForm" class="add-form-wrap">
+      <div class="add-row1">
+        <input type="text" id="itemName" placeholder="Adicionar item..." required>
+        <button type="button" id="expandAddBtn" class="expand-btn">⚙</button>
+        <button type="submit" class="add-btn">+</button>
+      </div>
+      <div class="add-extra hidden" id="addExtra">
+        <div class="cat-pills-wrap">
+          <div class="cat-pills" id="addCatPills"></div>
+        </div>
+        <div class="qty-unit-row">
+          <input type="number" id="itemQty" value="1" min="1" placeholder="Qtd">
+          <select id="itemUnit" class="unit-sel">
+            <option value="un">un</option>
+            <option value="kg">kg</option>
+            <option value="g">g</option>
+            <option value="L">L</option>
+            <option value="mL">mL</option>
+            <option value="cx">cx</option>
+            <option value="pct">pct</option>
+            <option value="frd">frd</option>
+            <option value="dz">dz</option>
+            <option value="m">m</option>
+          </select>
+        </div>
+      </div>
     </form>
-    <div class="tabs" id="filterTabs">
-      <button type="button" class="tab active" data-filter="todos">Todos <span class="tab-count" id="cT">0</span></button>
-      <button type="button" class="tab" data-filter="pendentes">Pendentes <span class="tab-count" id="cP">0</span></button>
-      <button type="button" class="tab" data-filter="comprados">Comprados <span class="tab-count" id="cC">0</span></button>
+
+    <div class="filter-row">
+      <div class="tabs" id="filterTabs">
+        <button type="button" class="tab active" data-filter="todos">Todos <span class="tab-count" id="cT">0</span></button>
+        <button type="button" class="tab" data-filter="pendentes">Pend. <span class="tab-count" id="cP">0</span></button>
+        <button type="button" class="tab" data-filter="comprados">Comp. <span class="tab-count" id="cC">0</span></button>
+      </div>
+      <button type="button" id="groupToggle" class="group-toggle">📂 Cat.</button>
     </div>
+
     <div id="content"><p class="status-msg">Carregando lista...</p></div>
   </main>
 
@@ -250,6 +299,25 @@
     <button type="button" class="nav-it hidden" id="navMembers"><span class="nav-ic">👥</span><span>Membros</span></button>
     <button type="button" class="nav-it hidden" id="navHH"><span class="nav-ic">🏠</span><span>Lojas</span></button>
   </nav>
+</div>
+
+<!-- EDIT ITEM MODAL -->
+<div id="editItemModal" class="ov hidden">
+  <div class="modal">
+    <div class="mh"><p class="mt">Editar item</p><button type="button" id="closeEditItem" class="mc">×</button></div>
+    <form id="editItemForm" class="mform">
+      <input type="hidden" id="editItemId">
+      <input type="text" id="editItemName" placeholder="Nome do item" required>
+      <div class="qty-unit-row">
+        <input type="number" id="editItemQty" value="1" min="1" placeholder="Qtd">
+        <select id="editItemUnit" class="unit-sel"></select>
+      </div>
+      <p class="fh" style="margin:2px 0 2px 2px">Categoria</p>
+      <div class="cat-pills-wrap"><div class="cat-pills" id="editCatPills"></div></div>
+      <button type="submit" class="btn-p" style="margin-top:6px">Salvar item</button>
+    </form>
+    <p class="status-msg err hidden" id="editItemErr"></p>
+  </div>
 </div>
 
 <!-- MEMBROS -->
@@ -272,25 +340,17 @@
       <input type="email" id="mEmail" placeholder="email@exemplo.com" required>
       <input type="password" id="mSenha" placeholder="Senha (mín. 6 caracteres)">
       <p class="fh" id="mSenhaHint">Obrigatória para novo membro.</p>
-
       <p class="section-title">Grupo (perfil pré-configurado)</p>
       <select id="mGroupSelect"><option value="">— Nenhum (configurar manualmente) —</option></select>
-
       <p class="section-title">Permissões</p>
       <div class="perm-grid" id="permGrid"></div>
-
       <div id="hhAccessSection">
         <p class="section-title">Lojas que pode acessar</p>
         <div class="hh-check-list" id="hhCheckList"></div>
       </div>
-
       <p class="section-title">Horário de acesso</p>
-      <p class="fh" style="margin:0 0 8px">Deixe sem restrição para acesso livre. Dias desmarcados = acesso bloqueado.</p>
-      <table class="schedule-table" id="scheduleTable">
-        <thead><tr><th>Dia</th><th>Ativo</th><th>Entrada</th><th>Saída</th></tr></thead>
-        <tbody id="scheduleTbody"></tbody>
-      </table>
-
+      <p class="fh" style="margin:0 0 8px">Dias desmarcados = acesso bloqueado. Vazio = livre.</p>
+      <table class="schedule-table"><thead><tr><th>Dia</th><th>Ativo</th><th>Entrada</th><th>Saída</th></tr></thead><tbody id="scheduleTbody"></tbody></table>
       <button type="submit" id="mFormSubmit" class="btn-p" style="margin-top:12px">Convidar membro</button>
     </form>
     <p class="status-msg err hidden" id="mErr"></p>
@@ -312,7 +372,7 @@
     <div class="mh"><p class="mt" id="groupFormTitle">Novo grupo</p><button type="button" id="closeGroupFormBtn" class="mc">×</button></div>
     <form id="groupForm" class="mform">
       <input type="hidden" id="groupFormId">
-      <input type="text" id="groupFormNome" placeholder="Nome do grupo (ex: Gerente de Vendas)" required>
+      <input type="text" id="groupFormNome" placeholder="Nome do grupo" required>
       <p class="section-title">Permissões do grupo</p>
       <div class="perm-grid" id="groupPermGrid"></div>
       <button type="submit" id="groupFormSubmit" class="btn-p" style="margin-top:8px">Criar grupo</button>
@@ -373,7 +433,23 @@ const $=id=>document.getElementById(id);
 const DAYS=['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
 const ALL_PERMS={add_item:'Adicionar item',toggle_item:'Marcar como comprado',delete_item:'Excluir item',view_members:'Ver membros',invite_member:'Convidar membro',edit_member:'Editar membro',delete_member:'Excluir membro',view_all_lojas:'Ver todas as lojas',manage_lojas:'Gerenciar lojas'};
 
-let S={email:localStorage.getItem('ue')||'',senha:sessionStorage.getItem('us')||'',role:'',orgId:'',hhId:localStorage.getItem('uhh')||'',households:[],members:[],items:[],groups:[],permissions:[],filter:'todos',pendingEmail:'',userId:'',userName:''};
+const CATS=[
+  {id:'Hortifruti', emoji:'🥬', bg:'#dcfce7', color:'#166534'},
+  {id:'Carnes',     emoji:'🥩', bg:'#fee2e2', color:'#991b1b'},
+  {id:'Laticínios', emoji:'🥛', bg:'#dbeafe', color:'#1e3a8a'},
+  {id:'Padaria',    emoji:'🍞', bg:'#fef3c7', color:'#92400e'},
+  {id:'Mercearia',  emoji:'🛒', bg:'#f3f4f6', color:'#374151'},
+  {id:'Limpeza',    emoji:'🧹', bg:'#cffafe', color:'#164e63'},
+  {id:'Higiene',    emoji:'🧴', bg:'#ede9fe', color:'#4c1d95'},
+  {id:'Bebidas',    emoji:'🥤', bg:'#e0f2fe', color:'#0c4a6e'},
+  {id:'Congelados', emoji:'❄️', bg:'#f0f9ff', color:'#0369a1'},
+  {id:'Outros',     emoji:'📦', bg:'#f9fafb', color:'#6b7280'}
+];
+const UNITS=['un','kg','g','L','mL','cx','pct','frd','dz','m'];
+
+function catInfo(id){return CATS.find(c=>c.id===id)||CATS[CATS.length-1]}
+
+let S={email:localStorage.getItem('ue')||'',senha:sessionStorage.getItem('us')||'',role:'',orgId:'',hhId:localStorage.getItem('uhh')||'',households:[],members:[],items:[],groups:[],permissions:[],filter:'todos',groupByCat:false,addCat:'',pendingEmail:'',userId:'',userName:''};
 
 function can(k){return S.role==='owner'||S.permissions.includes(k)}
 
@@ -419,6 +495,50 @@ function jsonp(url){
 
 function ini(n){if(!n)return '?';const p=n.trim().split(' ');return(p[0][0]+(p[1]?p[1][0]:'')).toUpperCase()}
 
+// Category pills builder
+function buildCatPills(containerId, selectedCat, onChange){
+  $(containerId).innerHTML=CATS.map(c=>`
+    <button type="button" class="cat-pill${selectedCat===c.id?' selected':''}"
+      data-cat="${c.id}"
+      style="${selectedCat===c.id?`background:${c.color};border-color:${c.color}`:''}">
+      ${c.emoji} ${c.id}
+    </button>`).join('');
+  $(containerId).querySelectorAll('.cat-pill').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const cat=btn.dataset.cat;
+      onChange(cat);
+      // Update styles
+      $(containerId).querySelectorAll('.cat-pill').forEach(b=>{
+        const ci=catInfo(b.dataset.cat);
+        if(b.dataset.cat===cat){b.className='cat-pill selected';b.style.background=ci.color;b.style.borderColor=ci.color;}
+        else{b.className='cat-pill';b.style.background='';b.style.borderColor='';}
+      });
+    });
+  });
+}
+
+function buildUnitSelect(selId, selectedUnit){
+  $(selId).innerHTML=UNITS.map(u=>`<option value="${u}"${u===selectedUnit?' selected':''}>${u}</option>`).join('');
+}
+
+// Expand add form
+let addExpanded=false;
+$('expandAddBtn').addEventListener('click',()=>{
+  addExpanded=!addExpanded;
+  $('addExtra').classList.toggle('hidden',!addExpanded);
+  $('expandAddBtn').classList.toggle('open',addExpanded);
+  if(addExpanded && !$('addCatPills').children.length){
+    buildCatPills('addCatPills',S.addCat,cat=>S.addCat=cat);
+  }
+});
+
+// Group by category toggle
+$('groupToggle').addEventListener('click',()=>{
+  S.groupByCat=!S.groupByCat;
+  $('groupToggle').classList.toggle('active',S.groupByCat);
+  renderFiltered();
+});
+
 function hideAll(){
   ['loginScreen','regScreen','setPassScreen','hhScreen','appScreen'].forEach(id=>$(id).classList.add('hidden'));
   $('botNav').classList.add('hidden');$('avBtn').classList.add('hidden');
@@ -428,7 +548,6 @@ function hideAll(){
 
 function showLogin(err){
   hideAll();
-  // Limpa dados de sessão anterior para não mostrar dados de outro usuário
   S.items=[];S.members=[];S.households=[];S.role='';S.permissions=[];
   S.hhId='';S.orgId='';S.userId='';S.userName='';S.groups=[];
   localStorage.removeItem('uhh');
@@ -476,7 +595,7 @@ $('avBtn').addEventListener('click',()=>$('accMenu').classList.toggle('hidden'))
 document.addEventListener('click',e=>{if(!$('accMenu').contains(e.target)&&e.target!==$('avBtn'))$('accMenu').classList.add('hidden')});
 $('logoutBtn').addEventListener('click',()=>{
   localStorage.removeItem('ue');localStorage.removeItem('uhh');sessionStorage.removeItem('us');
-  S={email:'',senha:'',role:'',orgId:'',hhId:'',households:[],members:[],items:[],groups:[],permissions:[],filter:'todos',pendingEmail:'',userId:'',userName:''};
+  S={email:'',senha:'',role:'',orgId:'',hhId:'',households:[],members:[],items:[],groups:[],permissions:[],filter:'todos',groupByCat:false,addCat:'',pendingEmail:'',userId:'',userName:''};
   $('accMenu').classList.add('hidden');showLogin();
 });
 
@@ -518,7 +637,6 @@ $('loginForm').addEventListener('submit',async e=>{
     S.email=email;S.senha=senha;S.role=d.user.role;S.orgId=d.user.org_id;S.permissions=d.user.permissions||[];S.userId=String(d.user.user_id);S.households=d.households||[];
     localStorage.setItem('ue',email);sessionStorage.setItem('us',senha);
     stopLoad();
-    // Se pode ver todas as lojas → sempre vai pro seletor (ignora hhId antigo de outra sessão)
     if(can('view_all_lojas'))showHH(d);else loadItems();
   }catch{stopLoad();$('toast').classList.remove('show');showLogin('Erro de conexão.')}finally{btn.disabled=false}
 });
@@ -597,7 +715,8 @@ function deleteHH(id,nome){
         if(String(S.hhId)===String(id)){S.hhId='';localStorage.removeItem('uhh')}
         const sess=await jsonp(`${API}?action=login&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
         if(sess.households)S.households=sess.households;
-        showHH({user:{nome:S.userName,role:S.role},households:S.households});toast(`✕ ${nome} excluída.`,'danger');
+        showHH({user:{nome:S.userName,role:S.role},households:S.households});
+        toast(`✕ ${nome} excluída.`,'danger');
       }catch{alert('Erro.')}finally{stopLoad()}}
   });
 }
@@ -607,17 +726,13 @@ async function loadItems(){
   try{
     const d=await jsonp(`${API}?action=getItems&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
     if(d.error){
-      // Loja inválida (ex: ID antigo no localStorage) → limpa e vai pro seletor
-      if(d.error.includes('negado') && can('view_all_lojas')){
+      if(d.error.includes('negado')&&can('view_all_lojas')){
         S.hhId='';localStorage.removeItem('uhh');
         const sess=await jsonp(`${API}?action=login&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
-        if(sess.households){S.households=sess.households;}
-        showHH({user:{nome:S.userName||'',role:S.role},households:S.households});
-        return;
+        if(sess.households)S.households=sess.households;
+        showHH({user:{nome:S.userName||'',role:S.role},households:S.households});return;
       }
-      // Erro de autenticação → desloga
-      localStorage.removeItem('ue');sessionStorage.removeItem('us');S.email='';S.senha='';
-      showLogin(d.error);return;
+      localStorage.removeItem('ue');sessionStorage.removeItem('us');S.email='';S.senha='';showLogin(d.error);return;
     }
     S.role=d.user.role;S.permissions=d.user.permissions||[];S.households=d.households||S.households;S.hhId=d.currentHouseholdId||S.hhId;
     showApp(d);
@@ -626,25 +741,68 @@ async function loadItems(){
 
 $('filterTabs').addEventListener('click',e=>{
   const btn=e.target.closest('.tab');if(!btn)return;
-  S.filter=btn.dataset.filter;$('filterTabs').querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===btn));renderFiltered();
+  S.filter=btn.dataset.filter;
+  $('filterTabs').querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===btn));
+  renderFiltered();
 });
+
 function renderFiltered(){
-  const pend=S.items.filter(i=>i.status!=='comprado'),done=S.items.filter(i=>i.status==='comprado');
+  const pend=S.items.filter(i=>i.status!=='comprado');
+  const done=S.items.filter(i=>i.status==='comprado');
   $('cT').textContent=S.items.length;$('cP').textContent=pend.length;$('cC').textContent=done.length;
-  if(!S.items.length){$('content').innerHTML='<p class="empty">Nenhum item ainda.<br>Adicione o primeiro acima.</p>';return}
-  let html='';
-  if(S.filter!=='comprados'&&pend.length)html+='<p class="sec-label">Pendentes</p>'+renderGroup(pend);
-  if(S.filter!=='pendentes'&&done.length)html+='<p class="sec-label">Comprados</p>'+renderGroup(done);
-  $('content').innerHTML=html||'<p class="empty">Nada por aqui nesse filtro.</p>';
+  if(!S.items.length){$('content').innerHTML='<p class="empty">Nenhum item ainda.<br>Toque em ⚙ para escolher categoria.</p>';return}
+
+  let filtered=S.items;
+  if(S.filter==='pendentes')filtered=pend;
+  else if(S.filter==='comprados')filtered=done;
+
+  if(!filtered.length){$('content').innerHTML='<p class="empty">Nada aqui.</p>';return}
+
+  if(S.groupByCat){
+    // Group by category
+    const groups={};
+    filtered.forEach(item=>{
+      const cat=item.categoria||'Outros';
+      if(!groups[cat])groups[cat]=[];
+      groups[cat].push(item);
+    });
+    const order=CATS.map(c=>c.id);
+    const sorted=Object.keys(groups).sort((a,b)=>order.indexOf(a)-order.indexOf(b));
+    $('content').innerHTML=sorted.map(cat=>{
+      const ci=catInfo(cat);
+      return `<p class="sec-label"><span style="background:${ci.bg};color:${ci.color};padding:2px 8px;border-radius:10px">${ci.emoji} ${cat}</span></p>${renderGroup(groups[cat])}`;
+    }).join('');
+  }else{
+    const pendItems=filtered.filter(i=>i.status!=='comprado');
+    const doneItems=filtered.filter(i=>i.status==='comprado');
+    let html='';
+    if(pendItems.length)html+='<p class="sec-label">Pendentes</p>'+renderGroup(pendItems);
+    if(doneItems.length)html+='<p class="sec-label">Comprados</p>'+renderGroup(doneItems);
+    $('content').innerHTML=html;
+  }
   $('content').querySelectorAll('.ck,.inf').forEach(el=>el.addEventListener('click',()=>toggleItem(el.dataset.id)));
   $('content').querySelectorAll('.dl').forEach(el=>el.addEventListener('click',()=>deleteItemAction(el.dataset.id)));
+  $('content').querySelectorAll('.edit-i').forEach(el=>el.addEventListener('click',()=>openEditItem(el.dataset.id)));
 }
+
 function renderGroup(items){
   return '<ul class="items">'+items.map(item=>{
-    const done=item.status==='comprado',owner=S.members.find(m=>String(m.user_id)===String(item.user_id));
-    return `<li class="item${done?' done':''}"><button class="ck" data-id="${item.item_id}">${done?'✓':''}</button><div class="inf" data-id="${item.item_id}"><span class="nm">${item.nome_item}</span></div><span class="qb">x${item.quantidade}</span>${owner?`<span class="av">${ini(owner.nome)}</span>`:''}${can('delete_item')?`<button class="dl" data-id="${item.item_id}">×</button>`:''}</li>`;
+    const done=item.status==='comprado';
+    const owner=S.members.find(m=>String(m.user_id)===String(item.user_id));
+    const ci=catInfo(item.categoria||'');
+    const catTag=item.categoria?`<span class="cat-tag" style="background:${ci.bg};color:${ci.color}">${ci.emoji} ${item.categoria}</span>`:'';
+    const qtyLabel=item.quantidade?`x${item.quantidade}${item.unidade&&item.unidade!=='un'?' '+item.unidade:''}`:'x1';
+    return `<li class="item${done?' done':''}">
+      <button class="ck" data-id="${item.item_id}">${done?'✓':''}</button>
+      <div class="inf" data-id="${item.item_id}"><span class="nm">${item.nome_item}</span>${catTag}</div>
+      <span class="qb">${qtyLabel}</span>
+      ${owner?`<span class="av">${ini(owner.nome)}</span>`:''}
+      ${can('add_item')?`<button class="edit-i" data-id="${item.item_id}">✎</button>`:''}
+      ${can('delete_item')?`<button class="dl" data-id="${item.item_id}">×</button>`:''}
+    </li>`;
   }).join('')+'</ul>';
 }
+
 async function toggleItem(id){
   if(!can('toggle_item'))return;
   const item=S.items.find(i=>String(i.item_id)===String(id));
@@ -654,6 +812,7 @@ async function toggleItem(id){
   try{await jsonp(`${API}?action=toggleItem&item_id=${id}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`)}
   catch{if(item){item.status=item.status==='comprado'?'pendente':'comprado';renderFiltered()}}
 }
+
 async function deleteItemAction(id){
   const item=S.items.find(i=>String(i.item_id)===String(id));
   confirm_({title:'Excluir item?',sub:`"${item?item.nome_item:'item'}" será removido.`,icon:'🗑️',btn:'Excluir',
@@ -669,23 +828,63 @@ async function deleteItemAction(id){
     }
   });
 }
+
+// Edit item
+function openEditItem(id){
+  const item=S.items.find(i=>String(i.item_id)===String(id));
+  if(!item)return;
+  $('editItemId').value=id;
+  $('editItemName').value=item.nome_item||'';
+  $('editItemQty').value=item.quantidade||1;
+  buildUnitSelect('editItemUnit',item.unidade||'un');
+  buildCatPills('editCatPills',item.categoria||'',cat=>{$('editItemModal').dataset.cat=cat});
+  $('editItemModal').dataset.cat=item.categoria||'';
+  $('editItemErr').classList.add('hidden');
+  $('editItemModal').classList.remove('hidden');
+}
+$('closeEditItem').addEventListener('click',()=>$('editItemModal').classList.add('hidden'));
+$('editItemModal').addEventListener('click',e=>{if(e.target===$('editItemModal'))$('editItemModal').classList.add('hidden')});
+
+$('editItemForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const id=$('editItemId').value;
+  const nome=$('editItemName').value.trim();
+  const qty=$('editItemQty').value;
+  const unit=$('editItemUnit').value;
+  const cat=$('editItemModal').dataset.cat||'';
+  if(!nome)return;
+  const btn=e.target.querySelector('.btn-p');btn.disabled=true;startLoad();toast('Salvando item...','loading');
+  const hhP=can('view_all_lojas')?`&household_id=${encodeURIComponent(S.hhId)}`:'';
+  try{
+    const d=await jsonp(`${API}?action=updateItem&item_id=${id}&nome_item=${encodeURIComponent(nome)}&quantidade=${qty}&unidade=${encodeURIComponent(unit)}&categoria=${encodeURIComponent(cat)}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
+    if(d.error){$('editItemErr').textContent=d.error;$('editItemErr').classList.remove('hidden');stopLoad();$('toast').classList.remove('show');return}
+    // Update local state
+    const item=S.items.find(i=>String(i.item_id)===String(id));
+    if(item){item.nome_item=nome;item.quantidade=qty;item.unidade=unit;item.categoria=cat}
+    renderFiltered();$('editItemModal').classList.add('hidden');
+    stopLoad();toast('✓ Item atualizado.','success');
+  }catch{$('editItemErr').textContent='Erro.';$('editItemErr').classList.remove('hidden');stopLoad()}finally{btn.disabled=false}
+});
+
+// Add item
 $('addForm').addEventListener('submit',async e=>{
   e.preventDefault();if(!can('add_item'))return;
-  const nome=$('itemName').value.trim(),qty=parseInt($('itemQty').value)||1;if(!nome)return;
+  const nome=$('itemName').value.trim();if(!nome)return;
+  const qty=parseInt($('itemQty').value)||1;
+  const unit=addExpanded?$('itemUnit').value:'un';
+  const cat=S.addCat||'';
   const btn=e.target.querySelector('.add-btn');btn.disabled=true;startLoad();toast('Adicionando...','loading');
   const hhP=can('view_all_lojas')?`&household_id=${encodeURIComponent(S.hhId)}`:'';
   try{
-    const d=await jsonp(`${API}?action=addItem&nome_item=${encodeURIComponent(nome)}&quantidade=${qty}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
+    const d=await jsonp(`${API}?action=addItem&nome_item=${encodeURIComponent(nome)}&quantidade=${qty}&unidade=${encodeURIComponent(unit)}&categoria=${encodeURIComponent(cat)}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
     if(d.error){alert(d.error);stopLoad();btn.disabled=false;return}
     $('itemName').value='';$('itemQty').value=1;
-    // Atualiza local sem chamar servidor
-    S.items.push({item_id:Date.now(),household_id:S.hhId,user_id:S.userId,nome_item:nome,quantidade:qty,status:'pendente'});
-    renderFiltered();
-    toast('✓ Item adicionado.','success');
+    S.items.push({item_id:d.item_id||Date.now(),household_id:S.hhId,user_id:S.userId,nome_item:nome,quantidade:qty,unidade:unit,categoria:cat,status:'pendente'});
+    renderFiltered();toast('✓ Item adicionado.','success');
   }catch{alert('Erro.')}finally{btn.disabled=false;stopLoad()}
 });
 
-// ---- MEMBERS ----
+// Members
 $('navMembers').addEventListener('click',()=>{renderMembers(S.members);$('membersModal').classList.remove('hidden')});
 $('closeMembersBtn').addEventListener('click',()=>$('membersModal').classList.add('hidden'));
 $('membersModal').addEventListener('click',e=>{if(e.target===$('membersModal'))$('membersModal').classList.add('hidden')});
@@ -695,26 +894,33 @@ function getGroupName(gid){const g=S.groups.find(x=>String(x.group_id)===String(
 function renderMembers(members){
   $('membersList').innerHTML=members.map(m=>{
     const gName=getGroupName(m.group_id);
-    return `<li><div><span class="mn">${m.nome}</span><div class="mbadges">${gName?`<span class="badge badge-group">${gName}</span>`:''} ${!m.tem_senha?'<span class="badge badge-nopass">sem senha</span>':''}</div></div><div class="macts">${can('edit_member')?`<button type="button" class="me" data-id="${m.user_id}">✎</button>`:''}${can('delete_member')&&String(m.user_id)!==S.userId?`<button type="button" class="md" data-id="${m.user_id}">×</button>`:''}</div></li>`;
+    return `<li><div><span class="mn">${m.nome}</span><div class="mbadges">${gName?`<span class="badge badge-group">${gName}</span>`:''}${!m.tem_senha?'<span class="badge badge-nopass">sem senha</span>':''}</div></div><div class="macts">${can('edit_member')?`<button type="button" class="me" data-id="${m.user_id}">✎</button>`:''}${can('delete_member')&&String(m.user_id)!==S.userId?`<button type="button" class="md" data-id="${m.user_id}">×</button>`:''}</div></li>`;
   }).join('');
   $('membersList').querySelectorAll('.me').forEach(b=>b.addEventListener('click',()=>{const m=S.members.find(x=>String(x.user_id)===b.dataset.id);if(m)openMemberForm(m)}));
   $('membersList').querySelectorAll('.md').forEach(b=>b.addEventListener('click',()=>deleteMember(b.dataset.id)));
-  // Show groups management button for owner/admin
   if(S.role==='owner'||can('manage_lojas'))$('openGroupsBtn').classList.remove('hidden');
 }
 
-// ---- SCHEDULE helpers ----
-function buildScheduleTbody(existingSchedule){
-  const sched=existingSchedule||{};
-  $('scheduleTbody').innerHTML=DAYS.map((day,i)=>{
-    const ds=sched[String(i)]||{on:false,in:'08:00',out:'18:00'};
-    const on=ds.on!==undefined?ds.on:false;
-    return `<tr class="${on?'':'day-off'}" data-day="${i}">
-      <td>${day}</td>
-      <td style="text-align:center"><input type="checkbox" data-sched-day="${i}" ${on?'checked':''} onchange="toggleDayRow(${i},this.checked)"></td>
-      <td><input type="time" data-sched-in="${i}" value="${ds.in||'08:00'}" ${!on?'disabled':''}></td>
-      <td><input type="time" data-sched-out="${i}" value="${ds.out||'18:00'}" ${!on?'disabled':''}></td>
-    </tr>`;
+function getDefaultPermsForRole(role){
+  const def={owner:Object.keys(ALL_PERMS),admin:['add_item','toggle_item','delete_item','invite_member','edit_member','delete_member','view_all_lojas','view_members'],gerente:['add_item','toggle_item','delete_item','invite_member','view_members'],membro:['add_item','toggle_item']};
+  return def[role]||['add_item','toggle_item'];
+}
+function renderPermGrid(cid,sel){
+  $(cid).innerHTML=Object.entries(ALL_PERMS).map(([k,l])=>{
+    return `<div class="perm-item" onclick="toggleCb('${cid}','${k}')"><input type="checkbox" id="${cid}_${k}" data-perm="${k}" ${sel.includes(k)?'checked':''} onclick="event.stopPropagation()"><label for="${cid}_${k}">${l}</label></div>`;
+  }).join('');
+}
+window.toggleCb=function(cid,key){const cb=document.getElementById(`${cid}_${key}`);if(cb)cb.checked=!cb.checked};
+function getCheckedPerms(cid){
+  const c=Array.from($(cid).querySelectorAll('input:checked')).map(cb=>cb.dataset.perm).join(',');
+  return c||'none';
+}
+const DAYS_SCHED=['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+function buildScheduleTbody(existing){
+  const s=existing||{};
+  $('scheduleTbody').innerHTML=DAYS_SCHED.map((d,i)=>{
+    const ds=s[String(i)]||{on:false,in:'08:00',out:'18:00'};
+    return `<tr class="${ds.on?'':'day-off'}" data-day="${i}"><td>${d}</td><td style="text-align:center"><input type="checkbox" data-sched-day="${i}" ${ds.on?'checked':''} onchange="toggleDayRow(${i},this.checked)"></td><td><input type="time" data-sched-in="${i}" value="${ds.in||'08:00'}" ${!ds.on?'disabled':''}></td><td><input type="time" data-sched-out="${i}" value="${ds.out||'18:00'}" ${!ds.on?'disabled':''}></td></tr>`;
   }).join('');
 }
 window.toggleDayRow=function(day,checked){
@@ -723,80 +929,43 @@ window.toggleDayRow=function(day,checked){
 };
 function getScheduleJSON(){
   const obj={};
-  DAYS.forEach((_,i)=>{
-    const cb=document.querySelector(`[data-sched-day="${i}"]`);
-    if(!cb)return;
-    const inVal=document.querySelector(`[data-sched-in="${i}"]`)?.value||'08:00';
-    const outVal=document.querySelector(`[data-sched-out="${i}"]`)?.value||'18:00';
-    obj[String(i)]={on:cb.checked,in:inVal,out:outVal};
+  DAYS_SCHED.forEach((_,i)=>{
+    const cb=document.querySelector(`[data-sched-day="${i}"]`);if(!cb)return;
+    obj[String(i)]={on:cb.checked,in:document.querySelector(`[data-sched-in="${i}"]`)?.value||'08:00',out:document.querySelector(`[data-sched-out="${i}"]`)?.value||'18:00'};
   });
-  // If all off → empty string (no restriction)
-  const anyOn=Object.values(obj).some(d=>d.on);
-  return anyOn?JSON.stringify(obj):'';
+  return Object.values(obj).some(d=>d.on)?JSON.stringify(obj):'';
 }
 
-// ---- PERM GRID helpers ----
-function renderPermGrid(containerId,selectedPerms){
-  $(containerId).innerHTML=Object.entries(ALL_PERMS).map(([key,label])=>{
-    const checked=selectedPerms.includes(key);
-    return `<div class="perm-item" onclick="toggleCb('${containerId}','${key}')"><input type="checkbox" id="${containerId}_${key}" data-perm="${key}" ${checked?'checked':''} onclick="event.stopPropagation()"><label for="${containerId}_${key}">${label}</label></div>`;
-  }).join('');
-}
-function getDefaultPermsForRole(role){
-  const def={owner:Object.keys(ALL_PERMS),admin:['add_item','toggle_item','delete_item','invite_member','edit_member','delete_member','view_all_lojas','view_members'],gerente:['add_item','toggle_item','delete_item','invite_member','view_members'],membro:['add_item','toggle_item']};
-  return def[role]||['add_item','toggle_item'];
-}
-function getCheckedPerms(containerId){
-  const checked=Array.from($(containerId).querySelectorAll('input[type=checkbox]:checked')).map(cb=>cb.dataset.perm).join(',');
-  return checked||'none'; // 'none' = sem permissões (diferente de '' = nunca editado)
-}
-
-// ---- MEMBER FORM ----
 async function openMemberForm(m){
   if(S.groups.length===0){
     try{const d=await jsonp(`${API}?action=getGroups&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);if(d.groups)S.groups=d.groups}catch{}
   }
-  $('mErr').classList.add('hidden');
-  const ed=!!m;
-  $('mFormId').value=m?m.user_id:'';
-  $('mNome').value=m?m.nome:'';$('mEmail').value=m?m.email:'';
+  $('mErr').classList.add('hidden');const ed=!!m;
+  $('mFormId').value=m?m.user_id:'';$('mNome').value=m?m.nome:'';$('mEmail').value=m?m.email:'';
   $('mSenha').value='';$('mSenha').required=!ed;
   $('mSenhaHint').textContent=ed?'Deixe em branco para manter.':'Obrigatória para novo membro.';
   $('mFormTitle').textContent=ed?'Editar membro':'Convidar membro';
   $('mFormSubmit').textContent=ed?'Salvar alterações':'Convidar membro';
-
   const gSel=$('mGroupSelect');
   gSel.innerHTML='<option value="">— Nenhum (configurar manualmente) —</option>';
   S.groups.forEach(g=>{const o=document.createElement('option');o.value=g.group_id;o.textContent=g.nome;gSel.appendChild(o)});
   if(m&&m.group_id)gSel.value=String(m.group_id);
-
-  // Se usuário não tem permissões explícitas, pré-preenche com padrão do papel dele
-  const hasExplicitPerms = m && m.permissions && String(m.permissions).trim() !== '' && String(m.permissions).trim() !== 'none';
-  const curPerms = hasExplicitPerms
-    ? String(m.permissions).split(',').map(p=>p.trim()).filter(Boolean)
-    : (m ? getDefaultPermsForRole(m.role) : []);
+  const hasExplicit=m&&m.permissions&&String(m.permissions).trim()!==''&&String(m.permissions).trim()!=='none';
+  const curPerms=hasExplicit?String(m.permissions).split(',').map(p=>p.trim()).filter(Boolean):(m?getDefaultPermsForRole(m.role):[]);
   renderPermGrid('permGrid',curPerms);
-
   if(S.households.length>1){
     $('hhAccessSection').classList.remove('hidden');
     const curHHs=m&&m.accessible_households?String(m.accessible_households).split(',').map(s=>s.trim()).filter(Boolean):[];
     const primaryHH=m?String(m.household_id||S.hhId):String(S.hhId);
     $('hhCheckList').innerHTML=S.households.map(h=>{
-      const hId=String(h.household_id);
-      const isChecked=hId===primaryHH||curHHs.includes(hId);
-      return `<div class="hh-check-item"><input type="checkbox" id="hhc_${hId}" data-hhid="${hId}" ${isChecked?'checked':''}><label for="hhc_${hId}">${h.nome}${hId===primaryHH?' (principal)':''}</label></div>`;
+      const hId=String(h.household_id);const isC=hId===primaryHH||curHHs.includes(hId);
+      return `<div class="hh-check-item"><input type="checkbox" id="hhc_${hId}" data-hhid="${hId}" ${isC?'checked':''}><label for="hhc_${hId}">${h.nome}${hId===primaryHH?' (principal)':''}</label></div>`;
     }).join('');
     $('hhCheckList').querySelectorAll('input').forEach(cb=>cb.addEventListener('change',updateHHLabels));
-  }else{
-    $('hhAccessSection').classList.add('hidden');
-  }
-
-  let existingSchedule=null;
-  if(m&&m.access_schedule&&String(m.access_schedule).trim()){
-    try{existingSchedule=JSON.parse(String(m.access_schedule))}catch{}
-  }
-  buildScheduleTbody(existingSchedule);
-
+  }else{$('hhAccessSection').classList.add('hidden')}
+  let existSched=null;
+  if(m&&m.access_schedule&&String(m.access_schedule).trim()){try{existSched=JSON.parse(String(m.access_schedule))}catch{}}
+  buildScheduleTbody(existSched);
   $('membersModal').classList.add('hidden');$('inviteModal').classList.remove('hidden');
 }
 
@@ -816,7 +985,7 @@ $('mGroupSelect').addEventListener('change',()=>{
   const gId=$('mGroupSelect').value;
   if(!gId){renderPermGrid('permGrid',[]);return}
   const group=S.groups.find(g=>String(g.group_id)===String(gId));
-  if(group){const perms=String(group.permissions||'').split(',').map(p=>p.trim()).filter(Boolean);renderPermGrid('permGrid',perms)}
+  if(group)renderPermGrid('permGrid',String(group.permissions||'').split(',').map(p=>p.trim()).filter(Boolean));
 });
 
 async function deleteMember(userId){
@@ -828,8 +997,7 @@ async function deleteMember(userId){
         const d=await jsonp(`${API}?action=deleteUser&user_id_target=${userId}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
         if(d.error){alert(d.error);stopLoad();return}
         S.members=S.members.filter(m=>String(m.user_id)!==String(userId));
-        renderMembers(S.members);$('membersModal').classList.remove('hidden');
-        toast(`✕ ${nome} removido.`,'danger');
+        renderMembers(S.members);$('membersModal').classList.remove('hidden');toast(`✕ ${nome} removido.`,'danger');
       }catch{alert('Erro.')}finally{stopLoad()}}
   });
 }
@@ -854,20 +1022,14 @@ $('mForm').addEventListener('submit',async e=>{
     const d=await jsonp(`${API}?action=${action}${idP}&novo_nome=${encodeURIComponent(nome)}&novo_email=${encodeURIComponent(email)}${senhaP}&permissions=${encodeURIComponent(perms)}&group_id=${encodeURIComponent(groupId)}&accessible_households=${encodeURIComponent(extraHHs)}&household_id=${encodeURIComponent(newPrimaryHH)}&access_schedule=${encodeURIComponent(scheduleJSON)}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
     if(d.error){err.textContent=d.error;err.classList.remove('hidden');return}
     $('mForm').reset();$('mFormId').value='';
-    // Atualiza membros local sem chamar servidor
-    if(editId){
-      const idx=S.members.findIndex(m=>String(m.user_id)===String(editId));
-      if(idx>=0) S.members[idx]={...S.members[idx],nome,email,group_id:groupId,permissions:perms,accessible_households:extraHHs,access_schedule:scheduleJSON,household_id:newPrimaryHH};
-    }else{
-      S.members.push({user_id:Date.now(),nome,email,role:'membro',group_id:groupId,permissions:perms,accessible_households:extraHHs,tem_senha:true});
-    }
-    renderMembers(S.members);
-    $('inviteModal').classList.add('hidden');$('membersModal').classList.remove('hidden');
+    if(editId){const idx=S.members.findIndex(m=>String(m.user_id)===String(editId));if(idx>=0)S.members[idx]={...S.members[idx],nome,email,group_id:groupId,permissions:perms,accessible_households:extraHHs,access_schedule:scheduleJSON,household_id:newPrimaryHH};}
+    else{S.members.push({user_id:Date.now(),nome,email,role:'membro',group_id:groupId,permissions:perms,accessible_households:extraHHs,tem_senha:true});}
+    renderMembers(S.members);$('inviteModal').classList.add('hidden');$('membersModal').classList.remove('hidden');
     toast(editId?`✓ ${nome} atualizado.`:`✓ ${nome} adicionado.`,'success');
   }catch{err.textContent='Erro.';err.classList.remove('hidden')}finally{btn.disabled=false;stopLoad()}
 });
 
-// ---- GROUPS MANAGEMENT ----
+// Groups management
 $('openGroupsBtn').addEventListener('click',async()=>{
   startLoad();toast('Carregando grupos...','loading');
   try{const d=await jsonp(`${API}?action=getGroups&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
@@ -880,9 +1042,9 @@ $('groupsModal').addEventListener('click',e=>{if(e.target===$('groupsModal')){$(
 
 function renderGroupsList(){
   $('groupsList').innerHTML=S.groups.map(g=>{
-    const permLabels=String(g.permissions||'').split(',').map(p=>ALL_PERMS[p.trim()]||p.trim()).filter(Boolean);
-    const preview=permLabels.slice(0,3).join(', ')+(permLabels.length>3?` +${permLabels.length-3}`:'');
-    return `<li class="group-item"><div><div class="group-name">${g.nome}</div><div class="group-perms">${preview||'Sem permissões'}</div></div><div class="group-acts"><button type="button" class="ge" data-id="${g.group_id}">✎</button><button type="button" class="gd" data-id="${g.group_id}" data-nome="${g.nome}">×</button></div></li>`;
+    const pl=String(g.permissions||'').split(',').map(p=>ALL_PERMS[p.trim()]||p.trim()).filter(Boolean);
+    const prev=pl.slice(0,3).join(', ')+(pl.length>3?` +${pl.length-3}`:'');
+    return `<li class="group-item"><div><div class="group-name">${g.nome}</div><div class="group-perms">${prev||'Sem permissões'}</div></div><div class="group-acts"><button type="button" class="ge" data-id="${g.group_id}">✎</button><button type="button" class="gd" data-id="${g.group_id}" data-nome="${g.nome}">×</button></div></li>`;
   }).join('')||'<li style="text-align:center;padding:16px;color:var(--text-soft);font-size:13px">Nenhum grupo criado ainda.</li>';
   $('groupsList').querySelectorAll('.ge').forEach(b=>b.addEventListener('click',()=>{const g=S.groups.find(x=>String(x.group_id)===b.dataset.id);if(g)openGroupForm(g)}));
   $('groupsList').querySelectorAll('.gd').forEach(b=>b.addEventListener('click',()=>deleteGroup(b.dataset.id,b.dataset.nome)));
@@ -890,13 +1052,10 @@ function renderGroupsList(){
 
 $('addGroupBtn').addEventListener('click',()=>openGroupForm(null));
 function openGroupForm(g){
-  $('groupFormId').value=g?g.group_id:'';
-  $('groupFormNome').value=g?g.nome:'';
-  $('groupFormTitle').textContent=g?'Editar grupo':'Novo grupo';
-  $('groupFormSubmit').textContent=g?'Salvar':'Criar grupo';
+  $('groupFormId').value=g?g.group_id:'';$('groupFormNome').value=g?g.nome:'';
+  $('groupFormTitle').textContent=g?'Editar grupo':'Novo grupo';$('groupFormSubmit').textContent=g?'Salvar':'Criar grupo';
   $('groupFormErr').classList.add('hidden');
-  const perms=g&&g.permissions?String(g.permissions).split(',').map(p=>p.trim()).filter(Boolean):[];
-  renderPermGrid('groupPermGrid',perms);
+  renderPermGrid('groupPermGrid',g&&g.permissions?String(g.permissions).split(',').map(p=>p.trim()).filter(Boolean):[]);
   $('groupsModal').classList.add('hidden');$('groupFormModal').classList.remove('hidden');
 }
 $('closeGroupFormBtn').addEventListener('click',()=>{$('groupFormModal').classList.add('hidden');$('groupsModal').classList.remove('hidden')});
@@ -919,26 +1078,22 @@ $('groupForm').addEventListener('submit',async e=>{
 });
 
 async function deleteGroup(id,nome){
-  confirm_({title:'Excluir grupo?',sub:`"${nome}" será removido. Membros do grupo não são afetados.`,icon:'👥',btn:'Excluir',
+  confirm_({title:'Excluir grupo?',sub:`"${nome}" será removido.`,icon:'👥',btn:'Excluir',
     onConfirm:async()=>{startLoad();toast(`Removendo ${nome}...`,'loading');
       try{const d=await jsonp(`${API}?action=deleteGroup&group_id=${id}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
         if(d.error){alert(d.error);stopLoad();return}
         const dg=await jsonp(`${API}?action=getGroups&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
-        if(dg.groups)S.groups=dg.groups;
-        renderGroupsList();toast(`✕ ${nome} excluído.`,'danger');
+        if(dg.groups)S.groups=dg.groups;renderGroupsList();toast(`✕ ${nome} excluído.`,'danger');
       }catch{alert('Erro.')}finally{stopLoad()}}
   });
 }
 
-// Init — se já tem email+senha+hhId, vai direto pro getItems (pula o login)
+// Init
 if(S.email&&S.senha){
   $('loginScreen').classList.add('hidden');$('appScreen').classList.remove('hidden');
   $('content').innerHTML='<p class="status-msg">Carregando lista...</p>';
-  if(S.hhId){
-    // Tem loja guardada → vai direto pro getItems (1 chamada só)
-    loadItems();
-  }else{
-    // Sem loja → precisa do login pra pegar a lista de lojas
+  if(S.hhId){loadItems();}
+  else{
     jsonp(`${API}?action=login&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`).then(d=>{
       if(d.error||d.needsPassword){showLogin();return}
       S.role=d.user.role;S.orgId=d.user.org_id;S.userId=String(d.user.user_id);S.permissions=d.user.permissions||[];S.households=d.households||[];
