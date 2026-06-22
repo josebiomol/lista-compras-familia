@@ -44,6 +44,7 @@
   input[type=email],input[type=text],input[type=number],input[type=password]{width:100%;font-family:'Inter',sans-serif;font-size:14px;border:1px solid var(--border);background:var(--card);color:var(--text);padding:13px 14px;border-radius:12px}
   input:focus{outline:2px solid var(--green);outline-offset:1px}
   ::placeholder{color:var(--text-soft)}
+  select{width:100%;font-family:'Inter',sans-serif;font-size:14px;border:1px solid var(--border);background:var(--card);color:var(--text);padding:13px 14px;border-radius:12px}
   button{font-family:'Inter',sans-serif;cursor:pointer}
   .btn-p{width:100%;background:var(--green);color:#fff;border:none;padding:13px;border-radius:12px;font-weight:600;font-size:14px}
   .btn-p:hover{filter:brightness(.95)}
@@ -58,8 +59,7 @@
   .hh-meta{font-size:12px;color:var(--text-soft);margin-top:2px}
   .hh-acts{display:flex;gap:8px}
   .hh-ab{background:none;border:none;color:var(--text-soft);font-size:15px;padding:4px;cursor:pointer}
-  .hh-ab:hover{color:var(--green)}
-  .hh-ab.del:hover{color:var(--danger)}
+  .hh-ab:hover{color:var(--green)}.hh-ab.del:hover{color:var(--danger)}
   .hh-add{width:100%;background:var(--green-bg);color:var(--green);border:none;padding:14px;border-radius:14px;font-weight:600;font-size:14px;margin-top:4px}
   .main{flex:1;padding:4px 20px 90px}
   .add-bar{display:flex;gap:8px;margin:10px 0 16px}
@@ -92,19 +92,29 @@
   .nav-ic{font-size:18px}
   .ov{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:16px;z-index:30}
   .ov.hidden{display:none}
-  .modal{background:var(--card);color:var(--text);width:100%;max-width:360px;padding:22px;border-radius:18px;box-shadow:var(--shadow)}
+  .modal{background:var(--card);color:var(--text);width:100%;max-width:400px;padding:22px;border-radius:18px;box-shadow:var(--shadow);max-height:90vh;overflow-y:auto}
   .mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
   .mt{font-family:'Archivo',sans-serif;font-weight:700;font-size:16px;margin:0}
   .mc{background:none;border:none;color:var(--text-soft);font-size:18px;cursor:pointer}
-  select{width:100%;font-family:'Inter',sans-serif;font-size:14px;border:1px solid var(--border);background:var(--card);color:var(--text);padding:13px 14px;border-radius:12px}
   .mform{display:flex;flex-direction:column;gap:10px}
   .fh{font-size:11px;color:var(--text-soft);margin:-4px 0 0 2px}
+  .section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-soft);margin:8px 0 6px;padding-top:8px;border-top:1px solid var(--border)}
+  .perm-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .perm-item{display:flex;align-items:center;gap:7px;background:var(--bg);border-radius:8px;padding:8px 10px;cursor:pointer;border:1px solid transparent;transition:border-color .1s}
+  .perm-item:hover{border-color:var(--green)}
+  .perm-item input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--green);flex-shrink:0;margin:0}
+  .perm-item label{font-size:12px;cursor:pointer;line-height:1.3}
+  .hh-check-list{display:flex;flex-direction:column;gap:6px}
+  .hh-check-item{display:flex;align-items:center;gap:8px;background:var(--bg);border-radius:8px;padding:8px 10px}
+  .hh-check-item input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--green);flex-shrink:0;margin:0}
+  .hh-check-item label{font-size:13px;font-weight:500;cursor:pointer}
   ul.mems{list-style:none;margin:0 0 16px;padding:0;display:flex;flex-direction:column;gap:8px}
   .mems li{display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--bg);border-radius:12px;padding:10px 12px}
   .mn{display:block;font-weight:600;font-size:13.5px}
-  .mbadges{display:flex;gap:6px;align-items:center;margin-top:2px}
-  .mr{font-size:11px;color:var(--green);text-transform:uppercase}
-  .mnp{font-size:10px;color:var(--danger);background:rgba(220,38,38,.1);padding:1px 6px;border-radius:4px}
+  .mbadges{display:flex;gap:5px;align-items:center;margin-top:3px;flex-wrap:wrap}
+  .badge{font-size:10px;font-weight:600;padding:2px 6px;border-radius:5px;text-transform:uppercase}
+  .badge-group{background:var(--green-bg);color:var(--green)}
+  .badge-nopass{background:rgba(220,38,38,.1);color:var(--danger)}
   .macts{display:flex;gap:10px;flex-shrink:0}
   .macts button{background:none;border:none;color:var(--text-soft);cursor:pointer;font-size:14px}
   .me:hover{color:var(--green)}.md:hover{color:var(--danger)}
@@ -126,13 +136,6 @@
   .tb{position:absolute;bottom:0;left:0;height:3px;border-radius:0 0 14px 14px;animation:tp 2.8s linear forwards}
   .tb.success{background:#22C55E}.tb.danger{background:#DC2626}
   @keyframes tp{from{width:100%}to{width:0%}}
-  .role-badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:6px;text-transform:uppercase;letter-spacing:.3px}
-  .role-owner{background:rgba(234,179,8,.15);color:#92400E}
-  .role-admin{background:rgba(59,130,246,.15);color:#1D4ED8}
-  .role-gerente{background:var(--green-bg);color:var(--green)}
-  .role-membro{background:rgba(120,120,120,.1);color:var(--text-soft)}
-  [data-theme=dark] .role-owner{color:#FCD34D}
-  [data-theme=dark] .role-admin{color:#93C5FD}
 </style>
 </head>
 <body>
@@ -155,7 +158,6 @@
     </div>
   </header>
 
-  <!-- LOGIN -->
   <div id="loginScreen" class="auth-screen">
     <div class="auth-icon">🛍️</div>
     <h1>Bem-vindo</h1>
@@ -170,25 +172,23 @@
     <button type="button" class="btn-sec" id="goRegBtn">Criar nova conta</button>
   </div>
 
-  <!-- CADASTRO -->
   <div id="regScreen" class="auth-screen hidden">
     <div class="auth-icon">🏢</div>
     <h1>Criar conta</h1>
-    <p>Você será o dono da organização e poderá criar várias lojas/casas.</p>
+    <p>Você será o dono da organização.</p>
     <form id="regForm">
       <input type="text" id="rNome" placeholder="Seu nome completo" required>
       <input type="email" id="rEmail" placeholder="E-mail" required>
       <input type="password" id="rSenha" placeholder="Senha (mín. 6 caracteres)" required>
       <input type="password" id="rSenha2" placeholder="Confirmar senha" required>
-      <input type="text" id="rOrg" placeholder="Nome da organização (ex: Família Silva)" required>
-      <input type="text" id="rHH" placeholder="Nome da primeira casa/loja" required>
+      <input type="text" id="rOrg" placeholder="Nome da organização" required>
+      <input type="text" id="rHH" placeholder="Nome da primeira loja/casa" required>
       <button type="submit" class="btn-p" id="regBtn">Criar conta</button>
     </form>
     <p class="status-msg err hidden" id="regErr"></p>
     <button type="button" class="btn-back" id="backLoginBtn">← Voltar ao login</button>
   </div>
 
-  <!-- DEFINIR SENHA -->
   <div id="setPassScreen" class="auth-screen hidden">
     <div class="auth-icon">🔑</div>
     <h1>Defina sua senha</h1>
@@ -202,7 +202,6 @@
     <button type="button" class="btn-back" id="backFromSetPass">← Voltar ao login</button>
   </div>
 
-  <!-- SELETOR DE LOJA -->
   <div id="hhScreen" class="hh-screen hidden">
     <h2>Minhas lojas/casas</h2>
     <p class="sub">Selecione onde deseja trabalhar agora.</p>
@@ -210,7 +209,6 @@
     <button type="button" class="hh-add hidden" id="addHHBtn">+ Criar nova casa / loja</button>
   </div>
 
-  <!-- APP -->
   <main id="appScreen" class="main hidden">
     <form class="add-bar" id="addForm">
       <input type="text" id="itemName" placeholder="Adicionar item..." required>
@@ -232,7 +230,7 @@
   </nav>
 </div>
 
-<!-- MODALS -->
+<!-- MEMBROS MODAL -->
 <div id="membersModal" class="ov hidden">
   <div class="modal">
     <div class="mh"><p class="mt">Membros da loja</p><button type="button" id="closeMembersBtn" class="mc">×</button></div>
@@ -241,6 +239,7 @@
   </div>
 </div>
 
+<!-- CONVIDAR/EDITAR MEMBRO MODAL -->
 <div id="inviteModal" class="ov hidden">
   <div class="modal">
     <div class="mh"><p class="mt" id="mFormTitle">Convidar membro</p><button type="button" id="closeInviteBtn" class="mc">×</button></div>
@@ -248,22 +247,35 @@
       <input type="hidden" id="mFormId">
       <input type="text" id="mNome" placeholder="Nome completo" required>
       <input type="email" id="mEmail" placeholder="email@exemplo.com" required>
-      <select id="mRole"></select>
       <input type="password" id="mSenha" placeholder="Senha (mín. 6 caracteres)">
       <p class="fh" id="mSenhaHint">Obrigatória para novo membro.</p>
-      <button type="submit" id="mFormSubmit" class="btn-p">Convidar membro</button>
+
+      <p class="section-title">Grupo (perfil pré-configurado)</p>
+      <select id="mGroupSelect">
+        <option value="">— Nenhum (configurar manualmente) —</option>
+      </select>
+
+      <p class="section-title">Permissões</p>
+      <div class="perm-grid" id="permGrid"></div>
+
+      <div id="hhAccessSection">
+        <p class="section-title">Lojas que pode acessar</p>
+        <div class="hh-check-list" id="hhCheckList"></div>
+      </div>
+
+      <button type="submit" id="mFormSubmit" class="btn-p" style="margin-top:8px">Convidar membro</button>
     </form>
     <p class="status-msg err hidden" id="mErr"></p>
   </div>
 </div>
 
+<!-- EDITAR PERFIL MODAL -->
 <div id="editProfileModal" class="ov hidden">
   <div class="modal">
     <div class="mh"><p class="mt">Editar meus dados</p><button type="button" id="closeEditProfile" class="mc">×</button></div>
     <form id="editProfileForm" class="mform">
       <input type="text" id="epNome" placeholder="Seu nome" required>
-      <input type="password" id="epSenhaAtual" placeholder="Senha atual (para alterar senha)">
-      <input type="password" id="epNovaSenha" placeholder="Nova senha (mín. 6 caracteres, opcional)">
+      <input type="password" id="epNovaSenha" placeholder="Nova senha (opcional, mín. 6 caracteres)">
       <input type="password" id="epNovaSenha2" placeholder="Confirmar nova senha">
       <button type="submit" id="epSubmit" class="btn-p">Salvar</button>
     </form>
@@ -271,9 +283,10 @@
   </div>
 </div>
 
+<!-- LOJA MODAL -->
 <div id="hhModal" class="ov hidden">
   <div class="modal">
-    <div class="mh"><p class="mt" id="hhMTitle">Nova loja / casa</p><button type="button" id="closeHHModal" class="mc">×</button></div>
+    <div class="mh"><p class="mt" id="hhMTitle">Nova loja</p><button type="button" id="closeHHModal" class="mc">×</button></div>
     <form id="hhForm" class="mform">
       <input type="hidden" id="hhFId">
       <input type="text" id="hhFNome" placeholder="Nome da loja / casa" required>
@@ -283,6 +296,7 @@
   </div>
 </div>
 
+<!-- CONFIRM MODAL -->
 <div id="confirmModal" class="ov hidden">
   <div class="cf-modal">
     <div class="cfi danger" id="cfI">🗑️</div>
@@ -305,38 +319,53 @@
 const API = 'https://script.google.com/macros/s/AKfycbxaLtifLTTakDmk5ga1ueBjQn9UpCi0291sx9d4DX-VEUMilsWQnpQNYufO7aEIgw0/exec';
 const $ = id => document.getElementById(id);
 
+const ALL_PERMS = {
+  add_item:       'Adicionar item',
+  toggle_item:    'Marcar como comprado',
+  delete_item:    'Excluir item',
+  view_members:   'Ver membros',
+  invite_member:  'Convidar membro',
+  edit_member:    'Editar membro',
+  delete_member:  'Excluir membro',
+  view_all_lojas: 'Ver todas as lojas',
+  manage_lojas:   'Gerenciar lojas'
+};
+
 let S = {
   email: localStorage.getItem('ue')||'', senha: sessionStorage.getItem('us')||'',
   role:'', orgId:'', hhId: localStorage.getItem('uhh')||'',
-  households:[], members:[], items:[], filter:'todos',
+  households:[], members:[], items:[], groups:[],
+  permissions:[], filter:'todos',
   pendingEmail:'', userId:'', userName:''
 };
 
-// Theme
+function can(key) {
+  if (S.role === 'owner') return true;
+  return S.permissions.includes(key);
+}
+
 const applyTheme = t => { document.documentElement.setAttribute('data-theme',t); $('themeToggle').textContent=t==='dark'?'☀️':'🌙'; localStorage.setItem('th',t); };
 applyTheme(localStorage.getItem('th')||'light');
 $('themeToggle').addEventListener('click', () => applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));
 
-// Loading
-const lb=$('lb');
-function startLoad(){lb.classList.remove('done');lb.classList.add('active')}
-function stopLoad(){lb.classList.remove('active');lb.classList.add('done');setTimeout(()=>lb.classList.remove('done'),600)}
+const lbEl=$('lb');
+function startLoad(){lbEl.classList.remove('done');lbEl.classList.add('active')}
+function stopLoad(){lbEl.classList.remove('active');lbEl.classList.add('done');setTimeout(()=>lbEl.classList.remove('done'),600)}
 
-// Toast
 let toastTimer;
 function toast(msg,type='success'){
   const icons={success:'✓',danger:'✕',loading:'⟳'};
-  $('tt').textContent=msg; $('ti').className=`ti ${type}`; $('ti').textContent=icons[type]||'✓';
+  $('tt').textContent=msg;$('ti').className=`ti ${type}`;$('ti').textContent=icons[type]||'✓';
   $('tb').className=`tb ${type==='loading'?'success':type}`;
-  $('tb').style.animation='none'; void $('tb').offsetWidth;
-  if(type!=='loading') $('tb').style.animation='';
-  $('toast').classList.add('show'); clearTimeout(toastTimer);
-  if(type!=='loading') toastTimer=setTimeout(()=>$('toast').classList.remove('show'),2800);
+  $('tb').style.animation='none';void $('tb').offsetWidth;
+  if(type!=='loading')$('tb').style.animation='';
+  $('toast').classList.add('show');clearTimeout(toastTimer);
+  if(type!=='loading')toastTimer=setTimeout(()=>$('toast').classList.remove('show'),2800);
 }
 
 function confirm_(opts){
-  $('cfT').textContent=opts.title; $('cfS').textContent=opts.sub;
-  $('cfI').textContent=opts.icon||'🗑️'; $('cfOk').textContent=opts.btn||'Excluir';
+  $('cfT').textContent=opts.title;$('cfS').textContent=opts.sub;
+  $('cfI').textContent=opts.icon||'🗑️';$('cfOk').textContent=opts.btn||'Excluir';
   $('confirmModal').classList.remove('hidden');
   const close=()=>$('confirmModal').classList.add('hidden');
   $('cfCancel').onclick=close;
@@ -351,109 +380,98 @@ function jsonp(url){
     const clean=()=>{delete window[cb];s.remove()};
     window[cb]=d=>{res(d);clean()};
     s.onerror=()=>{rej(new Error('Rede'));clean()};
-    s.src=`${url}&callback=${cb}`; document.body.appendChild(s);
+    s.src=`${url}&callback=${cb}`;document.body.appendChild(s);
   });
 }
 
 function ini(n){if(!n)return '?';const p=n.trim().split(' ');return(p[0][0]+(p[1]?p[1][0]:'')).toUpperCase()}
 
-function roleBadge(role){
-  const map={owner:'Dono',admin:'Admin',gerente:'Gerente',membro:'Membro'};
-  return `<span class="role-badge role-${role}">${map[role]||role}</span>`;
-}
-
 function hideAll(){
   ['loginScreen','regScreen','setPassScreen','hhScreen','appScreen'].forEach(id=>$(id).classList.add('hidden'));
-  $('botNav').classList.add('hidden'); $('avBtn').classList.add('hidden'); $('hhBadge').classList.add('hidden');
-  $('accMenu').classList.add('hidden');
+  $('botNav').classList.add('hidden');$('avBtn').classList.add('hidden');
+  $('hhBadge').classList.add('hidden');$('accMenu').classList.add('hidden');
+  $('navMembers').classList.add('hidden');$('navHH').classList.add('hidden');
+  $('addHHBtn').classList.add('hidden');
 }
 
 function showLogin(err){
-  hideAll(); $('loginScreen').classList.remove('hidden');
+  hideAll();$('loginScreen').classList.remove('hidden');
   const el=$('loginErr');
   if(err){el.textContent=err;el.classList.remove('hidden')}else el.classList.add('hidden');
-  if(S.email) $('lEmail').value=S.email;
+  if(S.email)$('lEmail').value=S.email;
 }
-
 function showReg(){hideAll();$('regScreen').classList.remove('hidden');$('regErr').classList.add('hidden')}
-function showSetPass(email){S.pendingEmail=email;hideAll();$('setPassScreen').classList.remove('hidden');$('setPassErr').classList.add('hidden')}
+function showSetPass(e){S.pendingEmail=e;hideAll();$('setPassScreen').classList.remove('hidden');$('setPassErr').classList.add('hidden')}
 
 function setupAvatar(nome,role){
-  $('avBtn').textContent=ini(nome); $('avBtn').classList.remove('hidden');
+  $('avBtn').textContent=ini(nome);$('avBtn').classList.remove('hidden');
   $('accName').textContent=nome;
-  const roleLabels={owner:'Dono',admin:'Administrador',gerente:'Gerente',membro:'Colaborador'};
-  $('accRole').textContent=roleLabels[role]||role;
-  S.userName=nome;
+  const rl={owner:'Dono',admin:'Administrador',gerente:'Gerente',membro:'Colaborador'};
+  $('accRole').textContent=rl[role]||role;S.userName=nome;
 }
 
 function showHH(data){
-  hideAll(); $('hhScreen').classList.remove('hidden'); $('botNav').classList.remove('hidden');
-  setupAvatar(data.user.nome, data.user.role);
-  $('navHH').classList.remove('hidden'); $('navHH').classList.add('active');
-  $('navList').classList.remove('active');
-  if(data.user.role==='owner') $('addHHBtn').classList.remove('hidden');
+  hideAll();$('hhScreen').classList.remove('hidden');$('botNav').classList.remove('hidden');
+  setupAvatar(data.user.nome,data.user.role);
+  $('navHH').classList.remove('hidden');$('navHH').classList.add('active');$('navList').classList.remove('active');
+  if(data.user.role==='owner'||can('manage_lojas'))$('addHHBtn').classList.remove('hidden');
   renderHH(data.households||S.households);
 }
 
 function showApp(data){
-  hideAll(); $('appScreen').classList.remove('hidden'); $('botNav').classList.remove('hidden');
-  S.role=data.user.role; S.userId=String(data.user.user_id);
-  setupAvatar(data.user.nome, data.user.role);
-  S.items=data.items||[]; S.members=data.members||[];
-  if(['owner','admin'].includes(S.role)){
+  hideAll();$('appScreen').classList.remove('hidden');$('botNav').classList.remove('hidden');
+  S.role=data.user.role;S.userId=String(data.user.user_id);
+  S.permissions=data.user.permissions||[];
+  setupAvatar(data.user.nome,data.user.role);
+  S.items=data.items||[];S.members=data.members||[];
+  if(can('view_all_lojas')||S.role==='owner'){
     const hh=S.households.find(h=>String(h.household_id)===String(S.hhId));
     if(hh){$('hhBadge').textContent=hh.nome;$('hhBadge').classList.remove('hidden')}
-    $('navHH').classList.remove('hidden'); $('navList').classList.add('active'); $('navHH').classList.remove('active');
+    $('navHH').classList.remove('hidden');
   }
-  if(['owner','admin','gerente'].includes(S.role)) $('navMembers').classList.remove('hidden');
-  renderFiltered(); renderMembers(S.members);
+  if(can('manage_lojas'))$('addHHBtn').classList.remove('hidden');
+  $('navList').classList.add('active');$('navHH').classList.remove('active');
+  if(can('view_members'))$('navMembers').classList.remove('hidden');
+  renderFiltered();renderMembers(S.members);
 }
 
-// Avatar
 $('avBtn').addEventListener('click',()=>$('accMenu').classList.toggle('hidden'));
 document.addEventListener('click',e=>{if(!$('accMenu').contains(e.target)&&e.target!==$('avBtn'))$('accMenu').classList.add('hidden')});
 $('logoutBtn').addEventListener('click',()=>{
   localStorage.removeItem('ue');localStorage.removeItem('uhh');sessionStorage.removeItem('us');
-  S={email:'',senha:'',role:'',orgId:'',hhId:'',households:[],members:[],items:[],filter:'todos',pendingEmail:'',userId:'',userName:''};
+  S={email:'',senha:'',role:'',orgId:'',hhId:'',households:[],members:[],items:[],groups:[],permissions:[],filter:'todos',pendingEmail:'',userId:'',userName:''};
   $('accMenu').classList.add('hidden');showLogin();
 });
 
 // Edit profile
 $('editProfileBtn').addEventListener('click',()=>{
-  $('accMenu').classList.add('hidden');
-  $('epNome').value=S.userName;
-  $('epSenhaAtual').value='';$('epNovaSenha').value='';$('epNovaSenha2').value='';
-  $('epErr').classList.add('hidden');
+  $('accMenu').classList.add('hidden');$('epNome').value=S.userName;
+  $('epNovaSenha').value='';$('epNovaSenha2').value='';$('epErr').classList.add('hidden');
   $('editProfileModal').classList.remove('hidden');
 });
 $('closeEditProfile').addEventListener('click',()=>$('editProfileModal').classList.add('hidden'));
 $('editProfileModal').addEventListener('click',e=>{if(e.target===$('editProfileModal'))$('editProfileModal').classList.add('hidden')});
 $('editProfileForm').addEventListener('submit',async e=>{
-  e.preventDefault();
-  const err=$('epErr'); err.classList.add('hidden');
+  e.preventDefault();const err=$('epErr');err.classList.add('hidden');
   const nome=$('epNome').value.trim();
-  const senhaAtual=$('epSenhaAtual').value;
-  const novaSenha=$('epNovaSenha').value;
-  const novaSenha2=$('epNovaSenha2').value;
-  if(novaSenha&&novaSenha.length<6){err.textContent='Nova senha: mínimo 6 caracteres.';err.classList.remove('hidden');return}
-  if(novaSenha&&novaSenha!==novaSenha2){err.textContent='Senhas não coincidem.';err.classList.remove('hidden');return}
-  const btn=$('epSubmit'); btn.disabled=true; startLoad(); toast('Salvando...','loading');
-  const senhaParam=novaSenha?`&nova_senha=${encodeURIComponent(novaSenha)}&senha_atual=${encodeURIComponent(senhaAtual)}`:'';
+  const ns=$('epNovaSenha').value,ns2=$('epNovaSenha2').value;
+  if(ns&&ns.length<6){err.textContent='Mínimo 6 caracteres.';err.classList.remove('hidden');return}
+  if(ns&&ns!==ns2){err.textContent='Senhas não coincidem.';err.classList.remove('hidden');return}
+  const btn=$('epSubmit');btn.disabled=true;startLoad();toast('Salvando...','loading');
+  const senhaP=ns?`&nova_senha=${encodeURIComponent(ns)}`:'';
   try{
-    const d=await jsonp(`${API}?action=editProfile&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}&novo_nome=${encodeURIComponent(nome)}${senhaParam}`);
+    const d=await jsonp(`${API}?action=editProfile&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}&novo_nome=${encodeURIComponent(nome)}${senhaP}`);
     if(d.error){err.textContent=d.error;err.classList.remove('hidden');stopLoad();$('toast').classList.remove('show');return}
-    S.userName=nome;
-    if(novaSenha){S.senha=novaSenha;sessionStorage.setItem('us',novaSenha)}
+    S.userName=nome;if(ns){S.senha=ns;sessionStorage.setItem('us',ns)}
     $('avBtn').textContent=ini(nome);$('accName').textContent=nome;
-    $('editProfileModal').classList.add('hidden');
-    stopLoad(); toast('✓ Dados atualizados.','success');
-  }catch{err.textContent='Erro de conexão.';err.classList.remove('hidden');stopLoad()}
+    $('editProfileModal').classList.add('hidden');stopLoad();toast('✓ Dados atualizados.','success');
+  }catch{err.textContent='Erro.';err.classList.remove('hidden');stopLoad()}
   finally{btn.disabled=false}
 });
 
-// HH badge click
+// HH badge
 $('hhBadge').addEventListener('click',()=>{
-  if(['owner','admin'].includes(S.role)){
+  if(can('view_all_lojas')||S.role==='owner'){
     S.hhId='';localStorage.removeItem('uhh');
     showHH({user:{nome:S.userName,role:S.role},households:S.households});
   }
@@ -462,17 +480,17 @@ $('hhBadge').addEventListener('click',()=>{
 // Login
 $('loginForm').addEventListener('submit',async e=>{
   e.preventDefault();
-  const email=$('lEmail').value.trim(), senha=$('lSenha').value;
-  const btn=$('loginBtn'); btn.disabled=true; startLoad(); toast('Entrando...','loading');
+  const email=$('lEmail').value.trim(),senha=$('lSenha').value;
+  const btn=$('loginBtn');btn.disabled=true;startLoad();toast('Entrando...','loading');
   try{
     const d=await jsonp(`${API}?action=login&email=${encodeURIComponent(email)}&senha=${encodeURIComponent(senha)}`);
     if(d.needsPassword){stopLoad();$('toast').classList.remove('show');showSetPass(email);return}
     if(d.error){stopLoad();$('toast').classList.remove('show');showLogin(d.error);return}
-    S.email=email;S.senha=senha;S.role=d.user.role;S.orgId=d.user.org_id;
+    S.email=email;S.senha=senha;S.role=d.user.role;S.orgId=d.user.org_id;S.permissions=d.user.permissions||[];
     S.userId=String(d.user.user_id);S.households=d.households||[];
     localStorage.setItem('ue',email);sessionStorage.setItem('us',senha);
     stopLoad();
-    if(['owner','admin'].includes(S.role)&&!S.hhId){showHH(d)}else loadItems();
+    if((S.role==='owner'||can('view_all_lojas'))&&!S.hhId)showHH(d);else loadItems();
   }catch{stopLoad();$('toast').classList.remove('show');showLogin('Erro de conexão.')}
   finally{btn.disabled=false}
 });
@@ -481,10 +499,8 @@ $('goRegBtn').addEventListener('click',showReg);
 $('backLoginBtn').addEventListener('click',()=>showLogin());
 $('backFromSetPass').addEventListener('click',()=>showLogin());
 
-// Register
 $('regForm').addEventListener('submit',async e=>{
-  e.preventDefault();
-  const err=$('regErr');err.classList.add('hidden');
+  e.preventDefault();const err=$('regErr');err.classList.add('hidden');
   const nome=$('rNome').value.trim(),email=$('rEmail').value.trim();
   const s1=$('rSenha').value,s2=$('rSenha2').value;
   const org=$('rOrg').value.trim(),hh=$('rHH').value.trim();
@@ -494,18 +510,15 @@ $('regForm').addEventListener('submit',async e=>{
   try{
     const d=await jsonp(`${API}?action=register&email=${encodeURIComponent(email)}&novo_nome=${encodeURIComponent(nome)}&nova_senha=${encodeURIComponent(s1)}&nome_org=${encodeURIComponent(org)}&nome_household=${encodeURIComponent(hh)}`);
     if(d.error){err.textContent=d.error;err.classList.remove('hidden');stopLoad();$('toast').classList.remove('show');return}
-    S.email=email;S.senha=s1;S.role=d.user.role;S.orgId=d.user.org_id;S.households=d.households||[];
-    S.userId=String(d.user.user_id);
+    S.email=email;S.senha=s1;S.role=d.user.role;S.orgId=d.user.org_id;S.households=d.households||[];S.userId=String(d.user.user_id);
     localStorage.setItem('ue',email);sessionStorage.setItem('us',s1);
     stopLoad();toast('✓ Conta criada!','success');showHH(d);
   }catch{err.textContent='Erro.';err.classList.remove('hidden');stopLoad();$('toast').classList.remove('show')}
   finally{btn.disabled=false}
 });
 
-// Set Password
 $('setPassForm').addEventListener('submit',async e=>{
-  e.preventDefault();
-  const err=$('setPassErr');err.classList.add('hidden');
+  e.preventDefault();const err=$('setPassErr');err.classList.add('hidden');
   const s1=$('sp1').value,s2=$('sp2').value;
   if(s1.length<6){err.textContent='Mínimo 6 caracteres.';err.classList.remove('hidden');return}
   if(s1!==s2){err.textContent='Senhas não coincidem.';err.classList.remove('hidden');return}
@@ -513,11 +526,10 @@ $('setPassForm').addEventListener('submit',async e=>{
   try{
     const d=await jsonp(`${API}?action=setPassword&email=${encodeURIComponent(S.pendingEmail)}&nova_senha=${encodeURIComponent(s1)}`);
     if(d.error){err.textContent=d.error;err.classList.remove('hidden');stopLoad();$('toast').classList.remove('show');return}
-    S.email=S.pendingEmail;S.senha=s1;S.role=d.user.role;S.orgId=d.user.org_id;S.households=d.households||[];
-    S.userId=String(d.user.user_id);
+    S.email=S.pendingEmail;S.senha=s1;S.role=d.user.role;S.permissions=d.user.permissions||[];S.orgId=d.user.org_id;S.households=d.households||[];S.userId=String(d.user.user_id);
     localStorage.setItem('ue',S.email);sessionStorage.setItem('us',s1);
     stopLoad();toast('✓ Senha definida!','success');
-    if(['owner','admin'].includes(S.role)&&!S.hhId)showHH(d);else loadItems();
+    if((S.role==='owner'||can('view_all_lojas'))&&!S.hhId)showHH(d);else loadItems();
   }catch{err.textContent='Erro.';err.classList.remove('hidden');stopLoad()}
   finally{btn.disabled=false}
 });
@@ -526,29 +538,25 @@ $('setPassForm').addEventListener('submit',async e=>{
 $('navHH').addEventListener('click',()=>{
   $('navHH').classList.add('active');$('navList').classList.remove('active');
   $('appScreen').classList.add('hidden');$('hhScreen').classList.remove('hidden');
-  $('hhBadge').classList.add('hidden');
-  renderHH(S.households);
+  $('hhBadge').classList.add('hidden');renderHH(S.households);
 });
 $('navList').addEventListener('click',()=>{
   if(!S.hhId)return;
   $('navList').classList.add('active');$('navHH').classList.remove('active');
   $('hhScreen').classList.add('hidden');$('appScreen').classList.remove('hidden');
-  if(['owner','admin'].includes(S.role))$('hhBadge').classList.remove('hidden');
+  if(can('view_all_lojas')||S.role==='owner')$('hhBadge').classList.remove('hidden');
 });
 
 function renderHH(hhs){
   S.households=hhs;
+  const canManage=S.role==='owner'||can('manage_lojas');
   $('hhList').innerHTML=hhs.map(h=>`
     <div class="hh-card" data-id="${h.household_id}">
-      <div>
-        <div class="hh-name">${h.nome}</div>
-        <div class="hh-meta">Clique para entrar</div>
-      </div>
-      ${S.role==='owner'?`<div class="hh-acts" onclick="event.stopPropagation()">
+      <div><div class="hh-name">${h.nome}</div><div class="hh-meta">Clique para entrar</div></div>
+      ${canManage?`<div class="hh-acts" onclick="event.stopPropagation()">
         <button class="hh-ab hhe" data-id="${h.household_id}" data-nome="${h.nome}">✎</button>
         <button class="hh-ab del hhd" data-id="${h.household_id}" data-nome="${h.nome}">×</button>
-      </div>`:''}
-    </div>`).join('');
+      </div>`:''}</div>`).join('');
   $('hhList').querySelectorAll('.hh-card').forEach(c=>c.addEventListener('click',()=>selectHH(c.dataset.id)));
   $('hhList').querySelectorAll('.hhe').forEach(b=>b.addEventListener('click',()=>openHHForm(b.dataset.id,b.dataset.nome)));
   $('hhList').querySelectorAll('.hhd').forEach(b=>b.addEventListener('click',()=>deleteHH(b.dataset.id,b.dataset.nome)));
@@ -558,14 +566,13 @@ function selectHH(id){
   S.hhId=id;localStorage.setItem('uhh',id);
   $('navList').classList.add('active');$('navHH').classList.remove('active');
   $('hhScreen').classList.add('hidden');$('appScreen').classList.remove('hidden');
-  $('hhBadge').classList.remove('hidden');
-  loadItems();
+  $('hhBadge').classList.remove('hidden');loadItems();
 }
 
 $('addHHBtn').addEventListener('click',()=>openHHForm(null,''));
 function openHHForm(id,nome){
   $('hhFId').value=id||'';$('hhFNome').value=nome||'';
-  $('hhMTitle').textContent=id?'Editar loja':'Nova loja / casa';
+  $('hhMTitle').textContent=id?'Editar loja':'Nova loja';
   $('hhFSubmit').textContent=id?'Salvar':'Criar';
   $('hhFErr').classList.add('hidden');$('hhModal').classList.remove('hidden');
 }
@@ -577,9 +584,9 @@ $('hhForm').addEventListener('submit',async e=>{
   const id=$('hhFId').value,nome=$('hhFNome').value.trim();
   const btn=$('hhFSubmit');btn.disabled=true;startLoad();toast(id?'Salvando...':'Criando...','loading');
   try{
-    let d;
-    if(id) d=await jsonp(`${API}?action=updateHousehold&household_id_target=${id}&nome=${encodeURIComponent(nome)}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
-    else d=await jsonp(`${API}?action=createHousehold&nome=${encodeURIComponent(nome)}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
+    const action=id?'updateHousehold':'createHousehold';
+    const extra=id?`&household_id_target=${id}`:'';
+    const d=await jsonp(`${API}?action=${action}&nome=${encodeURIComponent(nome)}${extra}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
     if(d.error){$('hhFErr').textContent=d.error;$('hhFErr').classList.remove('hidden');stopLoad();$('toast').classList.remove('show');return}
     $('hhModal').classList.add('hidden');stopLoad();toast(id?'✓ Loja atualizada.':'✓ Loja criada.','success');
     const sess=await jsonp(`${API}?action=login&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
@@ -605,18 +612,17 @@ function deleteHH(id,nome){
   });
 }
 
-// Load items
 async function loadItems(){
-  const hhP=['owner','admin'].includes(S.role)?`&household_id=${encodeURIComponent(S.hhId)}`:'';
+  const hhP=(S.role==='owner'||can('view_all_lojas'))?`&household_id=${encodeURIComponent(S.hhId)}`:'';
   try{
     const d=await jsonp(`${API}?action=getItems&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
     if(d.error){localStorage.removeItem('ue');sessionStorage.removeItem('us');S.email='';S.senha='';showLogin(d.error);return}
-    S.role=d.user.role;S.households=d.households||S.households;S.hhId=d.currentHouseholdId||S.hhId;
+    S.role=d.user.role;S.permissions=d.user.permissions||[];
+    S.households=d.households||S.households;S.hhId=d.currentHouseholdId||S.hhId;
     showApp(d);
   }catch{$('content').innerHTML=`<p class="status-msg err">Não foi possível conectar à API.</p>`}
 }
 
-// Items
 $('filterTabs').addEventListener('click',e=>{
   const btn=e.target.closest('.tab');if(!btn)return;
   S.filter=btn.dataset.filter;
@@ -638,7 +644,6 @@ function renderFiltered(){
 }
 
 function renderGroup(items){
-  const canDel=['owner','admin','gerente'].includes(S.role);
   return '<ul class="items">'+items.map(item=>{
     const done=item.status==='comprado';
     const owner=S.members.find(m=>String(m.user_id)===String(item.user_id));
@@ -647,16 +652,17 @@ function renderGroup(items){
       <div class="inf" data-id="${item.item_id}"><span class="nm">${item.nome_item}</span></div>
       <span class="qb">x${item.quantidade}</span>
       ${owner?`<span class="av">${ini(owner.nome)}</span>`:''}
-      ${canDel?`<button class="dl" data-id="${item.item_id}">×</button>`:''}
+      ${can('delete_item')?`<button class="dl" data-id="${item.item_id}">×</button>`:''}
     </li>`;
   }).join('')+'</ul>';
 }
 
 async function toggleItem(id){
+  if(!can('toggle_item'))return;
   const item=S.items.find(i=>String(i.item_id)===String(id));
   if(item)item.status=item.status==='comprado'?'pendente':'comprado';
   renderFiltered();
-  const hhP=['owner','admin'].includes(S.role)?`&household_id=${encodeURIComponent(S.hhId)}`:'';
+  const hhP=(S.role==='owner'||can('view_all_lojas'))?`&household_id=${encodeURIComponent(S.hhId)}`:'';
   try{await jsonp(`${API}?action=toggleItem&item_id=${id}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);loadItems()}
   catch{if(item){item.status=item.status==='comprado'?'pendente':'comprado';renderFiltered()}}
 }
@@ -666,7 +672,7 @@ async function deleteItemAction(id){
   confirm_({title:'Excluir item?',sub:`"${item?item.nome_item:'item'}" será removido.`,icon:'🗑️',btn:'Excluir',
     onConfirm:async()=>{
       startLoad();toast('Removendo item...','loading');
-      const hhP=['owner','admin'].includes(S.role)?`&household_id=${encodeURIComponent(S.hhId)}`:'';
+      const hhP=(S.role==='owner'||can('view_all_lojas'))?`&household_id=${encodeURIComponent(S.hhId)}`:'';
       try{await jsonp(`${API}?action=deleteItem&item_id=${id}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);toast('✕ Item removido.','danger');loadItems()}
       catch{alert('Erro.')}finally{stopLoad()}
     }
@@ -674,10 +680,10 @@ async function deleteItemAction(id){
 }
 
 $('addForm').addEventListener('submit',async e=>{
-  e.preventDefault();
+  e.preventDefault();if(!can('add_item'))return;
   const nome=$('itemName').value.trim(),qty=$('itemQty').value;if(!nome)return;
   const btn=e.target.querySelector('.add-btn');btn.disabled=true;startLoad();toast('Adicionando...','loading');
-  const hhP=['owner','admin'].includes(S.role)?`&household_id=${encodeURIComponent(S.hhId)}`:'';
+  const hhP=(S.role==='owner'||can('view_all_lojas'))?`&household_id=${encodeURIComponent(S.hhId)}`:'';
   try{
     await jsonp(`${API}?action=addItem&nome_item=${encodeURIComponent(nome)}&quantidade=${qty}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
     $('itemName').value='';$('itemQty').value=1;toast('✓ Item adicionado.','success');loadItems();
@@ -689,26 +695,28 @@ $('navMembers').addEventListener('click',()=>{renderMembers(S.members);$('member
 $('closeMembersBtn').addEventListener('click',()=>$('membersModal').classList.add('hidden'));
 $('membersModal').addEventListener('click',e=>{if(e.target===$('membersModal'))$('membersModal').classList.add('hidden')});
 
-function roleOptions(userRole){
-  const map={owner:['admin','gerente','membro'],admin:['gerente','membro'],gerente:['membro']};
-  const opts=map[userRole]||['membro'];
-  const labels={admin:'Admin',gerente:'Gerente',membro:'Colaborador'};
-  return opts.map(r=>`<option value="${r}">${labels[r]||r}</option>`).join('');
+function getGroupName(groupId){
+  const g=S.groups.find(x=>String(x.group_id)===String(groupId));
+  return g?g.nome:'';
 }
 
 function renderMembers(members){
-  const canDel=['owner','admin'].includes(S.role);
-  $('membersList').innerHTML=members.map(m=>`
-    <li>
+  $('membersList').innerHTML=members.map(m=>{
+    const gName=getGroupName(m.group_id);
+    return `<li>
       <div>
         <span class="mn">${m.nome}</span>
-        <div class="mbadges">${roleBadge(m.role)}${!m.tem_senha?'<span class="mnp">sem senha</span>':''}</div>
+        <div class="mbadges">
+          ${gName?`<span class="badge badge-group">${gName}</span>`:''}
+          ${!m.tem_senha?'<span class="badge badge-nopass">sem senha</span>':''}
+        </div>
       </div>
       <div class="macts">
-        <button type="button" class="me" data-id="${m.user_id}">✎</button>
-        ${canDel&&String(m.user_id)!==S.userId?`<button type="button" class="md" data-id="${m.user_id}">×</button>`:''}
+        ${can('edit_member')?`<button type="button" class="me" data-id="${m.user_id}">✎</button>`:''}
+        ${can('delete_member')&&String(m.user_id)!==S.userId?`<button type="button" class="md" data-id="${m.user_id}">×</button>`:''}
       </div>
-    </li>`).join('');
+    </li>`;
+  }).join('');
   $('membersList').querySelectorAll('.me').forEach(b=>{
     b.addEventListener('click',()=>{const m=S.members.find(x=>String(x.user_id)===b.dataset.id);if(m)openMemberForm(m)});
   });
@@ -717,20 +725,84 @@ function renderMembers(members){
   });
 }
 
-function openMemberForm(m){
+async function openMemberForm(m){
+  // Load groups if not yet loaded
+  if(S.groups.length===0){
+    try{const d=await jsonp(`${API}?action=getGroups&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);if(d.groups)S.groups=d.groups}catch{}
+  }
+
   $('mErr').classList.add('hidden');
   const ed=!!m;
   $('mFormId').value=m?m.user_id:'';
   $('mNome').value=m?m.nome:'';
   $('mEmail').value=m?m.email:'';
-  $('mRole').innerHTML=roleOptions(S.role);
-  if(m)$('mRole').value=m.role;
   $('mSenha').value='';$('mSenha').required=!ed;
   $('mSenhaHint').textContent=ed?'Deixe em branco para manter.':'Obrigatória para novo membro.';
   $('mFormTitle').textContent=ed?'Editar membro':'Convidar membro';
   $('mFormSubmit').textContent=ed?'Salvar alterações':'Convidar membro';
+
+  // Populate group selector
+  const gSel=$('mGroupSelect');
+  gSel.innerHTML='<option value="">— Nenhum (configurar manualmente) —</option>';
+  S.groups.forEach(g=>{
+    const opt=document.createElement('option');
+    opt.value=g.group_id;opt.textContent=g.nome;
+    gSel.appendChild(opt);
+  });
+  if(m&&m.group_id)gSel.value=String(m.group_id);
+
+  // Render permission checkboxes
+  const currentPerms=m&&m.permissions?String(m.permissions).split(',').map(p=>p.trim()).filter(Boolean):[];
+  renderPermGrid(currentPerms);
+
+  // Render HH access (only for users who can view multiple)
+  if(S.households.length>1){
+    $('hhAccessSection').classList.remove('hidden');
+    const currentHHs=m&&m.accessible_households?String(m.accessible_households).split(',').map(s=>s.trim()).filter(Boolean):[];
+    const primaryHH=m?String(m.household_id||S.hhId):String(S.hhId);
+    $('hhCheckList').innerHTML=S.households.map(h=>{
+      const hId=String(h.household_id);
+      const isPrimary=hId===primaryHH;
+      const isChecked=isPrimary||currentHHs.includes(hId);
+      return `<div class="hh-check-item">
+        <input type="checkbox" id="hhc_${hId}" data-hhid="${hId}" ${isChecked?'checked':''} ${isPrimary?'disabled':''}>
+        <label for="hhc_${hId}">${h.nome}${isPrimary?' (loja principal)':''}</label>
+      </div>`;
+    }).join('');
+  }else{
+    $('hhAccessSection').classList.add('hidden');
+  }
+
   $('membersModal').classList.add('hidden');$('inviteModal').classList.remove('hidden');
 }
+
+function renderPermGrid(selectedPerms){
+  $('permGrid').innerHTML=Object.entries(ALL_PERMS).map(([key,label])=>{
+    const checked=selectedPerms.includes(key);
+    return `<div class="perm-item" onclick="togglePermCheck('${key}')">
+      <input type="checkbox" id="perm_${key}" data-perm="${key}" ${checked?'checked':''} onclick="event.stopPropagation()">
+      <label for="perm_${key}">${label}</label>
+    </div>`;
+  }).join('');
+  $('permGrid').querySelectorAll('input[type=checkbox]').forEach(cb=>{
+    cb.addEventListener('change',()=>{/* handled by perm-item click */});
+  });
+}
+
+window.togglePermCheck=function(key){
+  const cb=$(`perm_${key}`);if(cb)cb.checked=!cb.checked;
+};
+
+// Group selector fills checkboxes
+$('mGroupSelect').addEventListener('change',()=>{
+  const gId=$('mGroupSelect').value;
+  if(!gId){renderPermGrid([]);return}
+  const group=S.groups.find(g=>String(g.group_id)===String(gId));
+  if(group){
+    const perms=String(group.permissions||'').split(',').map(p=>p.trim()).filter(Boolean);
+    renderPermGrid(perms);
+  }
+});
 
 async function deleteMember(userId){
   const m=S.members.find(x=>String(x.user_id)===String(userId));
@@ -738,7 +810,7 @@ async function deleteMember(userId){
   confirm_({title:'Remover membro?',sub:`${nome} perderá acesso à lista.`,icon:'👤',btn:'Remover',
     onConfirm:async()=>{
       startLoad();toast(`Removendo ${nome}...`,'loading');
-      const hhP=['owner','admin'].includes(S.role)?`&household_id=${encodeURIComponent(S.hhId)}`:'';
+      const hhP=(S.role==='owner'||can('view_all_lojas'))?`&household_id=${encodeURIComponent(S.hhId)}`:'';
       try{
         const d=await jsonp(`${API}?action=deleteUser&user_id_target=${userId}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
         if(d.error){alert(d.error);stopLoad();return}
@@ -757,17 +829,29 @@ $('mForm').addEventListener('submit',async e=>{
   const err=$('mErr');err.classList.add('hidden');
   const editId=$('mFormId').value;
   const nome=$('mNome').value.trim(),email=$('mEmail').value.trim();
-  const role=$('mRole').value,senha=$('mSenha').value;
+  const senha=$('mSenha').value;
+  const groupId=$('mGroupSelect').value;
+
+  // Collect checked permissions
+  const perms=Array.from($('permGrid').querySelectorAll('input[type=checkbox]:checked'))
+    .map(cb=>cb.dataset.perm).join(',');
+
+  // Collect accessible households
+  const accessHHs=Array.from(document.querySelectorAll('#hhCheckList input[type=checkbox]:checked:not(:disabled)'))
+    .map(cb=>cb.dataset.hhid).join(',');
+
   if(!nome||!email)return;
   if(!editId&&senha.length<6){err.textContent='Senha deve ter 6+ caracteres.';err.classList.remove('hidden');return}
+
   const action=editId?'updateUser':'addUser';
   const idP=editId?`&user_id_target=${editId}`:'';
   const senhaP=senha?`&nova_senha=${encodeURIComponent(senha)}`:'';
-  const hhP=['owner','admin'].includes(S.role)?`&household_id=${encodeURIComponent(S.hhId)}`:'';
+  const hhP=(S.role==='owner'||can('view_all_lojas'))?`&household_id=${encodeURIComponent(S.hhId)}`:'';
+
   const btn=$('mFormSubmit');btn.disabled=true;startLoad();
   toast(editId?'Salvando...':'Cadastrando...','loading');
   try{
-    const d=await jsonp(`${API}?action=${action}${idP}&novo_nome=${encodeURIComponent(nome)}&novo_email=${encodeURIComponent(email)}&novo_role=${role}${senhaP}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
+    const d=await jsonp(`${API}?action=${action}${idP}&novo_nome=${encodeURIComponent(nome)}&novo_email=${encodeURIComponent(email)}${senhaP}&permissions=${encodeURIComponent(perms)}&group_id=${encodeURIComponent(groupId)}&accessible_households=${encodeURIComponent(accessHHs)}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
     if(d.error){err.textContent=d.error;err.classList.remove('hidden');return}
     $('mForm').reset();$('mFormId').value='';
     await loadItems();$('inviteModal').classList.add('hidden');$('membersModal').classList.remove('hidden');
@@ -782,8 +866,9 @@ if(S.email&&S.senha){
   $('content').innerHTML='<p class="status-msg">Carregando lista...</p>';
   jsonp(`${API}?action=login&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`).then(d=>{
     if(d.error||d.needsPassword){showLogin();return}
-    S.role=d.user.role;S.orgId=d.user.org_id;S.userId=String(d.user.user_id);S.households=d.households||[];
-    if(['owner','admin'].includes(S.role)&&!S.hhId)showHH(d);else loadItems();
+    S.role=d.user.role;S.orgId=d.user.org_id;S.userId=String(d.user.user_id);
+    S.permissions=d.user.permissions||[];S.households=d.households||[];
+    if((S.role==='owner'||can('view_all_lojas'))&&!S.hhId)showHH(d);else loadItems();
   }).catch(()=>showLogin());
 }else{showLogin()}
 </script>
