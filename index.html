@@ -599,7 +599,19 @@ async function loadItems(){
   const hhP=can('view_all_lojas')?`&household_id=${encodeURIComponent(S.hhId)}`:'';
   try{
     const d=await jsonp(`${API}?action=getItems&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
-    if(d.error){localStorage.removeItem('ue');sessionStorage.removeItem('us');S.email='';S.senha='';showLogin(d.error);return}
+    if(d.error){
+      // Loja inválida (ex: ID antigo no localStorage) → limpa e vai pro seletor
+      if(d.error.includes('negado') && can('view_all_lojas')){
+        S.hhId='';localStorage.removeItem('uhh');
+        const sess=await jsonp(`${API}?action=login&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
+        if(sess.households){S.households=sess.households;}
+        showHH({user:{nome:S.userName||'',role:S.role},households:S.households});
+        return;
+      }
+      // Erro de autenticação → desloga
+      localStorage.removeItem('ue');sessionStorage.removeItem('us');S.email='';S.senha='';
+      showLogin(d.error);return;
+    }
     S.role=d.user.role;S.permissions=d.user.permissions||[];S.households=d.households||S.households;S.hhId=d.currentHouseholdId||S.hhId;
     showApp(d);
   }catch{$('content').innerHTML=`<p class="status-msg err">Não foi possível conectar à API.</p>`}
