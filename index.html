@@ -721,9 +721,13 @@ function renderPermGrid(containerId,selectedPerms){
     return `<div class="perm-item" onclick="toggleCb('${containerId}','${key}')"><input type="checkbox" id="${containerId}_${key}" data-perm="${key}" ${checked?'checked':''} onclick="event.stopPropagation()"><label for="${containerId}_${key}">${label}</label></div>`;
   }).join('');
 }
-window.toggleCb=function(cid,key){const cb=document.getElementById(`${cid}_${key}`);if(cb)cb.checked=!cb.checked};
+function getDefaultPermsForRole(role){
+  const def={owner:Object.keys(ALL_PERMS),admin:['add_item','toggle_item','delete_item','invite_member','edit_member','delete_member','view_all_lojas','view_members'],gerente:['add_item','toggle_item','delete_item','invite_member','view_members'],membro:['add_item','toggle_item']};
+  return def[role]||['add_item','toggle_item'];
+}
 function getCheckedPerms(containerId){
-  return Array.from($(containerId).querySelectorAll('input[type=checkbox]:checked')).map(cb=>cb.dataset.perm).join(',');
+  const checked=Array.from($(containerId).querySelectorAll('input[type=checkbox]:checked')).map(cb=>cb.dataset.perm).join(',');
+  return checked||'none'; // 'none' = sem permissões (diferente de '' = nunca editado)
 }
 
 // ---- MEMBER FORM ----
@@ -745,7 +749,11 @@ async function openMemberForm(m){
   S.groups.forEach(g=>{const o=document.createElement('option');o.value=g.group_id;o.textContent=g.nome;gSel.appendChild(o)});
   if(m&&m.group_id)gSel.value=String(m.group_id);
 
-  const curPerms=m&&m.permissions?String(m.permissions).split(',').map(p=>p.trim()).filter(Boolean):[];
+  // Se usuário não tem permissões explícitas, pré-preenche com padrão do papel dele
+  const hasExplicitPerms = m && m.permissions && String(m.permissions).trim() !== '' && String(m.permissions).trim() !== 'none';
+  const curPerms = hasExplicitPerms
+    ? String(m.permissions).split(',').map(p=>p.trim()).filter(Boolean)
+    : (m ? getDefaultPermsForRole(m.role) : []);
   renderPermGrid('permGrid',curPerms);
 
   if(S.households.length>1){
