@@ -201,6 +201,7 @@
   .tb.success{background:#22C55E}.tb.danger{background:#DC2626}
   @keyframes tp{from{width:100%}to{width:0%}}
   .file-hint{font-size:11px;color:var(--text-soft);margin:-8px 0 8px;display:block}
+  .product-thumb{width:40px;height:40px;border-radius:8px;background-size:cover;background-position:center;cursor:pointer;flex-shrink:0;border:1px solid var(--border)}
 </style>
 </head>
 <body>
@@ -330,6 +331,9 @@
 <div id="editItemModal" class="ov hidden">
   <div class="modal">
     <div class="mh"><p class="mt">Editar item</p><button type="button" id="closeEditItem" class="mc">×</button></div>
+    <div style="text-align:center;margin-bottom:12px">
+      <img id="editItemThumb" style="width:60px;height:60px;border-radius:8px;object-fit:cover;display:none">
+    </div>
     <form id="editItemForm" class="mform">
       <input type="hidden" id="editItemId">
       <input type="text" id="editItemName" placeholder="Nome do item" required>
@@ -339,9 +343,19 @@
       </div>
       <p class="fh" style="margin:2px 0 2px 2px">Categoria</p>
       <div class="cat-pills-wrap"><div class="cat-pills" id="editCatPills"></div></div>
+      <input type="file" id="editItemFoto" accept="image/*">
+      <span class="file-hint">Foto do produto (opcional, max 100KB)</span>
       <button type="submit" class="btn-p" style="margin-top:6px">Salvar item</button>
     </form>
     <p class="status-msg err hidden" id="editItemErr"></p>
+  </div>
+</div>
+
+<!-- AMPLIAR FOTO -->
+<div id="photoModal" class="ov hidden">
+  <div style="position:relative;width:90%;max-width:400px;background:var(--card);border-radius:16px;padding:20px;text-align:center">
+    <button type="button" id="closePhotoModal" class="mc" style="position:absolute;top:10px;right:10px">×</button>
+    <img id="photoModalImg" style="width:100%;border-radius:8px;margin-top:20px">
   </div>
 </div>
 
@@ -552,6 +566,27 @@ function resizeImage(file,maxW,maxH,qual,cb){
       ctx.drawImage(img,0,0,w,h);
       const b64=canvas.toDataURL('image/jpeg',qual);
       if(b64.length>200000){alert('Imagem ainda muito grande. Escolha uma foto menor.');return}
+      cb(b64);
+    };
+    img.src=e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+// Resize product photo (smaller than user photo)
+function resizeProductPhoto(file,cb){
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const img=new Image();
+    img.onload=()=>{
+      let w=img.width,h=img.height;
+      if(w>100||h>100){const ratio=Math.min(100/w,100/h);w*=ratio;h*=ratio}
+      const canvas=document.createElement('canvas');
+      canvas.width=w;canvas.height=h;
+      const ctx=canvas.getContext('2d');
+      ctx.drawImage(img,0,0,w,h);
+      const b64=canvas.toDataURL('image/jpeg',0.4);
+      if(b64.length>50000){alert('Foto de produto muito grande.');return}
       cb(b64);
     };
     img.src=e.target.result;
@@ -912,10 +947,12 @@ function renderGroup(items){
     const catTag=item.categoria?`<span class="cat-tag" style="background:${ci.cor_bg};color:${ci.cor_text}">${ci.emoji} ${item.categoria}</span>`:'';
     const qtyLabel=item.quantidade?`x${item.quantidade}${item.unidade&&item.unidade!=='un'?' '+item.unidade:''}`:'x1';
     const avImg=owner&&owner.foto_base64?`style="background-image:url(${owner.foto_base64});background-size:cover;background-position:center;color:transparent"`:''
+    const photoThumb=item.foto_produto?`<div class="product-thumb" style="background-image:url(${item.foto_produto})" onclick="showProductPhoto('${item.foto_produto}')"></div>`:'';
     return `<li class="item${done?' done':''}">
       <button class="ck" data-id="${item.item_id}">${done?'✓':''}</button>
       <div class="inf" data-id="${item.item_id}"><span class="nm">${item.nome_item}</span>${catTag}</div>
       <span class="qb">${qtyLabel}</span>
+      ${photoThumb}
       ${owner?`<span class="av" ${avImg}>${owner.foto_base64?'':ini(owner.nome)}</span>`:''}
       ${can('add_item')?`<button class="edit-i" data-id="${item.item_id}">✎</button>`:''}
       ${can('delete_item')?`<button class="dl" data-id="${item.item_id}">×</button>`:''}
@@ -959,11 +996,40 @@ function openEditItem(id){
   buildUnitSelect('editItemUnit',item.unidade||'un');
   buildCatPills('editCatPills',item.categoria||'',cat=>{$('editItemModal').dataset.cat=cat});
   $('editItemModal').dataset.cat=item.categoria||'';
+  $('editItemFoto').value='';
+  $('editItemModal').dataset.foto='';
+  if(item.foto_produto){
+    $('editItemThumb').src=item.foto_produto;
+    $('editItemThumb').style.display='block';
+    $('editItemModal').dataset.foto=item.foto_produto;
+  }else{
+    $('editItemThumb').style.display='none';
+  }
   $('editItemErr').classList.add('hidden');
   $('editItemModal').classList.remove('hidden');
 }
 $('closeEditItem').addEventListener('click',()=>$('editItemModal').classList.add('hidden'));
 $('editItemModal').addEventListener('click',e=>{if(e.target===$('editItemModal'))$('editItemModal').classList.add('hidden')});
+
+$('editItemFoto').addEventListener('change',e=>{
+  const file=e.target.files[0];
+  if(!file)return;
+  if(file.size>500000){alert('Arquivo maior que 500KB.');$('editItemFoto').value='';return}
+  resizeProductPhoto(file,b64=>{
+    $('editItemModal').dataset.foto=b64;
+    $('editItemThumb').src=b64;
+    $('editItemThumb').style.display='block';
+  });
+});
+
+$('closePhotoModal').addEventListener('click',()=>$('photoModal').classList.add('hidden'));
+$('photoModal').addEventListener('click',e=>{if(e.target===$('photoModal'))$('photoModal').classList.add('hidden')});
+
+window.showProductPhoto=function(src){
+  if(!src)return;
+  $('photoModalImg').src=src;
+  $('photoModal').classList.remove('hidden');
+};
 
 $('editItemForm').addEventListener('submit',async e=>{
   e.preventDefault();
@@ -972,14 +1038,15 @@ $('editItemForm').addEventListener('submit',async e=>{
   const qty=$('editItemQty').value;
   const unit=$('editItemUnit').value;
   const cat=$('editItemModal').dataset.cat||'';
+  const foto=$('editItemModal').dataset.foto||'';
   if(!nome)return;
   const btn=e.target.querySelector('.btn-p');btn.disabled=true;startLoad();toast('Salvando item...','loading');
   const hhP=can('view_all_lojas')?`&household_id=${encodeURIComponent(S.hhId)}`:'';
   try{
-    const d=await jsonp(`${API}?action=updateItem&item_id=${id}&nome_item=${encodeURIComponent(nome)}&quantidade=${qty}&unidade=${encodeURIComponent(unit)}&categoria=${encodeURIComponent(cat)}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
+    const d=await jsonp(`${API}?action=updateItem&item_id=${id}&nome_item=${encodeURIComponent(nome)}&quantidade=${qty}&unidade=${encodeURIComponent(unit)}&categoria=${encodeURIComponent(cat)}&foto_produto=${encodeURIComponent(foto)}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
     if(d.error){$('editItemErr').textContent=d.error;$('editItemErr').classList.remove('hidden');stopLoad();$('toast').classList.remove('show');return}
     const item=S.items.find(i=>String(i.item_id)===String(id));
-    if(item){item.nome_item=nome;item.quantidade=qty;item.unidade=unit;item.categoria=cat}
+    if(item){item.nome_item=nome;item.quantidade=qty;item.unidade=unit;item.categoria=cat;item.foto_produto=foto}
     renderFiltered();$('editItemModal').classList.add('hidden');
     stopLoad();toast('✓ Item atualizado.','success');
   }catch{$('editItemErr').textContent='Erro.';$('editItemErr').classList.remove('hidden');stopLoad()}finally{btn.disabled=false}
@@ -998,7 +1065,7 @@ $('addForm').addEventListener('submit',async e=>{
     const d=await jsonp(`${API}?action=addItem&nome_item=${encodeURIComponent(nome)}&quantidade=${qty}&unidade=${encodeURIComponent(unit)}&categoria=${encodeURIComponent(cat)}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
     if(d.error){alert(d.error);stopLoad();btn.disabled=false;return}
     $('itemName').value='';$('itemQty').value=1;
-    S.items.push({item_id:d.item_id||Date.now(),household_id:S.hhId,user_id:S.userId,nome_item:nome,quantidade:qty,unidade:unit,categoria:cat,status:'pendente'});
+    S.items.push({item_id:d.item_id||Date.now(),household_id:S.hhId,user_id:S.userId,nome_item:nome,quantidade:qty,unidade:unit,categoria:cat,status:'pendente',foto_produto:''});
     renderFiltered();toast('✓ Item adicionado.','success');
   }catch{alert('Erro.')}finally{btn.disabled=false;stopLoad()}
 });
