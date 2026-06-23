@@ -41,7 +41,8 @@
   .btn-sec{width:100%;background:var(--card);color:var(--text);border:1px solid var(--border);padding:13px;border-radius:12px;font-weight:600;font-size:14px;cursor:pointer}
   .btn-sec:hover{border-color:var(--green);color:var(--green)}
   .btn-back{background:none;border:none;color:var(--text-soft);font-size:13px;cursor:pointer;margin-top:8px;text-decoration:underline}
-  input[type=email],input[type=text],input[type=number],input[type=password]{width:100%;font-family:'Inter',sans-serif;font-size:14px;border:1px solid var(--border);background:var(--card);color:var(--text);padding:13px 14px;border-radius:12px}
+  input[type=email],input[type=text],input[type=number],input[type=password],input[type=color]{width:100%;font-family:'Inter',sans-serif;font-size:14px;border:1px solid var(--border);background:var(--card);color:var(--text);padding:13px 14px;border-radius:12px}
+  input[type=color]{height:44px;padding:8px 14px}
   input[type=time]{font-family:'Inter',sans-serif;font-size:13px;border:1px solid var(--border);background:var(--card);color:var(--text);padding:8px 10px;border-radius:8px;width:90px}
   input:focus{outline:2px solid var(--green);outline-offset:1px}
   ::placeholder{color:var(--text-soft)}
@@ -153,7 +154,7 @@
   .macts button{background:none;border:none;color:var(--text-soft);cursor:pointer;font-size:14px}
   .me:hover{color:var(--green)}.md:hover{color:var(--danger)}
   .inv-btn{width:100%;background:var(--green-bg);color:var(--green);border:none;padding:12px;border-radius:12px;font-weight:600;font-size:14px;margin-bottom:8px}
-  .manage-groups-btn{width:100%;background:transparent;border:1px solid var(--border);color:var(--text-soft);padding:10px;border-radius:12px;font-size:13px}
+  .manage-groups-btn{width:100%;background:transparent;border:1px solid var(--border);color:var(--text-soft);padding:10px;border-radius:12px;font-size:13px;margin-bottom:8px}
   .manage-groups-btn:hover{border-color:var(--green);color:var(--green)}
   ul.groups-list{list-style:none;margin:0 0 12px;padding:0;display:flex;flex-direction:column;gap:8px}
   .group-item{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;background:var(--bg);border-radius:12px;padding:12px}
@@ -163,6 +164,19 @@
   .group-acts button{background:none;border:none;color:var(--text-soft);cursor:pointer;font-size:14px}
   .group-acts .ge:hover{color:var(--green)}.group-acts .gd:hover{color:var(--danger)}
   .add-group-btn{width:100%;background:var(--green-bg);color:var(--green);border:none;padding:12px;border-radius:12px;font-weight:600;font-size:14px}
+  ul.categories-list{list-style:none;margin:0 0 12px;padding:0;display:flex;flex-direction:column;gap:8px}
+  .category-item{display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--bg);border-radius:12px;padding:12px}
+  .category-left{display:flex;align-items:center;gap:8px;flex:1}
+  .category-emoji{font-size:20px}
+  .category-info{flex:1}
+  .category-name{font-weight:700;font-size:14px}
+  .category-acts{display:flex;gap:8px;flex-shrink:0}
+  .category-acts button{background:none;border:none;color:var(--text-soft);cursor:pointer;font-size:14px}
+  .category-acts .ce:hover{color:var(--green)}.category-acts .cd:hover{color:var(--danger)}
+  .add-category-btn{width:100%;background:var(--green-bg);color:var(--green);border:none;padding:12px;border-radius:12px;font-weight:600;font-size:14px}
+  .color-input-row{display:flex;gap:8px;align-items:flex-end}
+  .color-input-row input[type=color]{flex:1;height:44px;padding:8px}
+  .color-input-row label{font-size:11px;color:var(--text-soft);text-transform:uppercase;white-space:nowrap}
   .cf-modal{background:var(--card);color:var(--text);width:100%;max-width:320px;padding:28px 24px 22px;border-radius:20px;box-shadow:var(--shadow);text-align:center}
   .cfi{width:52px;height:52px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:22px}
   .cfi.danger{background:rgba(220,38,38,.1)}
@@ -327,6 +341,7 @@
     <ul class="mems" id="membersList"></ul>
     <button type="button" id="openInviteBtn" class="inv-btn">+ Convidar membro</button>
     <button type="button" id="openGroupsBtn" class="manage-groups-btn hidden">⚙ Gerenciar grupos</button>
+    <button type="button" id="openCategoriesBtn" class="manage-groups-btn hidden">🏷️ Gerenciar categorias</button>
   </div>
 </div>
 
@@ -381,6 +396,33 @@
   </div>
 </div>
 
+<!-- GERENCIAR CATEGORIAS -->
+<div id="categoriesModal" class="ov hidden">
+  <div class="modal">
+    <div class="mh"><p class="mt">Gerenciar categorias</p><button type="button" id="closeCategoriesBtn" class="mc">×</button></div>
+    <ul class="categories-list" id="categoriesList"></ul>
+    <button type="button" id="addCategoryBtn" class="add-category-btn">+ Criar nova categoria</button>
+  </div>
+</div>
+
+<!-- CRIAR/EDITAR CATEGORIA -->
+<div id="categoryFormModal" class="ov hidden">
+  <div class="modal">
+    <div class="mh"><p class="mt" id="categoryFormTitle">Nova categoria</p><button type="button" id="closeCategoryFormBtn" class="mc">×</button></div>
+    <form id="categoryForm" class="mform">
+      <input type="hidden" id="categoryFormId">
+      <input type="text" id="categoryFormNome" placeholder="Nome da categoria" required>
+      <input type="text" id="categoryFormEmoji" placeholder="Emoji" maxlength="2" required>
+      <div class="color-input-row">
+        <div style="flex:1"><p class="fh">Fundo</p><input type="color" id="categoryFormBg" required></div>
+        <div style="flex:1"><p class="fh">Texto</p><input type="color" id="categoryFormTxt" required></div>
+      </div>
+      <button type="submit" id="categoryFormSubmit" class="btn-p" style="margin-top:8px">Criar categoria</button>
+    </form>
+    <p class="status-msg err hidden" id="categoryFormErr"></p>
+  </div>
+</div>
+
 <!-- EDITAR PERFIL -->
 <div id="editProfileModal" class="ov hidden">
   <div class="modal">
@@ -432,24 +474,9 @@ const API='https://script.google.com/macros/s/AKfycbxaLtifLTTakDmk5ga1ueBjQn9UpC
 const $=id=>document.getElementById(id);
 const DAYS=['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
 const ALL_PERMS={add_item:'Adicionar item',toggle_item:'Marcar como comprado',delete_item:'Excluir item',view_members:'Ver membros',invite_member:'Convidar membro',edit_member:'Editar membro',delete_member:'Excluir membro',view_all_lojas:'Ver todas as lojas',manage_lojas:'Gerenciar lojas'};
-
-const CATS=[
-  {id:'Hortifruti', emoji:'🥬', bg:'#dcfce7', color:'#166534'},
-  {id:'Carnes',     emoji:'🥩', bg:'#fee2e2', color:'#991b1b'},
-  {id:'Laticínios', emoji:'🥛', bg:'#dbeafe', color:'#1e3a8a'},
-  {id:'Padaria',    emoji:'🍞', bg:'#fef3c7', color:'#92400e'},
-  {id:'Mercearia',  emoji:'🛒', bg:'#f3f4f6', color:'#374151'},
-  {id:'Limpeza',    emoji:'🧹', bg:'#cffafe', color:'#164e63'},
-  {id:'Higiene',    emoji:'🧴', bg:'#ede9fe', color:'#4c1d95'},
-  {id:'Bebidas',    emoji:'🥤', bg:'#e0f2fe', color:'#0c4a6e'},
-  {id:'Congelados', emoji:'❄️', bg:'#f0f9ff', color:'#0369a1'},
-  {id:'Outros',     emoji:'📦', bg:'#f9fafb', color:'#6b7280'}
-];
 const UNITS=['un','kg','g','L','mL','cx','pct','frd','dz','m'];
 
-function catInfo(id){return CATS.find(c=>c.id===id)||CATS[CATS.length-1]}
-
-let S={email:localStorage.getItem('ue')||'',senha:sessionStorage.getItem('us')||'',role:'',orgId:'',hhId:localStorage.getItem('uhh')||'',households:[],members:[],items:[],groups:[],permissions:[],filter:'todos',groupByCat:false,addCat:'',pendingEmail:'',userId:'',userName:''};
+let S={email:localStorage.getItem('ue')||'',senha:sessionStorage.getItem('us')||'',role:'',orgId:'',hhId:localStorage.getItem('uhh')||'',households:[],members:[],items:[],groups:[],categories:[],permissions:[],filter:'todos',groupByCat:false,addCat:'',pendingEmail:'',userId:'',userName:''};
 
 function can(k){return S.role==='owner'||S.permissions.includes(k)}
 
@@ -495,13 +522,16 @@ function jsonp(url){
 
 function ini(n){if(!n)return '?';const p=n.trim().split(' ');return(p[0][0]+(p[1]?p[1][0]:'')).toUpperCase()}
 
+function catInfo(id){return S.categories.find(c=>c.nome===id)||S.categories[0]||{nome:'',emoji:'📦',cor_bg:'#f9fafb',cor_text:'#6b7280'}}
+
 // Category pills builder
 function buildCatPills(containerId, selectedCat, onChange){
-  $(containerId).innerHTML=CATS.map(c=>`
-    <button type="button" class="cat-pill${selectedCat===c.id?' selected':''}"
-      data-cat="${c.id}"
-      style="${selectedCat===c.id?`background:${c.color};border-color:${c.color}`:''}">
-      ${c.emoji} ${c.id}
+  $(containerId).innerHTML=S.categories.map(c=>`
+    <button type="button" class="cat-pill${selectedCat===c.nome?' selected':''}"
+      data-cat="${c.nome}"
+      style="${selectedCat===c.nome?`background:${c.cor_text};border-color:${c.cor_text}`:''}"
+      onclick="event.preventDefault()">
+      ${c.emoji} ${c.nome}
     </button>`).join('');
   $(containerId).querySelectorAll('.cat-pill').forEach(btn=>{
     btn.addEventListener('click',()=>{
@@ -510,7 +540,7 @@ function buildCatPills(containerId, selectedCat, onChange){
       // Update styles
       $(containerId).querySelectorAll('.cat-pill').forEach(b=>{
         const ci=catInfo(b.dataset.cat);
-        if(b.dataset.cat===cat){b.className='cat-pill selected';b.style.background=ci.color;b.style.borderColor=ci.color;}
+        if(b.dataset.cat===cat){b.className='cat-pill selected';b.style.background=ci.cor_text;b.style.borderColor=ci.cor_text;}
         else{b.className='cat-pill';b.style.background='';b.style.borderColor='';}
       });
     });
@@ -527,9 +557,7 @@ $('expandAddBtn').addEventListener('click',()=>{
   addExpanded=!addExpanded;
   $('addExtra').classList.toggle('hidden',!addExpanded);
   $('expandAddBtn').classList.toggle('open',addExpanded);
-  if(addExpanded && !$('addCatPills').children.length){
-    buildCatPills('addCatPills',S.addCat,cat=>S.addCat=cat);
-  }
+  if(addExpanded && S.categories.length)buildCatPills('addCatPills',S.addCat,cat=>S.addCat=cat);
 });
 
 // Group by category toggle
@@ -548,7 +576,7 @@ function hideAll(){
 
 function showLogin(err){
   hideAll();
-  S.items=[];S.members=[];S.households=[];S.role='';S.permissions=[];
+  S.items=[];S.members=[];S.households=[];S.role='';S.permissions=[];S.categories=[];
   S.hhId='';S.orgId='';S.userId='';S.userName='';S.groups=[];
   localStorage.removeItem('uhh');
   $('content').innerHTML='';$('hhList').innerHTML='';
@@ -578,6 +606,7 @@ function showHH(data){
 function showApp(data){
   hideAll();$('appScreen').classList.remove('hidden');$('botNav').classList.remove('hidden');
   S.role=data.user.role;S.userId=String(data.user.user_id);S.permissions=data.user.permissions||[];
+  S.categories=data.categories||[];
   setupAvatar(data.user.nome,data.user.role);
   S.items=data.items||[];S.members=data.members||[];
   if(can('view_all_lojas')){
@@ -595,7 +624,7 @@ $('avBtn').addEventListener('click',()=>$('accMenu').classList.toggle('hidden'))
 document.addEventListener('click',e=>{if(!$('accMenu').contains(e.target)&&e.target!==$('avBtn'))$('accMenu').classList.add('hidden')});
 $('logoutBtn').addEventListener('click',()=>{
   localStorage.removeItem('ue');localStorage.removeItem('uhh');sessionStorage.removeItem('us');
-  S={email:'',senha:'',role:'',orgId:'',hhId:'',households:[],members:[],items:[],groups:[],permissions:[],filter:'todos',groupByCat:false,addCat:'',pendingEmail:'',userId:'',userName:''};
+  S={email:'',senha:'',role:'',orgId:'',hhId:'',households:[],members:[],items:[],groups:[],categories:[],permissions:[],filter:'todos',groupByCat:false,addCat:'',pendingEmail:'',userId:'',userName:''};
   $('accMenu').classList.add('hidden');showLogin();
 });
 
@@ -734,7 +763,7 @@ async function loadItems(){
       }
       localStorage.removeItem('ue');sessionStorage.removeItem('us');S.email='';S.senha='';showLogin(d.error);return;
     }
-    S.role=d.user.role;S.permissions=d.user.permissions||[];S.households=d.households||S.households;S.hhId=d.currentHouseholdId||S.hhId;
+    S.role=d.user.role;S.permissions=d.user.permissions||[];S.households=d.households||S.households;S.hhId=d.currentHouseholdId||S.hhId;S.categories=d.categories||[];
     showApp(d);
   }catch{$('content').innerHTML=`<p class="status-msg err">Não foi possível conectar à API.</p>`}
 }
@@ -766,11 +795,11 @@ function renderFiltered(){
       if(!groups[cat])groups[cat]=[];
       groups[cat].push(item);
     });
-    const order=CATS.map(c=>c.id);
-    const sorted=Object.keys(groups).sort((a,b)=>order.indexOf(a)-order.indexOf(b));
+    const catOrder=S.categories.map(c=>c.nome);
+    const sorted=Object.keys(groups).sort((a,b)=>{const ia=catOrder.indexOf(a);const ib=catOrder.indexOf(b);return(ia===-1?999:ia)-(ib===-1?999:ib)});
     $('content').innerHTML=sorted.map(cat=>{
       const ci=catInfo(cat);
-      return `<p class="sec-label"><span style="background:${ci.bg};color:${ci.color};padding:2px 8px;border-radius:10px">${ci.emoji} ${cat}</span></p>${renderGroup(groups[cat])}`;
+      return `<p class="sec-label"><span style="background:${ci.cor_bg};color:${ci.cor_text};padding:2px 8px;border-radius:10px">${ci.emoji} ${cat}</span></p>${renderGroup(groups[cat])}`;
     }).join('');
   }else{
     const pendItems=filtered.filter(i=>i.status!=='comprado');
@@ -790,7 +819,7 @@ function renderGroup(items){
     const done=item.status==='comprado';
     const owner=S.members.find(m=>String(m.user_id)===String(item.user_id));
     const ci=catInfo(item.categoria||'');
-    const catTag=item.categoria?`<span class="cat-tag" style="background:${ci.bg};color:${ci.color}">${ci.emoji} ${item.categoria}</span>`:'';
+    const catTag=item.categoria?`<span class="cat-tag" style="background:${ci.cor_bg};color:${ci.cor_text}">${ci.emoji} ${item.categoria}</span>`:'';
     const qtyLabel=item.quantidade?`x${item.quantidade}${item.unidade&&item.unidade!=='un'?' '+item.unidade:''}`:'x1';
     return `<li class="item${done?' done':''}">
       <button class="ck" data-id="${item.item_id}">${done?'✓':''}</button>
@@ -898,7 +927,7 @@ function renderMembers(members){
   }).join('');
   $('membersList').querySelectorAll('.me').forEach(b=>b.addEventListener('click',()=>{const m=S.members.find(x=>String(x.user_id)===b.dataset.id);if(m)openMemberForm(m)}));
   $('membersList').querySelectorAll('.md').forEach(b=>b.addEventListener('click',()=>deleteMember(b.dataset.id)));
-  if(S.role==='owner'||can('manage_lojas'))$('openGroupsBtn').classList.remove('hidden');
+  if(S.role==='owner'||can('manage_lojas')){$('openGroupsBtn').classList.remove('hidden');$('openCategoriesBtn').classList.remove('hidden')}
 }
 
 function getDefaultPermsForRole(role){
@@ -1084,6 +1113,63 @@ async function deleteGroup(id,nome){
         if(d.error){alert(d.error);stopLoad();return}
         const dg=await jsonp(`${API}?action=getGroups&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
         if(dg.groups)S.groups=dg.groups;renderGroupsList();toast(`✕ ${nome} excluído.`,'danger');
+      }catch{alert('Erro.')}finally{stopLoad()}}
+  });
+}
+
+// Categories management
+$('openCategoriesBtn').addEventListener('click',async()=>{
+  startLoad();toast('Carregando categorias...','loading');
+  try{const d=await jsonp(`${API}?action=getCategories&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
+    if(d.categories)S.categories=d.categories;stopLoad();$('toast').classList.remove('show');
+    renderCategoriesList();$('membersModal').classList.add('hidden');$('categoriesModal').classList.remove('hidden');
+  }catch{stopLoad();alert('Erro ao carregar categorias.')}
+});
+$('closeCategoriesBtn').addEventListener('click',()=>{$('categoriesModal').classList.add('hidden');$('membersModal').classList.remove('hidden')});
+$('categoriesModal').addEventListener('click',e=>{if(e.target===$('categoriesModal')){$('categoriesModal').classList.add('hidden');$('membersModal').classList.remove('hidden')}});
+
+function renderCategoriesList(){
+  $('categoriesList').innerHTML=S.categories.map(c=>{
+    return `<li class="category-item" style="border-left:4px solid ${c.cor_text}"><div class="category-left"><span class="category-emoji">${c.emoji}</span><div class="category-info"><div class="category-name">${c.nome}</div></div></div><div class="category-acts"><button type="button" class="ce" data-id="${c.category_id}">✎</button><button type="button" class="cd" data-id="${c.category_id}" data-nome="${c.nome}">×</button></div></li>`;
+  }).join('')||'<li style="text-align:center;padding:16px;color:var(--text-soft);font-size:13px">Nenhuma categoria criada.</li>';
+  $('categoriesList').querySelectorAll('.ce').forEach(b=>b.addEventListener('click',()=>{const c=S.categories.find(x=>String(x.category_id)===b.dataset.id);if(c)openCategoryForm(c)}));
+  $('categoriesList').querySelectorAll('.cd').forEach(b=>b.addEventListener('click',()=>deleteCategory(b.dataset.id,b.dataset.nome)));
+}
+
+$('addCategoryBtn').addEventListener('click',()=>openCategoryForm(null));
+function openCategoryForm(c){
+  $('categoryFormId').value=c?c.category_id:'';$('categoryFormNome').value=c?c.nome:'';
+  $('categoryFormEmoji').value=c?c.emoji:'📦';$('categoryFormBg').value=c?c.cor_bg:'#f9fafb';$('categoryFormTxt').value=c?c.cor_text:'#6b7280';
+  $('categoryFormTitle').textContent=c?'Editar categoria':'Nova categoria';$('categoryFormSubmit').textContent=c?'Salvar':'Criar categoria';
+  $('categoryFormErr').classList.add('hidden');
+  $('categoriesModal').classList.add('hidden');$('categoryFormModal').classList.remove('hidden');
+}
+$('closeCategoryFormBtn').addEventListener('click',()=>{$('categoryFormModal').classList.add('hidden');$('categoriesModal').classList.remove('hidden')});
+$('categoryFormModal').addEventListener('click',e=>{if(e.target===$('categoryFormModal')){$('categoryFormModal').classList.add('hidden');$('categoriesModal').classList.remove('hidden')}});
+
+$('categoryForm').addEventListener('submit',async e=>{
+  e.preventDefault();const err=$('categoryFormErr');err.classList.add('hidden');
+  const id=$('categoryFormId').value,nome=$('categoryFormNome').value.trim(),emoji=$('categoryFormEmoji').value.trim(),bg=$('categoryFormBg').value,txt=$('categoryFormTxt').value;
+  if(!nome||!emoji){err.textContent='Nome e emoji obrigatórios.';err.classList.remove('hidden');return}
+  const action=id?'updateCategory':'createCategory',idP=id?`&category_id=${id}`:'';
+  const btn=$('categoryFormSubmit');btn.disabled=true;startLoad();toast(id?'Salvando...':'Criando...','loading');
+  try{
+    const d=await jsonp(`${API}?action=${action}${idP}&nome=${encodeURIComponent(nome)}&emoji=${encodeURIComponent(emoji)}&cor_bg=${encodeURIComponent(bg)}&cor_text=${encodeURIComponent(txt)}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
+    if(d.error){err.textContent=d.error;err.classList.remove('hidden');stopLoad();$('toast').classList.remove('show');return}
+    const dc=await jsonp(`${API}?action=getCategories&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
+    if(dc.categories)S.categories=dc.categories;
+    $('categoryFormModal').classList.add('hidden');$('categoriesModal').classList.remove('hidden');
+    renderCategoriesList();stopLoad();toast(id?'✓ Categoria atualizada.':'✓ Categoria criada.','success');
+  }catch{err.textContent='Erro.';err.classList.remove('hidden');stopLoad()}finally{btn.disabled=false}
+});
+
+async function deleteCategory(id,nome){
+  confirm_({title:'Excluir categoria?',sub:`"${nome}" será removida.`,icon:'🏷️',btn:'Excluir',
+    onConfirm:async()=>{startLoad();toast(`Removendo ${nome}...`,'loading');
+      try{const d=await jsonp(`${API}?action=deleteCategory&category_id=${id}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
+        if(d.error){alert(d.error);stopLoad();return}
+        const dc=await jsonp(`${API}?action=getCategories&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
+        if(dc.categories)S.categories=dc.categories;renderCategoriesList();toast(`✕ ${nome} excluída.`,'danger');
       }catch{alert('Erro.')}finally{stopLoad()}}
   });
 }
