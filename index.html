@@ -283,28 +283,7 @@
     <form id="addForm" class="add-form-wrap">
       <div class="add-row1">
         <input type="text" id="itemName" placeholder="Adicionar item..." required>
-        <button type="button" id="expandAddBtn" class="expand-btn">⚙</button>
         <button type="submit" class="add-btn">+</button>
-      </div>
-      <div class="add-extra hidden" id="addExtra">
-        <div class="cat-pills-wrap">
-          <div class="cat-pills" id="addCatPills"></div>
-        </div>
-        <div class="qty-unit-row">
-          <input type="number" id="itemQty" value="1" min="1" placeholder="Qtd">
-          <select id="itemUnit" class="unit-sel">
-            <option value="un">un</option>
-            <option value="kg">kg</option>
-            <option value="g">g</option>
-            <option value="L">L</option>
-            <option value="mL">mL</option>
-            <option value="cx">cx</option>
-            <option value="pct">pct</option>
-            <option value="frd">frd</option>
-            <option value="dz">dz</option>
-            <option value="m">m</option>
-          </select>
-        </div>
       </div>
     </form>
 
@@ -316,7 +295,6 @@
       </div>
       <button type="button" id="editModeBtn" class="group-toggle" style="background:none;border:1px solid var(--border);color:var(--text-soft)">✏️</button>
       <button type="button" id="clearListBtn" class="group-toggle" style="background:none;border:1px solid var(--border);color:var(--text-soft)">🗑️</button>
-      <button type="button" id="groupToggle" class="group-toggle">📂 Cat.</button>
       <div class="search-wrap">
         <input type="text" id="searchInput" placeholder="Buscar...">
         <button type="button" id="searchClear" class="search-clear hidden">✕</button>
@@ -740,22 +718,6 @@ $('searchClear').addEventListener('click',()=>{
   renderFiltered();
 });
 
-// Expand add form
-let addExpanded=false;
-$('expandAddBtn').addEventListener('click',()=>{
-  addExpanded=!addExpanded;
-  $('addExtra').classList.toggle('hidden',!addExpanded);
-  $('expandAddBtn').classList.toggle('open',addExpanded);
-  if(addExpanded && S.categories.length)buildCatPills('addCatPills',S.addCat,cat=>S.addCat=cat);
-});
-
-// Group by category toggle
-$('groupToggle').addEventListener('click',()=>{
-  S.groupByCat=!S.groupByCat;
-  $('groupToggle').classList.toggle('active',S.groupByCat);
-  renderFiltered();
-});
-
 function hideAll(){
   ['loginScreen','regScreen','setPassScreen','hhScreen','appScreen'].forEach(id=>$(id).classList.add('hidden'));
   $('botNav').classList.add('hidden');$('avBtn').classList.add('hidden');
@@ -1029,25 +991,10 @@ function renderFiltered(){
     html+='<div style="padding:12px 20px;background:var(--green-bg);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;color:var(--green)">'+selectedItems.size+' selecionado(s)</span><button type="button" id="changeCatBtn" class="btn-p" style="padding:6px 12px;font-size:12px">Mudar categoria</button></div>';
   }
 
-  if(S.groupByCat){
-    const groups={};
-    filtered.forEach(item=>{
-      const cat=item.categoria||'Outros';
-      if(!groups[cat])groups[cat]=[];
-      groups[cat].push(item);
-    });
-    const catOrder=S.categories.map(c=>c.nome);
-    const sorted=Object.keys(groups).sort((a,b)=>{const ia=catOrder.indexOf(a);const ib=catOrder.indexOf(b);return(ia===-1?999:ia)-(ib===-1?999:ib)});
-    html+=sorted.map(cat=>{
-      const ci=catInfo(cat);
-      return `<p class="sec-label"><span style="background:${ci.cor_bg};color:${ci.cor_text};padding:2px 8px;border-radius:10px">${ci.emoji} ${cat}</span></p>${renderGroup(groups[cat])}`;
-    }).join('');
-  }else{
-    const pendItems=filtered.filter(i=>i.status!=='comprado');
-    const doneItems=filtered.filter(i=>i.status==='comprado');
-    if(pendItems.length)html+='<p class="sec-label">Pendentes</p>'+renderGroup(pendItems);
-    if(doneItems.length)html+='<p class="sec-label">Comprados</p>'+renderGroup(doneItems);
-  }
+  const pendItems=filtered.filter(i=>i.status!=='comprado');
+  const doneItems=filtered.filter(i=>i.status==='comprado');
+  if(pendItems.length)html+='<p class="sec-label">Pendentes</p>'+renderGroup(pendItems);
+  if(doneItems.length)html+='<p class="sec-label">Comprados</p>'+renderGroup(doneItems);
   $('content').innerHTML=html;
   
   if(selectionMode && selectedItems.size > 0){
