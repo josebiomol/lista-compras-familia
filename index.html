@@ -385,10 +385,13 @@
   <div class="modal">
     <div class="mh"><p class="mt">Anexar arquivo</p><button type="button" id="closeAddAttachmentBtn" class="mc">×</button></div>
     <form id="attachmentForm" class="mform">
-      <p class="fh">Arquivo (PDF, Excel, Word, Foto, etc)</p>
-      <input type="file" id="attachmentFile" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.gif" required>
-      <span class="file-hint">Max 10MB</span>
-      <p class="fh" style="margin-top:12px">Tipo</p>
+      <p class="fh">1. Faça upload na pasta</p>
+      <a href="https://drive.google.com/drive/folders/1_rlcxv9p6EBwTdP3gUvQTrV2ODiDXjqm" target="_blank" style="color:var(--green);text-decoration:none;font-size:13px">📂 Multicasas-Anexos</a>
+      <p class="fh" style="margin-top:12px">2. Copie o link compartilhado</p>
+      <input type="url" id="attachmentUrl" placeholder="https://drive.google.com/file/d/..." required>
+      <p class="fh" style="margin-top:12px">3. Nome do arquivo</p>
+      <input type="text" id="attachmentName" placeholder="ex: Lista de produtos" required>
+      <p class="fh" style="margin-top:12px">4. Tipo</p>
       <select id="attachmentTipo" style="width:100%">
         <option value="pdf">📄 PDF</option>
         <option value="excel">📊 Excel</option>
@@ -396,7 +399,7 @@
         <option value="foto">🖼️ Foto</option>
         <option value="outro">📎 Outro</option>
       </select>
-      <button type="submit" id="attachmentSubmit" class="btn-p" style="margin-top:12px">Enviar anexo</button>
+      <button type="submit" class="btn-p" style="margin-top:12px">Salvar anexo</button>
     </form>
     <p class="status-msg err hidden" id="attachmentErr"></p>
   </div>
@@ -1113,7 +1116,8 @@ function renderAttachments(){
 }
 
 $('openAddAttachmentBtn').addEventListener('click',()=>{
-  $('attachmentFile').value='';
+  $('attachmentUrl').value='';
+  $('attachmentName').value='';
   $('attachmentTipo').value='outro';
   $('attachmentErr').classList.add('hidden');
   $('attachmentsModal').classList.add('hidden');
@@ -1127,30 +1131,18 @@ $('addAttachmentModal').addEventListener('click',e=>{if(e.target===$('addAttachm
 
 $('attachmentForm').addEventListener('submit',async e=>{
   e.preventDefault();const err=$('attachmentErr');err.classList.add('hidden');
-  const file=$('attachmentFile').files[0];
-  if(!file){err.textContent='Selecione um arquivo.';err.classList.remove('hidden');return}
-  if(file.size>10000000){err.textContent='Arquivo maior que 10MB.';err.classList.remove('hidden');return}
-  
-  const tipo=$('attachmentTipo').value;
-  const filename=file.name;
-  const mimeType=file.type||'application/octet-stream';
-  
-  const btn=$('attachmentSubmit');btn.disabled=true;startLoad();toast('Enviando arquivo...','loading');
-  
-  const reader=new FileReader();
-  reader.onload=async(evt)=>{
-    const base64=evt.target.result;
-    const hhP=can('view_all_lojas')?`&household_id=${encodeURIComponent(S.hhId)}`:'';
-    try{
-      const d=await jsonp(`${API}?action=addAttachment&filename=${encodeURIComponent(filename)}&file_base64=${encodeURIComponent(base64)}&mime_type=${encodeURIComponent(mimeType)}&tipo=${encodeURIComponent(tipo)}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
-      if(d.error){err.textContent=d.error;err.classList.remove('hidden');stopLoad();$('toast').classList.remove('show');return}
-      S.attachments.push({attachment_id:d.attachment_id,filename:filename,file_url:d.file_url,tipo:tipo});
-      renderAttachments();$('addAttachmentModal').classList.add('hidden');$('attachmentsModal').classList.remove('hidden');
-      $('attachmentFile').value='';
-      stopLoad();toast('✓ Anexo enviado.','success');
-    }catch{err.textContent='Erro ao enviar.';err.classList.remove('hidden');stopLoad()}finally{btn.disabled=false}
-  };
-  reader.readAsDataURL(file);
+  const url=$('attachmentUrl').value.trim(),name=$('attachmentName').value.trim(),tipo=$('attachmentTipo').value;
+  if(!name||!url){err.textContent='Nome e URL obrigatórios.';err.classList.remove('hidden');return}
+  const btn=e.target.querySelector('.btn-p');btn.disabled=true;startLoad();toast('Salvando anexo...','loading');
+  const hhP=can('view_all_lojas')?`&household_id=${encodeURIComponent(S.hhId)}`:'';
+  try{
+    const d=await jsonp(`${API}?action=addAttachment&filename=${encodeURIComponent(name)}&file_url=${encodeURIComponent(url)}&tipo=${encodeURIComponent(tipo)}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
+    if(d.error){err.textContent=d.error;err.classList.remove('hidden');stopLoad();$('toast').classList.remove('show');return}
+    S.attachments.push({attachment_id:d.attachment_id,filename:name,file_url:url,tipo:tipo});
+    renderAttachments();$('addAttachmentModal').classList.add('hidden');$('attachmentsModal').classList.remove('hidden');
+    $('attachmentUrl').value='';$('attachmentName').value='';
+    stopLoad();toast('✓ Anexo adicionado.','success');
+  }catch{err.textContent='Erro.';err.classList.remove('hidden');stopLoad()}finally{btn.disabled=false}
 });
 
 async function deleteAttachment(id){
