@@ -1251,14 +1251,12 @@ $('closeItemDetailsBtn').addEventListener('click',()=>{
   $('addItemDetailsModal').classList.add('hidden');
   $('addForm').classList.remove('hidden');
   $('itemName').value='';
-  $('itemQty').value=1;
 });
 $('addItemDetailsModal').addEventListener('click',e=>{
   if(e.target===$('addItemDetailsModal')){
     $('addItemDetailsModal').classList.add('hidden');
     $('addForm').classList.remove('hidden');
     $('itemName').value='';
-    $('itemQty').value=1;
   }
 });
 
@@ -1277,7 +1275,7 @@ $('addItemDetailsForm').addEventListener('submit',async e=>{
   try{
     const d=await jsonp(`${API}?action=addItem&nome_item=${encodeURIComponent(nome)}&quantidade=${qty}&unidade=${encodeURIComponent(unit)}&categoria=${encodeURIComponent(cat)}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
     if(d.error){alert(d.error);stopLoad();btn.disabled=false;return}
-    $('itemName').value='';$('itemQty').value=1;
+    $('itemName').value='';
     S.items.push({item_id:d.item_id||Date.now(),household_id:S.hhId,user_id:S.userId,nome_item:nome,quantidade:qty,unidade:unit,categoria:cat,status:'pendente',foto_produto:''});
     renderFiltered();
     $('addItemDetailsModal').classList.add('hidden');
