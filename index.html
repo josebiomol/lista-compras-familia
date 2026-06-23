@@ -743,6 +743,7 @@ function showLogin(err){
   const el=$('loginErr');
   if(err){el.textContent=err;el.classList.remove('hidden')}else el.classList.add('hidden');
   if(S.email)$('lEmail').value=S.email;
+  stopAutoRefresh();
 }
 function showReg(){hideAll();$('regScreen').classList.remove('hidden');$('regErr').classList.add('hidden')}
 function showSetPass(e){S.pendingEmail=e;hideAll();$('setPassScreen').classList.remove('hidden');$('setPassErr').classList.add('hidden')}
@@ -789,6 +790,7 @@ function showApp(data){
   $('navList').classList.add('active');$('navHH').classList.remove('active');
   if(can('view_members'))$('navMembers').classList.remove('hidden');
   renderFiltered();renderMembers(S.members);
+  startAutoRefresh();
 }
 
 $('avBtn').addEventListener('click',()=>$('accMenu').classList.toggle('hidden'));
@@ -1572,7 +1574,40 @@ async function deleteCategory(id,nome){
   });
 }
 
-// Init
+// Auto-refresh leve
+let autoRefreshInterval = null;
+
+function startAutoRefresh() {
+  if (autoRefreshInterval) clearInterval(autoRefreshInterval);
+  autoRefreshInterval = setInterval(async () => {
+    if (!S.email || !S.senha || !S.hhId) return;
+    try {
+      const d = await jsonp(`${API}?action=getItems&household_id=${encodeURIComponent(S.hhId)}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}`);
+      if (d.error || !d.items) return;
+      
+      // Comparar se mudou
+      const oldHash = JSON.stringify(S.items.map(i => ({ id: i.item_id, status: i.status, qty: i.quantidade })).sort((a,b) => a.id - b.id));
+      const newHash = JSON.stringify(d.items.map(i => ({ id: i.item_id, status: i.status, qty: i.quantidade })).sort((a,b) => a.id - b.id));
+      
+      if (oldHash !== newHash) {
+        S.items = d.items;
+        if (d.members) S.members = d.members;
+        if (d.categories) S.categories = d.categories;
+        renderFiltered();
+      }
+    } catch (e) {
+      // Silencioso - não mostra erro
+    }
+  }, 45000); // 45 segundos
+}
+
+function stopAutoRefresh() {
+  if (autoRefreshInterval) {
+    clearInterval(autoRefreshInterval);
+    autoRefreshInterval = null;
+  }
+}
+
 if(S.email&&S.senha){
   $('loginScreen').classList.add('hidden');$('appScreen').classList.remove('hidden');
   $('content').innerHTML='<p class="status-msg">Carregando lista...</p>';
