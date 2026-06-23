@@ -550,7 +550,9 @@ function resizeImage(file,maxW,maxH,qual,cb){
       canvas.width=w;canvas.height=h;
       const ctx=canvas.getContext('2d');
       ctx.drawImage(img,0,0,w,h);
-      cb(canvas.toDataURL('image/jpeg',qual));
+      const b64=canvas.toDataURL('image/jpeg',qual);
+      if(b64.length>200000){alert('Imagem ainda muito grande. Escolha uma foto menor.');return}
+      cb(b64);
     };
     img.src=e.target.result;
   };
@@ -688,7 +690,7 @@ $('epFoto').addEventListener('change',e=>{
   const file=e.target.files[0];
   if(!file)return;
   if(file.size>500000){alert('Arquivo maior que 500KB.');$('epFoto').value='';return}
-  resizeImage(file,200,200,0.7,b64=>{
+  resizeImage(file,150,150,0.5,b64=>{
     S.fotoBase64Temp=b64;
     const ap=$('avatarPreview');
     ap.style.backgroundImage=`url(${b64})`;
