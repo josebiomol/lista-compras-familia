@@ -1204,11 +1204,13 @@ $('resetPasswordForm').addEventListener('submit',async e=>{
   const btn=e.target.querySelector('.btn-p');btn.disabled=true;
   try{
     const d=await jsonp(`${API}?action=requestPasswordReset&email=${encodeURIComponent(email)}`);
-    if(d.error){err.textContent=d.error;err.classList.remove('hidden');return}
-    ok.textContent='✓ '+d.message+' Verifique seu e-mail.';ok.classList.remove('hidden');
-    $('resetEmail').value='';
-    setTimeout(()=>$('resetPasswordModal').classList.add('hidden'),2000);
-  }catch{err.textContent='Erro ao enviar.';err.classList.remove('hidden')}finally{btn.disabled=false}
+    if(d.error){err.textContent=d.error;err.classList.remove('hidden');btn.disabled=false;return}
+    ok.innerHTML='✓ E-mail enviado!<br><br><small>Verifique sua caixa de entrada ou spam. O link expira em 1 hora.</small>';
+    ok.classList.remove('hidden');
+    $('resetEmail').disabled=true;
+    btn.textContent='✓ Enviado';
+    btn.disabled=true;
+  }catch{err.textContent='Erro ao enviar.';err.classList.remove('hidden');btn.disabled=false}
 });
 
 // Check for reset token in URL
