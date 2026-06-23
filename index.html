@@ -314,6 +314,7 @@
         <button type="button" class="tab" data-filter="pendentes">Pend. <span class="tab-count" id="cP">0</span></button>
         <button type="button" class="tab" data-filter="comprados">Comp. <span class="tab-count" id="cC">0</span></button>
       </div>
+      <button type="button" id="editModeBtn" class="group-toggle" style="background:none;border:1px solid var(--border);color:var(--text-soft)">✏️</button>
       <button type="button" id="clearListBtn" class="group-toggle" style="background:none;border:1px solid var(--border);color:var(--text-soft)">🗑️</button>
       <button type="button" id="groupToggle" class="group-toggle">📂 Cat.</button>
       <div class="search-wrap">
@@ -400,6 +401,19 @@
       <button type="submit" class="btn-p">Redefinir</button>
     </form>
     <p class="status-msg err hidden" id="newPwdErr"></p>
+  </div>
+</div>
+
+<!-- MUDAR CATEGORIA EM LOTE -->
+<div id="changeCategoryModal" class="ov hidden">
+  <div class="modal">
+    <div class="mh"><p class="mt">Mudar categoria</p><button type="button" id="closeChangeCatBtn" class="mc">×</button></div>
+    <div class="mform">
+      <p class="fh" style="margin-bottom:8px">Selecione a nova categoria:</p>
+      <div class="cat-pills-wrap"><div class="cat-pills" id="changeCatPills"></div></div>
+      <button type="button" id="confirmChangeCatBtn" class="btn-p" style="margin-top:12px;background:var(--green)">Mudar</button>
+    </div>
+    <p class="status-msg err hidden" id="changeCatErr"></p>
   </div>
 </div>
 
@@ -1010,6 +1024,11 @@ function renderFiltered(){
 
   if(!filtered.length){$('content').innerHTML='<p class="empty">Nada aqui.</p>';return}
 
+  let html='';
+  if(selectionMode && selectedItems.size > 0){
+    html+='<div style="padding:12px 20px;background:var(--green-bg);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;color:var(--green)">'+selectedItems.size+' selecionado(s)</span><button type="button" id="changeCatBtn" class="btn-p" style="padding:6px 12px;font-size:12px">Mudar categoria</button></div>';
+  }
+
   if(S.groupByCat){
     const groups={};
     filtered.forEach(item=>{
@@ -1019,21 +1038,40 @@ function renderFiltered(){
     });
     const catOrder=S.categories.map(c=>c.nome);
     const sorted=Object.keys(groups).sort((a,b)=>{const ia=catOrder.indexOf(a);const ib=catOrder.indexOf(b);return(ia===-1?999:ia)-(ib===-1?999:ib)});
-    $('content').innerHTML=sorted.map(cat=>{
+    html+=sorted.map(cat=>{
       const ci=catInfo(cat);
       return `<p class="sec-label"><span style="background:${ci.cor_bg};color:${ci.cor_text};padding:2px 8px;border-radius:10px">${ci.emoji} ${cat}</span></p>${renderGroup(groups[cat])}`;
     }).join('');
   }else{
     const pendItems=filtered.filter(i=>i.status!=='comprado');
     const doneItems=filtered.filter(i=>i.status==='comprado');
-    let html='';
     if(pendItems.length)html+='<p class="sec-label">Pendentes</p>'+renderGroup(pendItems);
     if(doneItems.length)html+='<p class="sec-label">Comprados</p>'+renderGroup(doneItems);
-    $('content').innerHTML=html;
   }
-  $('content').querySelectorAll('.ck,.inf').forEach(el=>el.addEventListener('click',()=>toggleItem(el.dataset.id)));
+  $('content').innerHTML=html;
+  
+  if(selectionMode && selectedItems.size > 0){
+    $('changeCatBtn').addEventListener('click',()=>{
+      buildCatPills('changeCatPills','',cat=>{$('changeCategoryModal').dataset.cat=cat});
+      $('changeCategoryModal').dataset.cat='';
+      $('changeCategoryModal').classList.remove('hidden');
+    });
+  }
+  
+  $('content').querySelectorAll('.item-checkbox').forEach(el=>el.addEventListener('change',()=>toggleSelection(el.dataset.id)));
+  $('content').querySelectorAll('.ck').forEach(el=>{if(!selectionMode)el.addEventListener('click',()=>toggleItem(el.dataset.id))});
+  $('content').querySelectorAll('.inf').forEach(el=>{if(!selectionMode)el.addEventListener('click',()=>toggleItem(el.dataset.id))});
   $('content').querySelectorAll('.dl').forEach(el=>el.addEventListener('click',()=>deleteItemAction(el.dataset.id)));
   $('content').querySelectorAll('.edit-i').forEach(el=>el.addEventListener('click',()=>openEditItem(el.dataset.id)));
+}
+
+function toggleSelection(id){
+  if(selectedItems.has(String(id))){
+    selectedItems.delete(String(id));
+  }else{
+    selectedItems.add(String(id));
+  }
+  renderFiltered();
 }
 
 function renderGroup(items){
@@ -1045,14 +1083,16 @@ function renderGroup(items){
     const qtyLabel=item.quantidade?`x${item.quantidade}${item.unidade&&item.unidade!=='un'?' '+item.unidade:''}`:'x1';
     const avImg=owner&&owner.foto_base64?`style="background-image:url(${owner.foto_base64});background-size:cover;background-position:center;color:transparent"`:''
     const photoThumb=item.foto_produto?`<div class="product-thumb" style="background-image:url(${item.foto_produto})" onclick="showProductPhoto('${item.foto_produto}')"></div>`:'';
-    return `<li class="item${done?' done':''}">
-      <button class="ck" data-id="${item.item_id}">${done?'✓':''}</button>
+    const isSelected=selectedItems.has(String(item.item_id));
+    const checkboxHtml=selectionMode?`<input type="checkbox" class="item-checkbox" data-id="${item.item_id}" ${isSelected?'checked':''} style="width:18px;height:18px;cursor:pointer">`:`<button class="ck" data-id="${item.item_id}">${done?'✓':''}</button>`;
+    return `<li class="item${done?' done':''}${isSelected?' selected':''}">
+      ${checkboxHtml}
       <div class="inf" data-id="${item.item_id}"><span class="nm">${item.nome_item}</span>${catTag}</div>
       <span class="qb">${qtyLabel}</span>
       ${photoThumb}
       ${owner?`<span class="av" ${avImg}>${owner.foto_base64?'':ini(owner.nome)}</span>`:''}
-      ${can('add_item')?`<button class="edit-i" data-id="${item.item_id}">✎</button>`:''}
-      ${can('delete_item')?`<button class="dl" data-id="${item.item_id}">×</button>`:''}
+      ${!selectionMode && can('add_item')?`<button class="edit-i" data-id="${item.item_id}">✎</button>`:''}
+      ${!selectionMode && can('delete_item')?`<button class="dl" data-id="${item.item_id}">×</button>`:''}
     </li>`;
   }).join('')+'</ul>';
 }
@@ -1627,6 +1667,31 @@ async function deleteCategory(id,nome){
       }catch{alert('Erro.')}finally{stopLoad()}}
   });
 }
+
+// Selection mode
+let selectionMode=false;let selectedItems=new Set();
+$('editModeBtn').addEventListener('click',()=>{
+  selectionMode=!selectionMode;selectedItems.clear();
+  $('editModeBtn').style.opacity=selectionMode?'1':'0.6';
+  renderFiltered();
+});
+$('closeChangeCatBtn').addEventListener('click',()=>$('changeCategoryModal').classList.add('hidden'));
+$('changeCategoryModal').addEventListener('click',e=>{if(e.target===$('changeCategoryModal'))$('changeCategoryModal').classList.add('hidden')});
+$('confirmChangeCatBtn').addEventListener('click',async()=>{
+  const newCat=$('changeCategoryModal').dataset.cat;if(!newCat){alert('Escolha uma categoria');return}
+  const ids=Array.from(selectedItems);if(!ids.length){alert('Selecione itens');return}
+  startLoad();toast('Mudando categoria...','loading');
+  try{
+    for(const id of ids){
+      const item=S.items.find(i=>String(i.item_id)===String(id));if(!item)continue;
+      const hhP=can('view_all_lojas')?`&household_id=${encodeURIComponent(S.hhId)}`:'';
+      await jsonp(`${API}?action=updateItem&item_id=${id}&categoria=${encodeURIComponent(newCat)}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
+      item.categoria=newCat;
+    }
+    selectedItems.clear();selectionMode=false;$('editModeBtn').style.opacity='0.6';
+    $('changeCategoryModal').classList.add('hidden');renderFiltered();toast('✓ Categoria atualizada.','success');
+  }catch{alert('Erro ao atualizar.');}finally{stopLoad()}
+});
 
 // Auto-refresh leve
 let autoRefreshInterval = null;
