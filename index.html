@@ -201,7 +201,7 @@
   .tb.success{background:#22C55E}.tb.danger{background:#DC2626}
   @keyframes tp{from{width:100%}to{width:0%}}
   .file-hint{font-size:11px;color:var(--text-soft);margin:-8px 0 8px;display:block}
-  .product-thumb{width:40px;height:40px;border-radius:8px;background-size:cover;background-position:center;cursor:pointer;flex-shrink:0;border:1px solid var(--border)}
+  .product-thumb{width:60px;height:60px;border-radius:8px;background-size:cover;background-position:center;cursor:pointer;flex-shrink:0;border:1px solid var(--border)}
 </style>
 </head>
 <body>
@@ -580,13 +580,13 @@ function resizeProductPhoto(file,cb){
     const img=new Image();
     img.onload=()=>{
       let w=img.width,h=img.height;
-      if(w>100||h>100){const ratio=Math.min(100/w,100/h);w*=ratio;h*=ratio}
+      if(w>200||h>200){const ratio=Math.min(200/w,200/h);w*=ratio;h*=ratio}
       const canvas=document.createElement('canvas');
       canvas.width=w;canvas.height=h;
       const ctx=canvas.getContext('2d');
       ctx.drawImage(img,0,0,w,h);
-      const b64=canvas.toDataURL('image/jpeg',0.4);
-      if(b64.length>50000){alert('Foto de produto muito grande.');return}
+      const b64=canvas.toDataURL('image/jpeg',0.6);
+      if(b64.length>100000){alert('Foto de produto muito grande.');return}
       cb(b64);
     };
     img.src=e.target.result;
