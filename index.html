@@ -85,13 +85,17 @@
   .cat-pill{border:none;padding:6px 10px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;background:var(--bg);color:var(--text-soft);border:1px solid var(--border);white-space:nowrap;transition:all .15s}
   .cat-pill.selected{border-color:transparent;color:#fff}
   /* Filter */
-  .filter-row{display:flex;align-items:center;gap:8px;margin-bottom:14px}
-  .tabs{display:flex;gap:6px;flex:1}
+  .filter-row{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+  .search-wrap{display:flex;align-items:center;width:100%;gap:8px;order:3}
+  .search-wrap input{flex:1;min-width:120px;padding:8px 12px;font-size:13px;height:34px}
+  .search-clear{background:none;border:none;color:var(--text-soft);padding:4px 8px;cursor:pointer;font-size:14px;line-height:1}
+  .search-clear:hover{color:var(--green)}
+  .tabs{display:flex;gap:6px;flex:1;order:1}
   .tab{background:var(--card);border:1px solid var(--border);color:var(--text-soft);padding:8px 10px;border-radius:10px;font-size:12px;font-weight:500;display:flex;align-items:center;gap:5px;white-space:nowrap}
   .tab.active{background:var(--green-bg);color:var(--green);border-color:transparent;font-weight:600}
   .tab-count{background:rgba(120,120,120,.15);border-radius:5px;padding:1px 5px;font-size:11px}
   .tab.active .tab-count{background:var(--green);color:#fff}
-  .group-toggle{background:none;border:1px solid var(--border);color:var(--text-soft);padding:8px 10px;border-radius:10px;font-size:12px;white-space:nowrap}
+  .group-toggle{background:none;border:1px solid var(--border);color:var(--text-soft);padding:8px 10px;border-radius:10px;font-size:12px;white-space:nowrap;order:2}
   .group-toggle.active{background:var(--green-bg);color:var(--green);border-color:transparent}
   /* Items */
   .sec-label{font-size:11px;font-weight:700;color:var(--text-soft);margin:16px 0 6px;text-transform:uppercase;letter-spacing:.4px;display:flex;align-items:center;gap:6px}
@@ -303,6 +307,10 @@
         <button type="button" class="tab" data-filter="comprados">Comp. <span class="tab-count" id="cC">0</span></button>
       </div>
       <button type="button" id="groupToggle" class="group-toggle">📂 Cat.</button>
+      <div class="search-wrap">
+        <input type="text" id="searchInput" placeholder="Buscar...">
+        <button type="button" id="searchClear" class="search-clear hidden">✕</button>
+      </div>
     </div>
 
     <div id="content"><p class="status-msg">Carregando lista...</p></div>
@@ -476,7 +484,7 @@ const DAYS=['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
 const ALL_PERMS={add_item:'Adicionar item',toggle_item:'Marcar como comprado',delete_item:'Excluir item',view_members:'Ver membros',invite_member:'Convidar membro',edit_member:'Editar membro',delete_member:'Excluir membro',view_all_lojas:'Ver todas as lojas',manage_lojas:'Gerenciar lojas'};
 const UNITS=['un','kg','g','L','mL','cx','pct','frd','dz','m'];
 
-let S={email:localStorage.getItem('ue')||'',senha:sessionStorage.getItem('us')||'',role:'',orgId:'',hhId:localStorage.getItem('uhh')||'',households:[],members:[],items:[],groups:[],categories:[],permissions:[],filter:'todos',groupByCat:false,addCat:'',pendingEmail:'',userId:'',userName:''};
+let S={email:localStorage.getItem('ue')||'',senha:sessionStorage.getItem('us')||'',role:'',orgId:'',hhId:localStorage.getItem('uhh')||'',households:[],members:[],items:[],groups:[],categories:[],permissions:[],filter:'todos',groupByCat:false,addCat:'',searchTerm:'',pendingEmail:'',userId:'',userName:''};
 
 function can(k){return S.role==='owner'||S.permissions.includes(k)}
 
@@ -551,6 +559,18 @@ function buildUnitSelect(selId, selectedUnit){
   $(selId).innerHTML=UNITS.map(u=>`<option value="${u}"${u===selectedUnit?' selected':''}>${u}</option>`).join('');
 }
 
+// Search
+$('searchInput').addEventListener('input',e=>{
+  S.searchTerm=e.target.value.toLowerCase().trim();
+  $('searchClear').classList.toggle('hidden',!S.searchTerm);
+  renderFiltered();
+});
+$('searchClear').addEventListener('click',()=>{
+  $('searchInput').value='';S.searchTerm='';
+  $('searchClear').classList.add('hidden');
+  renderFiltered();
+});
+
 // Expand add form
 let addExpanded=false;
 $('expandAddBtn').addEventListener('click',()=>{
@@ -577,7 +597,7 @@ function hideAll(){
 function showLogin(err){
   hideAll();
   S.items=[];S.members=[];S.households=[];S.role='';S.permissions=[];S.categories=[];
-  S.hhId='';S.orgId='';S.userId='';S.userName='';S.groups=[];
+  S.hhId='';S.orgId='';S.userId='';S.userName='';S.groups=[];S.searchTerm='';
   localStorage.removeItem('uhh');
   $('content').innerHTML='';$('hhList').innerHTML='';
   $('loginScreen').classList.remove('hidden');
@@ -624,7 +644,7 @@ $('avBtn').addEventListener('click',()=>$('accMenu').classList.toggle('hidden'))
 document.addEventListener('click',e=>{if(!$('accMenu').contains(e.target)&&e.target!==$('avBtn'))$('accMenu').classList.add('hidden')});
 $('logoutBtn').addEventListener('click',()=>{
   localStorage.removeItem('ue');localStorage.removeItem('uhh');sessionStorage.removeItem('us');
-  S={email:'',senha:'',role:'',orgId:'',hhId:'',households:[],members:[],items:[],groups:[],categories:[],permissions:[],filter:'todos',groupByCat:false,addCat:'',pendingEmail:'',userId:'',userName:''};
+  S={email:'',senha:'',role:'',orgId:'',hhId:'',households:[],members:[],items:[],groups:[],categories:[],permissions:[],filter:'todos',groupByCat:false,addCat:'',searchTerm:'',pendingEmail:'',userId:'',userName:''};
   $('accMenu').classList.add('hidden');showLogin();
 });
 
@@ -776,14 +796,19 @@ $('filterTabs').addEventListener('click',e=>{
 });
 
 function renderFiltered(){
+  let filtered=S.items;
+  if(S.filter==='pendentes')filtered=filtered.filter(i=>i.status!=='comprado');
+  else if(S.filter==='comprados')filtered=filtered.filter(i=>i.status==='comprado');
+  
+  // Apply search filter
+  if(S.searchTerm){
+    filtered=filtered.filter(i=>i.nome_item.toLowerCase().includes(S.searchTerm));
+  }
+
   const pend=S.items.filter(i=>i.status!=='comprado');
   const done=S.items.filter(i=>i.status==='comprado');
   $('cT').textContent=S.items.length;$('cP').textContent=pend.length;$('cC').textContent=done.length;
   if(!S.items.length){$('content').innerHTML='<p class="empty">Nenhum item ainda.<br>Toque em ⚙ para escolher categoria.</p>';return}
-
-  let filtered=S.items;
-  if(S.filter==='pendentes')filtered=pend;
-  else if(S.filter==='comprados')filtered=done;
 
   if(!filtered.length){$('content').innerHTML='<p class="empty">Nada aqui.</p>';return}
 
