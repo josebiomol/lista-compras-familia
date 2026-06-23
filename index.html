@@ -403,7 +403,23 @@
   </div>
 </div>
 
-<!-- ANEXOS -->
+<!-- ADICIONAR ITEM - MODAL DE DETALHES -->
+<div id="addItemDetailsModal" class="ov hidden">
+  <div class="modal">
+    <div class="mh"><p class="mt">Detalhes do item</p><button type="button" id="closeItemDetailsBtn" class="mc">×</button></div>
+    <form id="addItemDetailsForm" class="mform">
+      <p class="fh" style="margin-bottom:8px" id="itemNameDisplay"></p>
+      <p class="fh">Categoria*</p>
+      <div class="cat-pills-wrap"><div class="cat-pills" id="addDetailsCatPills"></div></div>
+      <p class="fh" style="margin-top:12px">Quantidade</p>
+      <input type="number" id="addDetailsQty" value="1" min="1" placeholder="Qtd">
+      <p class="fh" style="margin-top:12px">Unidade</p>
+      <select id="addDetailsUnit" class="unit-sel" style="width:100%"></select>
+      <button type="submit" class="btn-p" style="margin-top:12px">Adicionar à lista</button>
+    </form>
+    <p class="status-msg err hidden" id="addDetailsErr"></p>
+  </div>
+</div>
 <div id="attachmentsModal" class="ov hidden">
   <div class="modal">
     <div class="mh"><p class="mt">📎 Anexos</p><button type="button" id="closeAttachmentsBtn" class="mc">×</button></div>
@@ -1244,6 +1260,45 @@ $('newPasswordForm').addEventListener('submit',async e=>{
   }catch{err.textContent='Erro.';err.classList.remove('hidden')}finally{btn.disabled=false}
 });
 
+$('closeItemDetailsBtn').addEventListener('click',()=>{
+  $('addItemDetailsModal').classList.add('hidden');
+  $('addForm').classList.remove('hidden');
+  $('itemName').value='';
+  $('itemQty').value=1;
+});
+$('addItemDetailsModal').addEventListener('click',e=>{
+  if(e.target===$('addItemDetailsModal')){
+    $('addItemDetailsModal').classList.add('hidden');
+    $('addForm').classList.remove('hidden');
+    $('itemName').value='';
+    $('itemQty').value=1;
+  }
+});
+
+$('addItemDetailsForm').addEventListener('submit',async e=>{
+  e.preventDefault();if(!can('add_item'))return;
+  const err=$('addDetailsErr');err.classList.add('hidden');
+  const nome=$('addItemDetailsModal').dataset.itemName;
+  const cat=$('addItemDetailsModal').dataset.cat||'';
+  const qty=parseInt($('addDetailsQty').value)||1;
+  const unit=$('addDetailsUnit').value||'un';
+  
+  if(!cat){err.textContent='Escolha uma categoria.';err.classList.remove('hidden');return}
+  
+  const btn=e.target.querySelector('.btn-p');btn.disabled=true;startLoad();toast('Adicionando...','loading');
+  const hhP=can('view_all_lojas')?`&household_id=${encodeURIComponent(S.hhId)}`:'';
+  try{
+    const d=await jsonp(`${API}?action=addItem&nome_item=${encodeURIComponent(nome)}&quantidade=${qty}&unidade=${encodeURIComponent(unit)}&categoria=${encodeURIComponent(cat)}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
+    if(d.error){alert(d.error);stopLoad();btn.disabled=false;return}
+    $('itemName').value='';$('itemQty').value=1;
+    S.items.push({item_id:d.item_id||Date.now(),household_id:S.hhId,user_id:S.userId,nome_item:nome,quantidade:qty,unidade:unit,categoria:cat,status:'pendente',foto_produto:''});
+    renderFiltered();
+    $('addItemDetailsModal').classList.add('hidden');
+    $('addForm').classList.remove('hidden');
+    toast('✓ Item adicionado.','success');
+  }catch{alert('Erro.')}finally{btn.disabled=false;stopLoad()}
+});
+
 $('clearCompletedBtn').addEventListener('click',async()=>{
   confirm_({title:'Remover comprados?',sub:'Todos os itens com status "Comprado" serão deletados.',icon:'🗑️',btn:'Remover',
     onConfirm:async()=>{
@@ -1295,22 +1350,21 @@ $('editItemForm').addEventListener('submit',async e=>{
   }catch{$('editItemErr').textContent='Erro.';$('editItemErr').classList.remove('hidden');stopLoad()}finally{btn.disabled=false}
 });
 
-// Add item
+// Add item - open details modal
 $('addForm').addEventListener('submit',async e=>{
   e.preventDefault();if(!can('add_item'))return;
   const nome=$('itemName').value.trim();if(!nome)return;
-  const qty=parseInt($('itemQty').value)||1;
-  const unit=addExpanded?$('itemUnit').value:'un';
-  const cat=S.addCat||'';
-  const btn=e.target.querySelector('.add-btn');btn.disabled=true;startLoad();toast('Adicionando...','loading');
-  const hhP=can('view_all_lojas')?`&household_id=${encodeURIComponent(S.hhId)}`:'';
-  try{
-    const d=await jsonp(`${API}?action=addItem&nome_item=${encodeURIComponent(nome)}&quantidade=${qty}&unidade=${encodeURIComponent(unit)}&categoria=${encodeURIComponent(cat)}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
-    if(d.error){alert(d.error);stopLoad();btn.disabled=false;return}
-    $('itemName').value='';$('itemQty').value=1;
-    S.items.push({item_id:d.item_id||Date.now(),household_id:S.hhId,user_id:S.userId,nome_item:nome,quantidade:qty,unidade:unit,categoria:cat,status:'pendente',foto_produto:''});
-    renderFiltered();toast('✓ Item adicionado.','success');
-  }catch{alert('Erro.')}finally{btn.disabled=false;stopLoad()}
+  
+  // Abre modal de detalhes
+  $('itemNameDisplay').textContent='📝 '+nome;
+  $('addDetailsQty').value='1';
+  buildUnitSelect('addDetailsUnit','un');
+  buildCatPills('addDetailsCatPills','',cat=>{$('addItemDetailsModal').dataset.cat=cat});
+  $('addItemDetailsModal').dataset.cat='';
+  $('addItemDetailsErr').classList.add('hidden');
+  $('addForm').classList.add('hidden');
+  $('addItemDetailsModal').classList.remove('hidden');
+  $('addItemDetailsModal').dataset.itemName=nome;
 });
 
 // Members
