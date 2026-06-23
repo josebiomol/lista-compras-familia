@@ -1167,6 +1167,8 @@ async function deleteAttachment(id){
     }
   });
 }
+
+$('clearCompletedBtn').addEventListener('click',async()=>{
   confirm_({title:'Remover comprados?',sub:'Todos os itens com status "Comprado" serão deletados.',icon:'🗑️',btn:'Remover',
     onConfirm:async()=>{
       $('clearModal').classList.add('hidden');startLoad();toast('Limpando comprados...','loading');
