@@ -1014,7 +1014,6 @@ $('editItemModal').addEventListener('click',e=>{if(e.target===$('editItemModal')
 $('editItemFoto').addEventListener('change',e=>{
   const file=e.target.files[0];
   if(!file)return;
-  if(file.size>500000){alert('Arquivo maior que 500KB.');$('editItemFoto').value='';return}
   resizeProductPhoto(file,b64=>{
     $('editItemModal').dataset.foto=b64;
     $('editItemThumb').src=b64;
