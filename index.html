@@ -1361,7 +1361,7 @@ $('addForm').addEventListener('submit',async e=>{
   buildUnitSelect('addDetailsUnit','un');
   buildCatPills('addDetailsCatPills','',cat=>{$('addItemDetailsModal').dataset.cat=cat});
   $('addItemDetailsModal').dataset.cat='';
-  $('addItemDetailsErr').classList.add('hidden');
+  $('addDetailsErr').classList.add('hidden');
   $('addForm').classList.add('hidden');
   $('addItemDetailsModal').classList.remove('hidden');
   $('addItemDetailsModal').dataset.itemName=nome;
