@@ -213,6 +213,7 @@
       <button type="button" id="hhBadge" class="hh-badge hidden"></button>
     </div>
     <div class="topbar-actions">
+      <button type="button" id="attachmentsBtn" class="icon-btn hidden">📎</button>
       <button type="button" id="themeToggle" class="icon-btn">🌙</button>
       <button type="button" id="avBtn" class="av-btn hidden"></button>
       <div id="accMenu" class="acc-menu hidden">
@@ -367,6 +368,37 @@
     <p style="color:var(--text-soft);font-size:13px;margin-bottom:16px">Escolha o que deseja fazer:</p>
     <button type="button" id="clearCompletedBtn" class="btn-p" style="background:var(--green-bg);color:var(--green);margin-bottom:8px">Remover apenas comprados</button>
     <button type="button" id="clearAllBtn" class="btn-p" style="background:var(--danger);color:#fff">Limpar tudo</button>
+  </div>
+</div>
+
+<!-- ANEXOS -->
+<div id="attachmentsModal" class="ov hidden">
+  <div class="modal">
+    <div class="mh"><p class="mt">📎 Anexos</p><button type="button" id="closeAttachmentsBtn" class="mc">×</button></div>
+    <ul class="mems" id="attachmentsList"></ul>
+    <button type="button" id="openAddAttachmentBtn" class="inv-btn">+ Anexar arquivo</button>
+  </div>
+</div>
+
+<!-- ADICIONAR ANEXO -->
+<div id="addAttachmentModal" class="ov hidden">
+  <div class="modal">
+    <div class="mh"><p class="mt">Anexar arquivo</p><button type="button" id="closeAddAttachmentBtn" class="mc">×</button></div>
+    <form id="attachmentForm" class="mform">
+      <p class="fh">Arquivo (PDF, Excel, Word, Foto, etc)</p>
+      <input type="file" id="attachmentFile" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.gif" required>
+      <span class="file-hint">Max 10MB</span>
+      <p class="fh" style="margin-top:12px">Tipo</p>
+      <select id="attachmentTipo" style="width:100%">
+        <option value="pdf">📄 PDF</option>
+        <option value="excel">📊 Excel</option>
+        <option value="word">📝 Word</option>
+        <option value="foto">🖼️ Foto</option>
+        <option value="outro">📎 Outro</option>
+      </select>
+      <button type="submit" id="attachmentSubmit" class="btn-p" style="margin-top:12px">Enviar anexo</button>
+    </form>
+    <p class="status-msg err hidden" id="attachmentErr"></p>
   </div>
 </div>
 
@@ -711,13 +743,14 @@ function showApp(data){
   S.role=data.user.role;S.userId=String(data.user.user_id);S.permissions=data.user.permissions||[];
   S.categories=data.categories||[];
   setupAvatar(data.user.nome,data.user.role,data.user.foto_base64||'');
-  S.items=data.items||[];S.members=data.members||[];
+  S.items=data.items||[];S.members=data.members||[];S.attachments=[];
   if(can('view_all_lojas')){
     const hh=S.households.find(h=>String(h.household_id)===String(S.hhId));
     if(hh){$('hhBadge').textContent=hh.nome;$('hhBadge').classList.remove('hidden')}
     $('navHH').classList.remove('hidden');
   }
   if(can('manage_lojas'))$('addHHBtn').classList.remove('hidden');
+  $('attachmentsBtn').classList.remove('hidden');
   $('navList').classList.add('active');$('navHH').classList.remove('active');
   if(can('view_members'))$('navMembers').classList.remove('hidden');
   renderFiltered();renderMembers(S.members);
@@ -1043,7 +1076,98 @@ $('clearListBtn').addEventListener('click',()=>{
 $('closeClearModal').addEventListener('click',()=>$('clearModal').classList.add('hidden'));
 $('clearModal').addEventListener('click',e=>{if(e.target===$('clearModal'))$('clearModal').classList.add('hidden')});
 
-$('clearCompletedBtn').addEventListener('click',async()=>{
+// Anexos
+$('attachmentsBtn').addEventListener('click',async()=>{
+  startLoad();toast('Carregando anexos...','loading');
+  const hhP=can('view_all_lojas')?`&household_id=${encodeURIComponent(S.hhId)}`:'';
+  try{
+    const d=await jsonp(`${API}?action=getAttachments&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
+    if(d.error){alert(d.error);stopLoad();return}
+    S.attachments=d.attachments||[];
+    renderAttachments();stopLoad();$('toast').classList.remove('show');
+    $('attachmentsModal').classList.remove('hidden');
+  }catch{stopLoad();alert('Erro ao carregar anexos.')}
+});
+$('closeAttachmentsBtn').addEventListener('click',()=>$('attachmentsModal').classList.add('hidden'));
+$('attachmentsModal').addEventListener('click',e=>{if(e.target===$('attachmentsModal'))$('attachmentsModal').classList.add('hidden')});
+
+function renderAttachments(){
+  if(!S.attachments||S.attachments.length===0){
+    $('attachmentsList').innerHTML='<li style="text-align:center;padding:16px;color:var(--text-soft);font-size:13px">Nenhum anexo</li>';
+    return;
+  }
+  $('attachmentsList').innerHTML=S.attachments.map(a=>{
+    const icon={pdf:'📄',excel:'📊',word:'📝',foto:'🖼️',outro:'📎'}[a.tipo]||'📎';
+    return `<li style="display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--bg);border-radius:12px;padding:10px 12px">
+      <div style="flex:1">
+        <span style="font-weight:600;font-size:13.5px">${icon} ${a.filename}</span>
+        <div style="font-size:11px;color:var(--text-soft);margin-top:2px">${a.tipo}</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-shrink:0">
+        <a href="${a.file_url}" target="_blank" style="background:none;border:none;color:var(--green);cursor:pointer;font-size:14px">⬇️</a>
+        ${can('delete_item')?`<button type="button" class="att-del" data-id="${a.attachment_id}" style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:14px">×</button>`:''}
+      </div>
+    </li>`;
+  }).join('');
+  $('attachmentsList').querySelectorAll('.att-del').forEach(b=>b.addEventListener('click',()=>deleteAttachment(b.dataset.id)));
+}
+
+$('openAddAttachmentBtn').addEventListener('click',()=>{
+  $('attachmentUrl').value='';
+  $('attachmentName').value='';
+  $('attachmentTipo').value='outro';
+  $('attachmentErr').classList.add('hidden');
+  $('attachmentsModal').classList.add('hidden');
+  $('addAttachmentModal').classList.remove('hidden');
+});
+$('closeAddAttachmentBtn').addEventListener('click',()=>{
+  $('addAttachmentModal').classList.add('hidden');
+  $('attachmentsModal').classList.remove('hidden');
+});
+$('addAttachmentModal').addEventListener('click',e=>{if(e.target===$('addAttachmentModal')){$('addAttachmentModal').classList.add('hidden');$('attachmentsModal').classList.remove('hidden')}});
+
+$('attachmentForm').addEventListener('submit',async e=>{
+  e.preventDefault();const err=$('attachmentErr');err.classList.add('hidden');
+  const file=$('attachmentFile').files[0];
+  if(!file){err.textContent='Selecione um arquivo.';err.classList.remove('hidden');return}
+  if(file.size>10000000){err.textContent='Arquivo maior que 10MB.';err.classList.remove('hidden');return}
+  
+  const tipo=$('attachmentTipo').value;
+  const filename=file.name;
+  const mimeType=file.type||'application/octet-stream';
+  
+  const btn=$('attachmentSubmit');btn.disabled=true;startLoad();toast('Enviando arquivo...','loading');
+  
+  const reader=new FileReader();
+  reader.onload=async(evt)=>{
+    const base64=evt.target.result;
+    const hhP=can('view_all_lojas')?`&household_id=${encodeURIComponent(S.hhId)}`:'';
+    try{
+      const d=await jsonp(`${API}?action=addAttachment&filename=${encodeURIComponent(filename)}&file_base64=${encodeURIComponent(base64)}&mime_type=${encodeURIComponent(mimeType)}&tipo=${encodeURIComponent(tipo)}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
+      if(d.error){err.textContent=d.error;err.classList.remove('hidden');stopLoad();$('toast').classList.remove('show');return}
+      S.attachments.push({attachment_id:d.attachment_id,filename:filename,file_url:d.file_url,tipo:tipo});
+      renderAttachments();$('addAttachmentModal').classList.add('hidden');$('attachmentsModal').classList.remove('hidden');
+      $('attachmentFile').value='';
+      stopLoad();toast('✓ Anexo enviado.','success');
+    }catch{err.textContent='Erro ao enviar.';err.classList.remove('hidden');stopLoad()}finally{btn.disabled=false}
+  };
+  reader.readAsDataURL(file);
+});
+
+async function deleteAttachment(id){
+  confirm_({title:'Remover anexo?',sub:'O arquivo será deletado da lista.',icon:'📎',btn:'Remover',
+    onConfirm:async()=>{
+      startLoad();toast('Removendo anexo...','loading');
+      const hhP=can('view_all_lojas')?`&household_id=${encodeURIComponent(S.hhId)}`:'';
+      try{
+        const d=await jsonp(`${API}?action=deleteAttachment&attachment_id=${id}&email=${encodeURIComponent(S.email)}&senha=${encodeURIComponent(S.senha)}${hhP}`);
+        if(d.error){alert(d.error);stopLoad();return}
+        S.attachments=S.attachments.filter(a=>String(a.attachment_id)!==String(id));
+        renderAttachments();toast('✕ Anexo removido.','danger');
+      }catch{alert('Erro.')}finally{stopLoad()}
+    }
+  });
+}
   confirm_({title:'Remover comprados?',sub:'Todos os itens com status "Comprado" serão deletados.',icon:'🗑️',btn:'Remover',
     onConfirm:async()=>{
       $('clearModal').classList.add('hidden');startLoad();toast('Limpando comprados...','loading');
